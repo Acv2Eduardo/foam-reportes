@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Trends RD · Búsquedas IA · AaaS RD · Foam Creativo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--navy:#0A0E27;--navy2:#141A3B;--orange:#FF4B2B;--gold:#D4AF37;--teal:#14B8A6;--purple:#8B5CF6;--red:#EF4444;--green:#10B981;--blue:#3B82F6;--text:#E8EAF3;--muted:#9AA0BF;--border:rgba(255,255,255,.08);--card:rgba(255,255,255,.04)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+.hero{background:radial-gradient(ellipse at top right,rgba(20,184,166,.12),transparent 55%),radial-gradient(ellipse at bottom left,rgba(212,175,55,.08),transparent 55%),var(--navy);padding:60px 6vw 44px;border-bottom:1px solid var(--border);text-align:center}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);padding:5px 14px;border:1px solid rgba(20,184,166,.4);border-radius:99px;margin-bottom:20px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(26px,3.5vw,48px);font-weight:700;margin-bottom:12px}
+.grad{background:linear-gradient(90deg,var(--teal),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);font-size:16px;max-width:580px;margin:0 auto}
+.hero .meta{margin-top:14px;font-size:13px;color:var(--muted)}
+.hero .meta b{color:var(--gold)}
+
+main{max-width:1100px;margin:0 auto;padding:46px 6vw 80px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin:44px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.section-title:first-child{margin-top:0}
+
+.stat-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:32px}
+.stat-pill{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 22px;flex:1;min-width:160px}
+.stat-pill .val{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;line-height:1}
+.stat-pill .lbl{font-size:12px;color:var(--muted);margin-top:5px}
+
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+@media(max-width:700px){.chart-row{grid-template-columns:1fr}}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px}
+.chart-card h4{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+.chart-card .sub{font-size:12px;color:var(--muted);margin-bottom:18px}
+.chart-wrap{position:relative;height:260px}
+.chart-wrap-tall{position:relative;height:340px}
+
+.kw-table{width:100%;border-collapse:collapse;margin-bottom:32px;font-size:13px}
+.kw-table th{text-align:left;padding:10px 14px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
+.kw-table td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+.kw-table tr:hover td{background:rgba(255,255,255,.03)}
+.kw{font-weight:600;color:var(--text)}
+
+.badge-vol{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px}
+.vol-alto{background:rgba(16,185,129,.15);color:#10B981;border:1px solid rgba(16,185,129,.3)}
+.vol-medio{background:rgba(245,158,11,.15);color:#F59E0B;border:1px solid rgba(245,158,11,.3)}
+.vol-bajo{background:rgba(255,75,43,.15);color:#FF4B2B;border:1px solid rgba(255,75,43,.3)}
+.vol-creciendo{background:rgba(139,92,246,.15);color:#8B5CF6;border:1px solid rgba(139,92,246,.3)}
+.comp-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px}
+.comp-alto{background:rgba(239,68,68,.15);color:#EF4444;border:1px solid rgba(239,68,68,.3)}
+
+.insight-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:32px}
+.insight-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px}
+.insight-card .ico{font-size:28px;margin-bottom:12px}
+.insight-card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:8px}
+.insight-card p{font-size:13px;color:var(--muted);line-height:1.55}
+.insight-card.highlight{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.05)}
+.insight-card.gold{border-color:rgba(212,175,55,.3);background:rgba(212,175,55,.05)}
+.insight-card.warning{border-color:rgba(255,75,43,.3);background:rgba(255,75,43,.05)}
+
+.callout{background:rgba(20,184,166,.06);border:1px solid rgba(20,184,166,.25);border-radius:12px;padding:18px 22px;margin-bottom:28px}
+.callout h4{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--teal);margin-bottom:6px}
+.callout p{font-size:13px;color:var(--muted);line-height:1.55}
+
+.alert-box{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:18px 22px;margin-bottom:28px}
+.alert-box h4{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px}
+.alert-box p{font-size:13px;color:var(--muted);line-height:1.55}
+
+.purple-box{background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.3);border-radius:12px;padding:18px 22px;margin-bottom:28px}
+.purple-box h4{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--purple);margin-bottom:6px}
+.purple-box p{font-size:13px;color:var(--muted);line-height:1.55}
+
+.gap-table{width:100%;border-collapse:collapse;margin-bottom:32px;font-size:13px}
+.gap-table th{text-align:left;padding:10px 14px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
+.gap-table td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+.gap-table tr:hover td{background:rgba(255,255,255,.03)}
+
+.back-btn{position:fixed;bottom:28px;right:28px;background:var(--teal);color:#fff;font-size:12px;font-weight:700;padding:11px 20px;border-radius:99px;text-decoration:none;letter-spacing:.04em;box-shadow:0 4px 20px rgba(20,184,166,.3);z-index:100;transition:transform .15s}
+.back-btn:hover{transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">🇩🇴 Google Trends · República Dominicana · Datos reales</div>
+  <h1>Búsquedas de IA<br><span class="grad">en República Dominicana</span></h1>
+  <p>Qué busca realmente el mercado dominicano en Google: datos directos de la API de Trends, filtrados 100% a RD, últimos 12 meses.</p>
+  <div class="meta"><b>10 keywords medidas</b> · API Google Trends · Abr 2025 – Abr 2026 · Datos en vivo</div>
+</div>
+
+<main>
+
+<!-- HALLAZGO PRINCIPAL -->
+<div class="alert-box">
+  <h4>⚠️ Hallazgo crítico: RD NO busca "chatbot whatsapp" ni "automatizar whatsapp"</h4>
+  <p>Extrajimos datos directamente de la API de Google Trends filtrados a <strong>República Dominicana</strong>. Los términos técnicos de implementación que dominan en YouTube y LATAM tienen <strong>cero búsquedas en RD</strong> durante los últimos 12 meses. El mercado dominicano está en fase de <strong>descubrimiento</strong>, no de implementación. Esto cambia completamente la estrategia de contenido y posicionamiento.</p>
+</div>
+
+<!-- STATS -->
+<div class="stat-row">
+  <div class="stat-pill">
+    <div class="val" style="color:var(--green)">100</div>
+    <div class="lbl">ChatGPT / IA — índice máx.</div>
+  </div>
+  <div class="stat-pill">
+    <div class="val" style="color:#F59E0B">44</div>
+    <div class="lbl">WhatsApp Business — índice</div>
+  </div>
+  <div class="stat-pill">
+    <div class="val" style="color:var(--blue)">11</div>
+    <div class="lbl">"Chatbot" (solo) — índice</div>
+  </div>
+  <div class="stat-pill">
+    <div class="val" style="color:var(--red)">0</div>
+    <div class="lbl">"Chatbot WhatsApp" en RD</div>
+  </div>
+  <div class="stat-pill">
+    <div class="val" style="color:var(--purple)">91K%</div>
+    <div class="lbl">"Dola" — breakout en RD</div>
+  </div>
+</div>
+
+<!-- CHARTS -->
+<div class="section-title">📊 Volumen real de búsqueda en RD — comparativa de keywords</div>
+
+<div class="chart-row">
+  <div class="chart-card">
+    <h4>Índice de búsqueda por keyword en RD</h4>
+    <div class="sub">Google Trends · República Dominicana · Últimos 12 meses · Escala 0–100 (100 = pico máximo)</div>
+    <div class="chart-wrap">
+      <canvas id="chartRDReal"></canvas>
+    </div>
+  </div>
+  <div class="chart-card">
+    <h4>Queries en alza (Breakout) — IA en RD</h4>
+    <div class="sub">% de crecimiento vs año anterior · Búsquedas relacionadas a "inteligencia artificial" en RD</div>
+    <div class="chart-wrap">
+      <canvas id="chartRisingRD"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- TABLA COMPLETA -->
+<div class="section-title">🔑 Tabla completa de keywords medidas en RD</div>
+
+<table class="kw-table">
+  <thead>
+    <tr>
+      <th>Keyword</th>
+      <th>Índice promedio RD</th>
+      <th>Índice máximo</th>
+      <th>Semanas con datos</th>
+      <th>Diagnóstico</th>
+      <th>Implicación para contenido</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="kw">chatgpt</td>
+      <td><span style="color:var(--green);font-weight:700">75</span></td>
+      <td style="color:var(--green);font-weight:700">100</td>
+      <td style="color:var(--muted)">53 / 53 sem.</td>
+      <td><span class="badge-vol vol-alto">Dominante</span></td>
+      <td style="color:var(--muted)">"ChatGPT para negocios RD" = keyword de entrada ideal</td>
+    </tr>
+    <tr>
+      <td class="kw">inteligencia artificial</td>
+      <td><span style="color:var(--green);font-weight:700">69</span></td>
+      <td style="color:var(--green);font-weight:700">100</td>
+      <td style="color:var(--muted)">53 / 53 sem.</td>
+      <td><span class="badge-vol vol-alto">Dominante</span></td>
+      <td style="color:var(--muted)">Keyword ancla para TODO contenido orientado a RD</td>
+    </tr>
+    <tr>
+      <td class="kw">dola (ex-Cici) <span style="font-size:10px;color:var(--purple)">app</span></td>
+      <td><span style="color:var(--purple);font-weight:700">+91,250%</span></td>
+      <td style="color:var(--purple)">Breakout</td>
+      <td style="color:var(--muted)">#2 app descargada RD</td>
+      <td><span class="badge-vol vol-creciendo">↑ Explosivo</span></td>
+      <td style="color:var(--muted)">App consumer IA #1 en RD — no B2B, pero muestra adopción masiva</td>
+    </tr>
+    <tr>
+      <td class="kw">whatsapp business</td>
+      <td><span style="color:#F59E0B;font-weight:700">44</span></td>
+      <td style="color:#F59E0B;font-weight:700">69</td>
+      <td style="color:var(--muted)">53 / 53 sem.</td>
+      <td><span class="badge-vol vol-medio">Significativo</span></td>
+      <td style="color:var(--muted)">Gente busca WA Business activamente; nadie lo conecta con IA aún</td>
+    </tr>
+    <tr>
+      <td class="kw">chatbot</td>
+      <td><span style="color:var(--blue);font-weight:700">11</span></td>
+      <td style="color:var(--blue);font-weight:700">17</td>
+      <td style="color:var(--muted)">36 / 53 sem.</td>
+      <td><span class="badge-vol vol-bajo">Bajo</span></td>
+      <td style="color:var(--muted)">Existe algo de volumen; usable como keyword secundaria</td>
+    </tr>
+    <tr>
+      <td class="kw">automatizacion</td>
+      <td><span style="color:var(--muted);font-weight:700">7</span></td>
+      <td style="color:var(--muted);font-weight:700">11</td>
+      <td style="color:var(--muted)">6 / 53 sem.</td>
+      <td><span class="badge-vol vol-bajo">Muy bajo</span></td>
+      <td style="color:var(--muted)">Esporádico; no confiable como keyword principal</td>
+    </tr>
+    <tr style="background:rgba(239,68,68,.04)">
+      <td class="kw" style="color:var(--red)">chatbot whatsapp</td>
+      <td style="color:var(--red);font-weight:700">≈ 0</td>
+      <td style="color:var(--red)">0</td>
+      <td style="color:var(--red)">1 / 53 sem.</td>
+      <td><span class="comp-badge comp-alto">Sin volumen</span></td>
+      <td style="color:var(--muted)">❌ No usar como keyword en RD</td>
+    </tr>
+    <tr style="background:rgba(239,68,68,.04)">
+      <td class="kw" style="color:var(--red)">automatizar whatsapp</td>
+      <td style="color:var(--red);font-weight:700">0</td>
+      <td style="color:var(--red)">0</td>
+      <td style="color:var(--red)">0 / 53 sem.</td>
+      <td><span class="comp-badge comp-alto">Sin volumen</span></td>
+      <td style="color:var(--muted)">❌ No usar como keyword en RD</td>
+    </tr>
+    <tr style="background:rgba(239,68,68,.04)">
+      <td class="kw" style="color:var(--red)">agentes de ia</td>
+      <td style="color:var(--red);font-weight:700">≈ 0</td>
+      <td style="color:var(--red)">0</td>
+      <td style="color:var(--red)">1 / 53 sem.</td>
+      <td><span class="comp-badge comp-alto">Sin volumen</span></td>
+      <td style="color:var(--muted)">❌ Término técnico desconocido en RD</td>
+    </tr>
+    <tr style="background:rgba(239,68,68,.04)">
+      <td class="kw" style="color:var(--red)">ia para negocios</td>
+      <td style="color:var(--red);font-weight:700">0</td>
+      <td style="color:var(--red)">0</td>
+      <td style="color:var(--red)">0 / 53 sem.</td>
+      <td><span class="comp-badge comp-alto">Sin volumen</span></td>
+      <td style="color:var(--muted)">❌ Nadie usa esta frase en RD</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- DOLA -->
+<div class="section-title">🚀 El fenómeno "Dola" — la app IA que domina RD</div>
+
+<div class="purple-box">
+  <h4>🚀 Dola (antes Cici) — #2 app más descargada en República Dominicana · Feb 2026</h4>
+  <p><strong>Dola</strong> es un asistente de IA conversacional para móvil — redacta, traduce, crea imágenes IA, responde preguntas. Llegó al <strong>#2 en apps más descargadas en RD</strong> en febrero 2026, solo detrás de WhatsApp. Su búsqueda creció un <strong>+91,250%</strong> dentro de las queries relacionadas a "inteligencia artificial" en RD. Esto confirma que el dominicano promedio <strong>ya usa IA</strong> activamente — pero como herramienta de consumo personal, no para automatizar su negocio. <strong>La brecha de negocio está abierta: nadie ha cerrado todavía el gap entre el usuario de Dola/ChatGPT y el empresario que automatiza con IA.</strong></p>
+</div>
+
+<!-- RISING QUERIES -->
+<div class="section-title">📈 Lo que SÍ está creciendo en RD — Rising Queries</div>
+
+<div class="insight-grid">
+  <div class="insight-card gold">
+    <div class="ico">🎬</div>
+    <h4>"Cómo hacer videos con IA" <span style="color:var(--purple)">+36,800%</span></h4>
+    <p>La creación de video con IA explota en RD. Ninguna agencia dominicana está capturando esta demanda. Oportunidad doble: contenido YouTube + servicio de video marketing con IA para PYMEs.</p>
+  </div>
+  <div class="insight-card">
+    <div class="ico">❓</div>
+    <h4>"Preguntas a la IA" <span style="color:var(--purple)">+27,750%</span></h4>
+    <p>El dominicano está en fase de aprendizaje y exploración. Es la audiencia perfecta para educar sobre el salto: de usuario curioso → empresario que automatiza con IA.</p>
+  </div>
+  <div class="insight-card">
+    <div class="ico">🔍</div>
+    <h4>"Detector de IA gratis" <span style="color:var(--purple)">+300%</span></h4>
+    <p>Señal de madurez del ecosistema: la IA ya está tan presente en el día a día dominicano que necesitan herramientas para detectarla. El mercado está más avanzado de lo que parece.</p>
+  </div>
+  <div class="insight-card highlight">
+    <div class="ico">📱</div>
+    <h4>WhatsApp Business — constante todo el año</h4>
+    <p>53/53 semanas con datos. Índice 44–69. Los dominicanos buscan WhatsApp Business activamente. <strong>Nadie ha conectado aún esta búsqueda con "IA" o "automatización".</strong> Esa conexión = el producto de Eduardo.</p>
+  </div>
+  <div class="insight-card warning">
+    <div class="ico">🎨</div>
+    <h4>"IA para decorar interiores gratis" <span style="color:var(--purple)">+160%</span></h4>
+    <p>Usos creativos y cotidianos de IA crecen más que los usos técnicos. El mercado adopta IA por casos de uso simples. La estrategia de contenido debe comenzar simple y escalar.</p>
+  </div>
+  <div class="insight-card">
+    <div class="ico">📚</div>
+    <h4>"IA en la educación" <span style="color:var(--purple)">+90%</span></h4>
+    <p>Sector educativo adoptando IA. Oportunidad de posicionamiento: "IA para negocios" puede aprender del playbook de "IA para estudiantes" que ya tiene tracción en RD.</p>
+  </div>
+</div>
+
+<!-- CORRECCIÓN ESTRATÉGICA -->
+<div class="section-title">🎯 Corrección estratégica — keywords reales para RD</div>
+
+<div class="callout">
+  <h4>🧭 La regla de oro: si no se busca en RD, no lo pongas en el título</h4>
+  <p>Todo contenido (YouTube, blog, ads, landing page) dirigido al mercado dominicano debe usar los términos que <strong>el dominicano realmente escribe en Google</strong>. La tabla de abajo muestra la corrección directa entre lo que asumíamos y lo que funciona.</p>
+</div>
+
+<table class="gap-table">
+  <thead>
+    <tr>
+      <th>❌ Término asumido (volumen 0 en RD)</th>
+      <th>✅ Término real (con volumen en RD)</th>
+      <th>Por qué funciona en RD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="color:var(--red)">"chatbot whatsapp"</td>
+      <td style="color:var(--green);font-weight:600">"ChatGPT para tu negocio"</td>
+      <td style="color:var(--muted)">ChatGPT = índice 75–100 en RD. El emprendedor ya lo conoce; hay que mostrarle el negocio</td>
+    </tr>
+    <tr>
+      <td style="color:var(--red)">"automatizar whatsapp"</td>
+      <td style="color:var(--green);font-weight:600">"WhatsApp Business con inteligencia artificial"</td>
+      <td style="color:var(--muted)">WA Business = índice 44–69. La gente ya lo usa; conectar con IA es el siguiente paso natural</td>
+    </tr>
+    <tr>
+      <td style="color:var(--red)">"agentes de ia"</td>
+      <td style="color:var(--green);font-weight:600">"inteligencia artificial para tu empresa"</td>
+      <td style="color:var(--muted)">"inteligencia artificial" = índice 69–100, constante todo el año</td>
+    </tr>
+    <tr>
+      <td style="color:var(--red)">"agencia de ia RD"</td>
+      <td style="color:var(--green);font-weight:600">"cómo usar ChatGPT en tu negocio dominicano"</td>
+      <td style="color:var(--muted)">Punto de entrada real: curioso que ya usa Dola/ChatGPT y quiere aplicarlo a su empresa</td>
+    </tr>
+    <tr>
+      <td style="color:var(--red)">"automatizar negocio IA"</td>
+      <td style="color:var(--green);font-weight:600">"hacer videos con inteligencia artificial"</td>
+      <td style="color:var(--muted)">+36,800% de crecimiento. Si ofreces marketing digital, este ángulo tiene demanda real ahora</td>
+    </tr>
+    <tr>
+      <td style="color:var(--red)">"bot de whatsapp"</td>
+      <td style="color:var(--green);font-weight:600">"chatbot" (sin whatsapp)</td>
+      <td style="color:var(--muted)">"chatbot" solo tiene índice 11–17 en RD. Bajo pero real vs. cero de "bot de whatsapp"</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- RESUMEN ETAPA DE MERCADO -->
+<div class="section-title">💡 Etapa del mercado dominicano — diagnóstico final</div>
+
+<div class="insight-grid">
+  <div class="insight-card highlight">
+    <div class="ico">🌱</div>
+    <h4>Etapa: Descubrimiento / Adopción temprana</h4>
+    <p>RD está en la etapa en que la gente descubre qué es la IA y la prueba para usos personales. ChatGPT y Dola dominan porque son fáciles. Los términos de negocio aún no tienen masa crítica de búsqueda.</p>
+  </div>
+  <div class="insight-card gold">
+    <div class="ico">⏰</div>
+    <h4>Ventana estratégica: 12–18 meses</h4>
+    <p>En 12–18 meses, cuando el mercado madure, "chatbot whatsapp" y "automatizar negocio" empezarán a tener volumen en RD. El que esté posicionado hoy capturará todo ese crecimiento. El momento de entrar es ahora.</p>
+  </div>
+  <div class="insight-card">
+    <div class="ico">🔗</div>
+    <h4>El puente es el producto</h4>
+    <p>WhatsApp Business (índice 44) + IA/ChatGPT (índice 75–100) = dos búsquedas activas que nadie ha unido en RD. La agencia AaaS de Eduardo es exactamente ese puente. No hay competencia local haciendo esta conexión.</p>
+  </div>
+  <div class="insight-card warning">
+    <div class="ico">📣</div>
+    <h4>Contenido educativo primero</h4>
+    <p>En un mercado en etapa de descubrimiento, el contenido de "qué es" y "para qué sirve" gana a los tutoriales técnicos. Primero educar con casos de uso simples (Fomi, video IA, cotizaciones); luego vender el servicio.</p>
+  </div>
+</div>
+
+</main>
+
+<script>
+Chart.defaults.color = '#9AA0BF';
+Chart.defaults.font.family = "'Inter', sans-serif";
+
+// Chart 1: Real RD volumes
+const ctx1 = document.getElementById('chartRDReal').getContext('2d');
+new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: ['chatgpt','inteligencia\nartificial','whatsapp\nbusiness','chatbot','automatizacion','chatbot\nwhatsapp','agentes\nde ia'],
+    datasets: [{
+      label: 'Índice Google Trends RD (100 = pico máximo)',
+      data: [75, 69, 44, 11, 7, 0, 0],
+      backgroundColor: [
+        'rgba(16,185,129,.8)',
+        'rgba(16,185,129,.7)',
+        'rgba(245,158,11,.7)',
+        'rgba(59,130,246,.6)',
+        'rgba(139,92,246,.5)',
+        'rgba(239,68,68,.55)',
+        'rgba(239,68,68,.55)'
+      ],
+      borderRadius: 6,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: {
+        max: 110,
+        grid: { color: 'rgba(255,255,255,.06)' },
+        ticks: { font: { size: 11 } }
+      },
+      x: {
+        grid: { display: false },
+        ticks: { font: { size: 10 } }
+      }
+    }
+  }
+});
+
+// Chart 2: Rising queries RD
+const ctx2 = document.getElementById('chartRisingRD').getContext('2d');
+new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: ['dola IA','videos con IA','preguntas a IA','detector IA gratis','videos IA gratis','IA generativa'],
+    datasets: [{
+      label: 'Crecimiento %',
+      data: [91250, 36800, 27750, 300, 200, 90],
+      backgroundColor: 'rgba(139,92,246,.65)',
+      borderRadius: 6,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: {
+        grid: { color: 'rgba(255,255,255,.06)' },
+        ticks: {
+          font: { size: 10 },
+          callback: v => v >= 1000 ? (v/1000).toFixed(0) + 'K%' : v + '%'
+        }
+      },
+      y: {
+        grid: { display: false },
+        ticks: { font: { size: 11 } }
+      }
+    }
+  }
+});
+</script>
+
+<a href="index_aaas.html" class="back-btn">&#8592; Índice AaaS</a>
+
+</body>
+</html>

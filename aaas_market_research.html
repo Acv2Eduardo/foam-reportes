@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AaaS Market Research — República Dominicana 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0f0f1a;
+    color: #e2e8f0;
+    line-height: 1.6;
+  }
+  /* Header */
+  .hero {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4f46e5 100%);
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(167,139,250,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: #c4b5fd;
+    max-width: 600px;
+    margin: 0 auto 24px;
+  }
+  .hero .meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .hero .meta span {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #e0d7ff;
+  }
+  /* Nav */
+  .nav {
+    background: #16162a;
+    border-bottom: 1px solid #2d2d52;
+    padding: 0 40px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav a {
+    color: #a5b4fc;
+    text-decoration: none;
+    padding: 14px 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav a:hover { color: #c4b5fd; border-bottom-color: #4f46e5; }
+  /* Layout */
+  .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+  .section { margin-bottom: 60px; }
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #a5b4fc;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title .icon {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .section-desc {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+    padding-left: 52px;
+  }
+  /* Cards grid */
+  .grid { display: grid; gap: 20px; }
+  .grid-2 { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .card {
+    background: #1a1a2e;
+    border: 1px solid #2d2d52;
+    border-radius: 16px;
+    padding: 24px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #4f46e5; }
+  .card h3 { font-size: 1rem; font-weight: 600; color: #e2e8f0; margin-bottom: 8px; }
+  .card p { font-size: 0.88rem; color: #94a3b8; }
+  .card .tag {
+    display: inline-block;
+    background: rgba(79,70,229,0.2);
+    color: #a5b4fc;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+  /* Executive summary bullets */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .summary-item {
+    background: #1a1a2e;
+    border: 1px solid #2d2d52;
+    border-left: 4px solid #4f46e5;
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+  }
+  .summary-item strong { color: #e2e8f0; display: block; margin-bottom: 4px; }
+  /* Stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .stat-card {
+    background: linear-gradient(135deg, #1e1b4b, #1a1a2e);
+    border: 1px solid #3730a3;
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+  }
+  .stat-card .number {
+    font-size: 2.4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #a5b4fc, #c4b5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-card .label { font-size: 0.8rem; color: #64748b; margin-top: 4px; }
+  /* Table */
+  .table-wrap { overflow-x: auto; border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+  thead th {
+    background: #1e1b4b;
+    color: #a5b4fc;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  tbody tr { border-bottom: 1px solid #1e1e35; }
+  tbody tr:hover { background: #1a1a2e; }
+  tbody td { padding: 12px 16px; color: #cbd5e1; vertical-align: top; }
+  tbody td a { color: #818cf8; text-decoration: none; }
+  tbody td a:hover { text-decoration: underline; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+  .badge-green { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .badge-yellow { background: rgba(234,179,8,0.15); color: #fbbf24; }
+  .badge-blue { background: rgba(79,70,229,0.2); color: #818cf8; }
+  .badge-red { background: rgba(239,68,68,0.15); color: #f87171; }
+  /* Pain points */
+  .pain-item {
+    background: #1a1a2e;
+    border: 1px solid #2d2d52;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .pain-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    background: rgba(79,70,229,0.15);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pain-item h4 { font-size: 0.95rem; font-weight: 600; color: #e2e8f0; margin-bottom: 6px; }
+  .pain-item p { font-size: 0.85rem; color: #94a3b8; }
+  /* Journey */
+  .journey-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+  .journey-steps::before {
+    content: '';
+    position: absolute;
+    left: 28px; top: 50px; bottom: 50px;
+    width: 2px;
+    background: linear-gradient(to bottom, #4f46e5, #7c3aed);
+  }
+  .journey-step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 0 0 32px 0;
+    position: relative;
+  }
+  .step-num {
+    width: 58px; height: 58px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #fff;
+    flex-shrink: 0;
+    z-index: 1;
+    border: 3px solid #0f0f1a;
+  }
+  .step-content {
+    background: #1a1a2e;
+    border: 1px solid #2d2d52;
+    border-radius: 12px;
+    padding: 20px;
+    flex: 1;
+    margin-top: 8px;
+  }
+  .step-content h4 { color: #a5b4fc; font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+  .step-content p { font-size: 0.85rem; color: #94a3b8; }
+  .step-content .step-note {
+    margin-top: 8px;
+    font-size: 0.78rem;
+    color: #6366f1;
+    font-style: italic;
+  }
+  /* Chart containers */
+  .chart-box {
+    background: #1a1a2e;
+    border: 1px solid #2d2d52;
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .chart-box h3 { color: #a5b4fc; font-size: 1rem; margin-bottom: 20px; font-weight: 600; }
+  /* Recommendations */
+  .rec-item {
+    background: #1a1a2e;
+    border: 1px solid #2d2d52;
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .rec-num {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    color: #fff;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .rec-item h4 { font-size: 0.95rem; font-weight: 600; color: #e2e8f0; margin-bottom: 6px; }
+  .rec-item p { font-size: 0.85rem; color: #94a3b8; }
+  /* Instagram highlights */
+  .ig-card {
+    background: linear-gradient(135deg, #1a1a2e, #1e1b3a);
+    border: 1px solid #2d2d52;
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .ig-card .ig-user { font-size: 0.8rem; color: #818cf8; font-weight: 600; margin-bottom: 8px; }
+  .ig-card .ig-text { font-size: 0.82rem; color: #94a3b8; line-height: 1.5; }
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: #475569;
+    font-size: 0.82rem;
+    border-top: 1px solid #1e1e35;
+  }
+  /* Insight banner */
+  .insight-banner {
+    background: linear-gradient(135deg, rgba(79,70,229,0.15), rgba(124,58,237,0.1));
+    border: 1px solid rgba(79,70,229,0.3);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    font-size: 0.9rem;
+    color: #c4b5fd;
+  }
+  .insight-banner strong { color: #e2e8f0; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Agents as a Service (AaaS)<br>Market Research — República Dominicana</h1>
+  <p class="subtitle">Investigación de mercado para el lanzamiento de agencia de agentes de IA para PYMEs en RD</p>
+  <div class="meta">
+    <span>📅 Abril 2026</span>
+    <span>🇩🇴 República Dominicana</span>
+    <span>🔍 83 dominios analizados</span>
+    <span>📊 91 resultados SERP</span>
+    <span>📱 176 posts Instagram</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#resumen">Resumen</a>
+  <a href="#competidores">Competidores</a>
+  <a href="#oportunidades">Oportunidades</a>
+  <a href="#pain-points">Pain Points</a>
+  <a href="#journey">Customer Journey</a>
+  <a href="#trends">Trends</a>
+  <a href="#social">Social Media</a>
+  <a href="#recomendaciones">Recomendaciones</a>
+</nav>
+
+<div class="container">
+
+  <!-- STATS ROW -->
+  <div class="stats-row" style="margin-top:40px;">
+    <div class="stat-card">
+      <div class="number">12+</div>
+      <div class="label">Competidores directos en RD</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">70%</div>
+      <div class="label">MiPYMEs en RD reconocen necesitar IA*</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">176</div>
+      <div class="label">Posts analizados en Instagram</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">Bajo</div>
+      <div class="label">Volumen de búsqueda — mercado emergente</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">Alto</div>
+      <div class="label">Actividad en redes vs. búsquedas</div>
+    </div>
+  </div>
+  <p style="font-size:0.75rem;color:#475569;margin-top:-24px;margin-bottom:40px;">*Fuente: Microsoft News RD, aparece en SERP "transformación digital RD"</p>
+
+  <!-- 1. RESUMEN EJECUTIVO -->
+  <section class="section" id="resumen">
+    <h2 class="section-title"><div class="icon">🎯</div> 1. Resumen Ejecutivo</h2>
+    <p class="section-desc">Hallazgos clave de la investigación de mercado AaaS en República Dominicana.</p>
+
+    <div class="insight-banner">
+      <strong>Insight principal:</strong> El mercado de automatización con IA para PYMEs dominicanas existe pero está fragmentado y subdesarrollado. La mayoría de los competidores ofrecen chatbots básicos de WhatsApp — nadie ofrece "agentes de IA" (AI agents) completos con memoria, tools y flujos autónomos. <strong>Foam Creativo / Eduardo Acevedo tiene ventaja real: ya construyó y opera uno de estos agentes en producción (Fomi).</strong>
+    </div>
+
+    <div class="summary-grid">
+      <div class="summary-item">
+        <strong>Mercado emergente, no saturado</strong>
+        Los términos "automatización", "chatbot" y "IA" tienen volumen de búsqueda casi cero en Google Trends RD, lo que indica que la demanda se canaliza por referidos y redes sociales, no búsquedas. Oportunidad de ser el primero en posicionarse.
+      </div>
+      <div class="summary-item">
+        <strong>12+ competidores directos identificados</strong>
+        Empresas como IntelIA RD, Buggin.dev, BotCity.com.do, Botpro.ai, NetchLab, GcodeRD y ChatFlowAI.RD ya operan en el espacio. La mayoría ofrece chatbots simples, no agentes con IA avanzada.
+      </div>
+      <div class="summary-item">
+        <strong>El pain point #1: mensajes sin contestar</strong>
+        El mensaje más repetido en Instagram es "¿cuántos mensajes de WhatsApp te llegaron y no respondiste?". Las PYMEs dominicanas pierden ventas por falta de respuesta — el mercado ya reconoce el problema.
+      </div>
+      <div class="summary-item">
+        <strong>Sectores más activos digitalmente</strong>
+        Restaurantes/food, salones de belleza, gimnasios, servicios legales, consultorios y tiendas de retail son los sectores más visibles en Instagram con contenido de digitalización.
+      </div>
+      <div class="summary-item">
+        <strong>Diferenciador clave disponible</strong>
+        "Agentes de IA" (AI Agents) que cotizan, facturan, recuerdan conversaciones y actúan autónomamente — nadie en RD lo ofrece todavía. Los competidores venden "chatbots". Eduardo puede vender "empleados digitales".
+      </div>
+      <div class="summary-item">
+        <strong>Facturación electrónica = urgencia inmediata</strong>
+        El deadline del 15 de mayo 2026 para e-facturación DGII está creando demanda urgente de digitalización. Las PYMEs necesitan ayuda ahora — punto de entrada perfecto.
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. COMPETIDORES -->
+  <section class="section" id="competidores">
+    <h2 class="section-title"><div class="icon">🏢</div> 2. Competidores Identificados</h2>
+    <p class="section-desc">Empresas y agencias que aparecen en búsquedas Google y redes sociales ofreciendo automatización/IA en RD.</p>
+
+    <h3 style="color:#a5b4fc;font-size:1rem;margin-bottom:16px;font-weight:600;">Competidores directos en República Dominicana</h3>
+    <div class="table-wrap" style="margin-bottom:32px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Empresa</th>
+            <th>Qué ofrece</th>
+            <th>Tipo</th>
+            <th>Visibilidad</th>
+            <th>Nivel amenaza</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="https://www.inteliard.com" target="_blank">IntelIA RD<br><small>inteliard.com</small></a></td>
+            <td>Automatización con IA, bots WhatsApp, diseño web para empresas dominicanas</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>2 keywords en top 10</td>
+            <td><span class="badge badge-red">Alto</span></td>
+          </tr>
+          <tr>
+            <td><a href="https://buggin.dev" target="_blank">Buggin.dev<br><small>buggin.dev</small></a></td>
+            <td>Chatbots con IA para atención al cliente en RD</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>2 keywords en top 10</td>
+            <td><span class="badge badge-red">Alto</span></td>
+          </tr>
+          <tr>
+            <td><a href="https://botcity.com.do" target="_blank">BotCity<br><small>botcity.com.do</small></a></td>
+            <td>Chatbots para ventas y servicio al cliente, dominio .com.do</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>Top 10 "chatbot empresas"</td>
+            <td><span class="badge badge-red">Alto</span></td>
+          </tr>
+          <tr>
+            <td><a href="https://botpro.ai" target="_blank">BotPro<br><small>botpro.ai / @botpro_rd</small></a></td>
+            <td>Chatbot omnicanal con IA + módulo de agentes humanos. Activo en Instagram</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>SERP + Instagram</td>
+            <td><span class="badge badge-red">Alto</span></td>
+          </tr>
+          <tr>
+            <td><a href="https://novumsolutions.com.do" target="_blank">Novum Solutions<br><small>novumsolutions.com.do</small></a></td>
+            <td>Automatización + CRM para negocios en RD (ventas, marketing, atención)</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>Top 10 "automatización RD"</td>
+            <td><span class="badge badge-yellow">Medio</span></td>
+          </tr>
+          <tr>
+            <td><a href="https://www.byteintelligence.com/es/republica-dominicana" target="_blank">Byte Intelligence<br><small>byteintelligence.com</small></a></td>
+            <td>"Automatizamos ventas, operaciones y atención al cliente para pymes en RD. Resultados en semanas."</td>
+            <td><span class="badge badge-yellow">Regional</span></td>
+            <td>Top 10 "automatización RD"</td>
+            <td><span class="badge badge-yellow">Medio</span></td>
+          </tr>
+          <tr>
+            <td><a href="https://sendiu.net" target="_blank">Sendiu<br><small>sendiu.net</small></a></td>
+            <td>Omnicanalidad + primer chatbot dominicano con ChatGPT integrado</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>Top 10 "chatbot RD"</td>
+            <td><span class="badge badge-yellow">Medio</span></td>
+          </tr>
+          <tr>
+            <td><a href="https://grupoetech.com" target="_blank">GrupoEtech<br><small>grupoetech.com</small></a></td>
+            <td>Automatización de carga de trabajo, consultores expertos en RD</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>Top 10 "automatización RD"</td>
+            <td><span class="badge badge-yellow">Medio</span></td>
+          </tr>
+          <tr>
+            <td><a href="https://www.bewise.one" target="_blank">Bewise<br><small>bewise.one</small></a></td>
+            <td>Blog/guías para implementar IA en empresas de Santo Domingo</td>
+            <td><span class="badge badge-yellow">Regional</span></td>
+            <td>Top 10 "IA pymes RD"</td>
+            <td><span class="badge badge-green">Bajo</span></td>
+          </tr>
+          <tr>
+            <td><a href="https://aahightech.com" target="_blank">AA Hightech<br><small>aahightech.com</small></a></td>
+            <td>Guía práctica de transformación digital para pymes RD (blog muy reciente)</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>Top 10 "automatización RD"</td>
+            <td><span class="badge badge-green">Bajo</span></td>
+          </tr>
+          <tr>
+            <td><a href="https://hidroxsoldigital.com" target="_blank">HidroxSol Digital<br><small>hidroxsoldigital.com</small></a></td>
+            <td>Implementación de IA en empresas y PYMEs en RD</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>Top 10 "IA pymes RD"</td>
+            <td><span class="badge badge-yellow">Medio</span></td>
+          </tr>
+          <tr>
+            <td><strong>@gcoderd</strong><br><small>Instagram</small></td>
+            <td>Workflows empresariales personalizados, notificaciones inteligentes, automatización</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>13 posts relevantes IG</td>
+            <td><span class="badge badge-red">Alto</span></td>
+          </tr>
+          <tr>
+            <td><strong>@vozy_ia</strong><br><small>Instagram</small></td>
+            <td>Recepcionista IA por teléfono: captura llamadas, las resume, las envía al inbox</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>9 posts relevantes IG</td>
+            <td><span class="badge badge-yellow">Medio</span></td>
+          </tr>
+          <tr>
+            <td><strong>@chatflowai.rd</strong><br><small>Instagram</small></td>
+            <td>Chatbots 24/7 con paquetes definidos para marcas dominicanas</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>Instagram activo</td>
+            <td><span class="badge badge-yellow">Medio</span></td>
+          </tr>
+          <tr>
+            <td><strong>@netchlab</strong><br><small>Instagram</small></td>
+            <td>NetchBot: control de inventario + bot de respuesta. "Los negocios fallan por no responder"</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>Instagram activo</td>
+            <td><span class="badge badge-yellow">Medio</span></td>
+          </tr>
+          <tr>
+            <td><strong>@probiz.soluciones</strong><br><small>Instagram</small></td>
+            <td>"IA + CRM + 24/7" — WhatsApp + ChatGPT, Probiz Chat</td>
+            <td><span class="badge badge-blue">Local</span></td>
+            <td>Instagram activo</td>
+            <td><span class="badge badge-yellow">Medio</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="color:#a5b4fc;font-size:1rem;margin-bottom:16px;font-weight:600;">Competidores regionales/globales que aparecen en búsquedas RD</h3>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>RD Station</h3>
+        <p>Plataforma de marketing automation con fuerte presencia en LATAM. Aparece en búsquedas de "IA para empresas RD". Precio más alto, orientado a empresas medianas.</p>
+        <span class="tag">Regional LATAM</span>
+      </div>
+      <div class="card">
+        <h3>SmartBot LA</h3>
+        <p>Chatbot para negocios con presencia en toda LATAM. Aparece en búsquedas de "chatbot WhatsApp". Producto genérico, no localizado para RD.</p>
+        <span class="tag">Regional LATAM</span>
+      </div>
+      <div class="card">
+        <h3>1MillionBot</h3>
+        <p>Empresa española con proyecto para PNUD República Dominicana. Presencia institucional/gobierno, no PYME.</p>
+        <span class="tag">Global</span>
+      </div>
+      <div class="card">
+        <h3>Capterra RD</h3>
+        <p>Directorio de software — aparece para búsquedas de "asistente virtual" en RD. No es competidor directo pero captura tráfico de evaluación.</p>
+        <span class="tag">Directorio</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. OPORTUNIDADES -->
+  <section class="section" id="oportunidades">
+    <h2 class="section-title"><div class="icon">🚀</div> 3. Oportunidades de Mercado</h2>
+    <p class="section-desc">Sectores de PYMEs con mayor potencial de adopción de agentes de IA en República Dominicana.</p>
+
+    <div class="insight-banner">
+      <strong>Señal clara de Instagram:</strong> Los sectores más activos en los hashtags #pymesrd, #digitalizacionrd y #negociosrd son servicios profesionales, retail/moda, food & beverage y salud/belleza. La facturación electrónica (deadline mayo 2026) es el catalizador de urgencia más fuerte en este momento.
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card" style="border-left: 3px solid #4ade80;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+          <h3 style="font-size:1.05rem;">🍽️ Restaurantes y Food Service</h3>
+          <span class="badge badge-green">Alta prioridad</span>
+        </div>
+        <p>Alta frecuencia de mensajes de WhatsApp para reservas, pedidos, horarios y precios. Los restaurantes tienen múltiples turnos y no pueden responder en tiempo real. El agente maneja 80% de las consultas de forma autónoma. Sector muy visible en Instagram RD.</p>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #2d2d52;">
+          <p style="font-size:0.8rem;color:#6366f1;"><strong>Caso de uso inmediato:</strong> Agente que recibe reservas por WhatsApp, confirma disponibilidad y envía recordatorios automáticos.</p>
+        </div>
+      </div>
+
+      <div class="card" style="border-left: 3px solid #4ade80;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+          <h3 style="font-size:1.05rem;">💇 Salones de Belleza y Spas</h3>
+          <span class="badge badge-green">Alta prioridad</span>
+        </div>
+        <p>Miles de salones en RD que reciben citas por WhatsApp, manejan inventarios de productos y necesitan recordatorios automatizados. Los dueños son mayormente mujeres emprendedoras con poco presupuesto pero alta receptividad digital (Instagram-nativas).</p>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #2d2d52;">
+          <p style="font-size:0.8rem;color:#6366f1;"><strong>Caso de uso inmediato:</strong> Agente de citas: agenda, recuerda, re-agenda y cobra depósito.</p>
+        </div>
+      </div>
+
+      <div class="card" style="border-left: 3px solid #fbbf24;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+          <h3 style="font-size:1.05rem;">🏋️ Gimnasios y Wellness</h3>
+          <span class="badge badge-yellow">Media-Alta prioridad</span>
+        </div>
+        <p>Gestión de membresías, inscripciones, consultas de horarios y clases. Un competidor (@dimapps) ya ofrece chatbot específico para gimnasios. Mercado sensible a price y valor percibido.</p>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #2d2d52;">
+          <p style="font-size:0.8rem;color:#6366f1;"><strong>Caso de uso inmediato:</strong> Agente que gestiona inscripciones, cobra cuotas y envía recordatorios de pago.</p>
+        </div>
+      </div>
+
+      <div class="card" style="border-left: 3px solid #fbbf24;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+          <h3 style="font-size:1.05rem;">⚖️ Servicios Legales y Contables</h3>
+          <span class="badge badge-yellow">Media-Alta prioridad</span>
+        </div>
+        <p>Alta demanda de facturación electrónica DGII (deadline mayo 2026). Abogados y contadores visibles en Instagram. Necesitan automatizar captación de clientes, seguimiento de casos y recordatorios. Presupuesto más alto.</p>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #2d2d52;">
+          <p style="font-size:0.8rem;color:#6366f1;"><strong>Caso de uso inmediato:</strong> Agente que califica prospectos, agenda consultas y da seguimiento a documentos.</p>
+        </div>
+      </div>
+
+      <div class="card" style="border-left: 3px solid #fbbf24;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+          <h3 style="font-size:1.05rem;">🛍️ Retail / Tiendas Online</h3>
+          <span class="badge badge-yellow">Media-Alta prioridad</span>
+        </div>
+        <p>Tiendas de ropa, accesorios y productos del hogar que venden por WhatsApp e Instagram. Problema principal: cotizar, confirmar disponibilidad y hacer seguimiento de pedidos. Foam Creativo es el caso de uso perfecto.</p>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #2d2d52;">
+          <p style="font-size:0.8rem;color:#6366f1;"><strong>Caso de uso inmediato:</strong> Agente de cotización y seguimiento de pedidos por WhatsApp (exactamente lo que Fomi hace).</p>
+        </div>
+      </div>
+
+      <div class="card" style="border-left: 3px solid #818cf8;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+          <h3 style="font-size:1.05rem;">🏥 Consultorios y Clínicas</h3>
+          <span class="badge badge-blue">Prioridad media</span>
+        </div>
+        <p>Médicos, dentistas y veterinarios con alto volumen de citas. Necesitan reducir no-shows y gestionar expedientes. Sector con presupuesto y alta valoración del tiempo. Requiere integración con sistemas existentes.</p>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #2d2d52;">
+          <p style="font-size:0.8rem;color:#6366f1;"><strong>Caso de uso inmediato:</strong> Agente de citas con recordatorios y seguimiento post-consulta.</p>
+        </div>
+      </div>
+
+      <div class="card" style="border-left: 3px solid #818cf8;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+          <h3 style="font-size:1.05rem;">🏗️ Constructoras y Ferreteras</h3>
+          <span class="badge badge-blue">Prioridad media</span>
+        </div>
+        <p>Negocios con catálogos grandes, cotizaciones frecuentes y gestión de materiales. Foam Creativo tiene experiencia directa en este tipo de flujo (cotizaciones de foam/cartón). Ticket de venta mayor.</p>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #2d2d52;">
+          <p style="font-size:0.8rem;color:#6366f1;"><strong>Caso de uso inmediato:</strong> Agente de cotización desde catálogo Excel por WhatsApp.</p>
+        </div>
+      </div>
+
+      <div class="card" style="border-left: 3px solid #818cf8;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+          <h3 style="font-size:1.05rem;">🎓 Escuelas y Centros de Capacitación</h3>
+          <span class="badge badge-blue">Prioridad media</span>
+        </div>
+        <p>Academias de idiomas, centros de tutorías, escuelas de manejo. Necesitan gestionar inscripciones, pagos y comunicación con padres. Ciclo de ventas predecible y recurrente.</p>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #2d2d52;">
+          <p style="font-size:0.8rem;color:#6366f1;"><strong>Caso de uso inmediato:</strong> Agente de admisiones y recordatorios de pago de mensualidad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. PAIN POINTS -->
+  <section class="section" id="pain-points">
+    <h2 class="section-title"><div class="icon">😤</div> 4. Pain Points Detectados</h2>
+    <p class="section-desc">Problemas reales identificados en captions de Instagram, títulos SERP y comportamiento de búsqueda.</p>
+
+    <div class="grid grid-2" style="margin-bottom:24px;">
+      <div class="pain-item">
+        <div class="pain-icon">💬</div>
+        <div>
+          <h4>Mensajes de WhatsApp sin contestar</h4>
+          <p>El pain point más repetido en redes sociales. "@f_ftechservices: ¿Cuántos mensajes de WhatsApp te llegaron este fin de semana que todavía no has respondido? El cliente manda, nadie responde, y al lunes ya fue a buscar a otro." Los negocios en RD reciben más mensajes de los que pueden gestionar manualmente.</p>
+        </div>
+      </div>
+
+      <div class="pain-item">
+        <div class="pain-icon">⏱️</div>
+        <div>
+          <h4>Velocidad de respuesta = pérdida de ventas</h4>
+          <p>"@pedromorales_ia: El 78% de los clientes le compra al negocio que responde primero. Tu competidor ya está automatizado con IA. ¿Y tú?" Las PYMEs dominicanas saben que pierden por lentitud pero no saben cómo resolverlo.</p>
+        </div>
+      </div>
+
+      <div class="pain-item">
+        <div class="pain-icon">🔄</div>
+        <div>
+          <h4>Tareas repetitivas que consumen tiempo del dueño</h4>
+          <p>"@tekkocodes: Si tu negocio depende 100% de tu respuesta manual, tienes un auto-empleo, no un sistema." Los dueños de PYME en RD operan como empleados de su propio negocio en lugar de ser dueños.</p>
+        </div>
+      </div>
+
+      <div class="pain-item">
+        <div class="pain-icon">📋</div>
+        <div>
+          <h4>Falta de control e inventario</h4>
+          <p>"@netchlab: Muchos negocios están perdiendo dinero... errores en caja, inventarios desactualizados, ventas mal registradas y reportes imposibles de cuadrar." El control operativo básico sigue siendo manual en la mayoría de PYMEs.</p>
+        </div>
+      </div>
+
+      <div class="pain-item">
+        <div class="pain-icon">🧾</div>
+        <div>
+          <h4>Facturación electrónica DGII (urgencia 2026)</h4>
+          <p>El deadline del 15 de mayo 2026 para e-NCF está forzando a PYMEs a digitalizarse ahora mismo. Múltiples posts en #pymesrd y #digitalizacionrd sobre este tema. Es el mayor catalizador de urgencia del momento.</p>
+        </div>
+      </div>
+
+      <div class="pain-item">
+        <div class="pain-icon">💰</div>
+        <div>
+          <h4>Costo percibido de la tecnología</h4>
+          <p>Muchos dueños de PYME creen que la IA y automatización son "para empresas grandes". Las búsquedas de "software automatización pymes" muestran interés pero el volumen es bajo, indicando que la barrera de entrada percibida es alta.</p>
+        </div>
+      </div>
+
+      <div class="pain-item">
+        <div class="pain-icon">🤷</div>
+        <div>
+          <h4>"No sé por dónde empezar"</h4>
+          <p>Múltiples artículos en SERP con títulos como "¿Por dónde empezar con la transformación digital?" (aahightech.com) y "Cómo implementar IA en tu empresa en Santo Domingo" (bewise.one). La confusión sobre el primer paso es una barrera mayor.</p>
+        </div>
+      </div>
+
+      <div class="pain-item">
+        <div class="pain-icon">👥</div>
+        <div>
+          <h4>Rotación de personal y dependencia humana</h4>
+          <p>"@hakamord: La rotación de personal y las vacantes abiertas por meses no son solo un problema de RR.HH... son una fuga de [dinero/tiempo]." Los agentes de IA como solución a la dependencia del personal resonarán en RD.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-banner">
+      <strong>Frustración con tecnología actual:</strong> Los competidores existentes venden chatbots como producto puntual pero no ofrecen acompañamiento ni evolución. Las PYMEs que ya compraron un chatbot básico (Manychat, etc.) no lograron resultados porque nadie les enseñó a usarlo ni adaptó la solución a su negocio. <strong>La oportunidad está en el servicio + el agente, no solo el agente.</strong>
+    </div>
+  </section>
+
+  <!-- 5. CUSTOMER JOURNEY -->
+  <section class="section" id="journey">
+    <h2 class="section-title"><div class="icon">🗺️</div> 5. Customer Journey Sugerido</h2>
+    <p class="section-desc">Desde que la PYME descubre que necesita automatización hasta que contrata y opera el agente.</p>
+
+    <div class="journey-steps">
+      <div class="journey-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>DISPARADOR — Pierde una venta o se siente sobrepasado</h4>
+          <p>El dueño de PYME pierde una venta porque no respondió un WhatsApp a tiempo, o pasa un fin de semana respondiendo mensajes. En RD esto es muy frecuente en restaurantes, tiendas y salones. También puede dispararse por el deadline de facturación electrónica.</p>
+          <p class="step-note">Canal: experiencia propia. Frase clave: "me llegaron 40 mensajes y no pude contestar todos".</p>
+        </div>
+      </div>
+
+      <div class="journey-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>DESCUBRIMIENTO — Ve un post en Instagram o recibe referido</h4>
+          <p>En RD el descubrimiento NO ocurre por búsqueda en Google (volumen casi cero). Ocurre por Instagram (hashtags #pymesrd, #chatbotrd) o por referido de otro dueño de PYME. Los posts de @gcoderd, @botpro_rd, @f_ftechservices son el punto de entrada.</p>
+          <p class="step-note">Canal: Instagram + boca a boca. Google es secundario en este mercado.</p>
+        </div>
+      </div>
+
+      <div class="journey-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>CONSIDERACIÓN — Busca referencias y compara</h4>
+          <p>La PYME le pregunta a conocidos "¿tú usas chatbot?", busca en Google (ahí sí pueden aparecer inteliard.com, buggin.dev), ve videos en Instagram y TikTok. Quiere entender qué funciona en negocios similares al suyo, no teoría.</p>
+          <p class="step-note">Acción clave: testimonios/casos de éxito de negocios similares en RD son decisivos aquí.</p>
+        </div>
+      </div>
+
+      <div class="journey-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>EVALUACIÓN — Primer contacto con el proveedor</h4>
+          <p>Escribe por WhatsApp o DM de Instagram. Quiere respuesta rápida y clara. Pregunta: "¿cuánto cuesta?", "¿para qué tipo de negocio sirve?", "¿cuánto tarda?". Si el proveedor no responde en menos de 24h pierde el interés.</p>
+          <p class="step-note">Punto crítico: si usas Fomi para atender las consultas de tu propia agencia AaaS, demuestras el producto en vivo.</p>
+        </div>
+      </div>
+
+      <div class="journey-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>DEMO / PROPUESTA — Ve el agente en acción</h4>
+          <p>El prospecto necesita ver el agente trabajando para entender el valor. Una demo en vivo por WhatsApp (le mandas el número del agente y él mismo prueba) es más efectiva que una presentación de PowerPoint. Las PYMEs dominicanas son visuales y prácticas.</p>
+          <p class="step-note">Diferenciador: muestra Fomi funcionando en Foam Creativo como prueba de concepto real.</p>
+        </div>
+      </div>
+
+      <div class="journey-step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <h4>DECISIÓN — Precio y confianza</h4>
+          <p>Las PYMEs en RD tienen presupuestos limitados. El precio tiene que ser claro y accesible. La confianza viene de: (a) el proveedor es local y dominicano, (b) hay un contrato claro, (c) tienen soporte post-venta. El precio ideal de entrada está entre RD$3,000-8,000/mes.</p>
+          <p class="step-note">Objeción principal: "¿y si el bot dice algo mal?" — tener un modo de supervisión humana resuelve esto.</p>
+        </div>
+      </div>
+
+      <div class="journey-step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <h4>ONBOARDING — Configuración y aprendizaje</h4>
+          <p>El dueño quiere un proceso rápido y sin complicaciones técnicas. Necesita ver resultados en la primera semana. Un onboarding de 3-5 días con acompañamiento es ideal. Los primeros mensajes del agente son el momento de la verdad.</p>
+          <p class="step-note">Métrica clave: número de mensajes respondidos automáticamente en la primera semana.</p>
+        </div>
+      </div>
+
+      <div class="journey-step">
+        <div class="step-num">8</div>
+        <div class="step-content">
+          <h4>EXPANSIÓN — Upsell y referidos</h4>
+          <p>Si el agente funciona bien, el dueño lo recomienda a otros en su círculo de networking (asociaciones empresariales, grupos WhatsApp de negocios). En RD el boca a boca es el canal de crecimiento más poderoso. Un cliente satisfecho vale por 5 leads.</p>
+          <p class="step-note">Estrategia: programa de referidos con incentivo para que el cliente recomiende activamente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. GOOGLE TRENDS -->
+  <section class="section" id="trends">
+    <h2 class="section-title"><div class="icon">📈</div> 6. Keywords — Interés en Google (RD)</h2>
+    <p class="section-desc">Volumen de búsqueda relativo en República Dominicana (últimos 12 meses). Escala 0-100 donde 100 = pico máximo.</p>
+
+    <div class="insight-banner">
+      <strong>Conclusión clave:</strong> La mayoría de los términos técnicos tienen volumen de búsqueda casi cero en RD. Esto NO significa que no hay mercado — significa que <strong>la demanda se genera por redes sociales, no por búsqueda intencional</strong>. "Asistente virtual" es el término más buscado (avg 21/100), seguido de "transformación digital" (avg 2/100). El mercado está en fase de creación de demanda, no captura.
+    </div>
+
+    <div class="grid grid-2">
+      <div class="chart-box">
+        <h3>Promedio de interés por keyword (últimos 12 meses, RD)</h3>
+        <canvas id="trendsBar" height="280"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>Interpretación estratégica</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px;">
+          <div style="background:rgba(79,70,229,0.1);border-radius:8px;padding:14px;">
+            <div style="font-size:0.85rem;font-weight:600;color:#a5b4fc;margin-bottom:4px;">Asistente Virtual — Promedio 21/100</div>
+            <div style="font-size:0.8rem;color:#94a3b8;">El único término con búsquedas significativas. Las PYMEs buscan "asistente virtual" cuando ya están convencidas. Usar este término en contenido SEO.</div>
+          </div>
+          <div style="background:rgba(79,70,229,0.1);border-radius:8px;padding:14px;">
+            <div style="font-size:0.85rem;font-weight:600;color:#a5b4fc;margin-bottom:4px;">Transformación Digital — Promedio 2/100</div>
+            <div style="font-size:0.8rem;color:#94a3b8;">Segundo término más buscado. Usado principalmente por gobierno y organismos internacionales. Buen gancho para PYMEs que lo ven en noticias.</div>
+          </div>
+          <div style="background:rgba(79,70,229,0.1);border-radius:8px;padding:14px;">
+            <div style="font-size:0.85rem;font-weight:600;color:#a5b4fc;margin-bottom:4px;">Automatización / Chatbot / IA — Promedio 0-0.2/100</div>
+            <div style="font-size:0.8rem;color:#94a3b8;">Términos técnicos sin volumen. El mercado no busca soluciones por nombre técnico — busca "ayuda para responder WhatsApp" o "alguien que maneje mis mensajes".</div>
+          </div>
+          <div style="background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.3);border-radius:8px;padding:14px;">
+            <div style="font-size:0.85rem;font-weight:600;color:#c4b5fd;margin-bottom:4px;">Recomendación SEO</div>
+            <div style="font-size:0.8rem;color:#94a3b8;">Crear contenido alrededor de "asistente virtual para WhatsApp RD", "cómo responder más rápido a clientes", "automatizar WhatsApp negocio". El volumen es bajo pero el que llega tiene intención de compra.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. SOCIAL MEDIA -->
+  <section class="section" id="social">
+    <h2 class="section-title"><div class="icon">📱</div> 7. Social Media — Instagram Insights</h2>
+    <p class="section-desc">Análisis de 176 posts de hashtags #automatizacionrd, #chatbotrd, #pymesrd y otros. Captions reales de competidores y potenciales clientes.</p>
+
+    <div class="grid grid-2" style="margin-bottom:24px;">
+      <div class="chart-box">
+        <h3>Posts por hashtag</h3>
+        <canvas id="hashtagBar" height="220"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>Tipo de contenido identificado</h3>
+        <canvas id="contentPie" height="220"></canvas>
+      </div>
+    </div>
+
+    <h3 style="color:#a5b4fc;font-size:1rem;margin-bottom:16px;font-weight:600;">Frases reales extraídas de captions de Instagram</h3>
+    <div class="grid grid-2" style="margin-bottom:24px;">
+      <div class="ig-card">
+        <div class="ig-user">@f_ftechservices — #automatizacionrd, #digitalizacionrd</div>
+        <div class="ig-text">"Pregunta honesta para los que tienen un negocio en RD: ¿Cuántos mensajes de WhatsApp te llegaron este fin de semana que todavía no has respondido? El cliente manda, nadie responde, y al lunes ya fue a buscar a otro."</div>
+      </div>
+      <div class="ig-card">
+        <div class="ig-user">@pedromorales_ia — #inteligenciaartificialrd</div>
+        <div class="ig-text">"El 78% de los clientes le compra al negocio que responde primero. Tu competidor ya está automatizado con IA. ¿Y tú? Si diriges un negocio en República Dominicana y todavía dependes de responder mensajes manualmente, estás perdiendo clientes cada noche."</div>
+      </div>
+      <div class="ig-card">
+        <div class="ig-user">@gcoderd — #automatizacionrd</div>
+        <div class="ig-text">"¿Recibes tus ventas diarias mientras descansas? Imagina esto: antes pasabas horas revisando reportes y cuadrando cuentas al final del día. Ahora, con Notificaciones Telegram Inteligentes, todo cambia. Cada noche a la 1am recibes un reporte automático."</div>
+      </div>
+      <div class="ig-card">
+        <div class="ig-user">@tekkocodes — #inteligenciaartificialrd</div>
+        <div class="ig-text">"¿Tu negocio crece o solo te quita el sueño? Si tu negocio depende 100% de tu respuesta manual, tienes un auto-empleo, no un sistema. El cliente no espera; si no respondes en 5 minutos, ya le escribió a tu competencia."</div>
+      </div>
+      <div class="ig-card">
+        <div class="ig-user">@auratrends.solutions — #inteligenciaartificialrd</div>
+        <div class="ig-text">"¿Tu negocio está operando en el 2026? Deja de perder tiempo en tareas repetitivas. Con AnswerPro IA Suite de AuraTrends: Agentes de Élite — IA personalizada para tu marca. Atención al Cliente 24/7. Gestión de redes. Análisis de comportamiento."</div>
+      </div>
+      <div class="ig-card">
+        <div class="ig-user">@netchlab — #chatbotrd</div>
+        <div class="ig-text">"Los negocios hoy no fallan por falta de clientes… fallan porque no responden a tiempo. Mensajes sin contestar, clientes esperando, vendedores saturados y oportunidades perdiéndose cada minuto. Eso te cuesta dinero, reputación y ventas."</div>
+      </div>
+    </div>
+
+    <div class="insight-banner">
+      <strong>Patrón de messaging que funciona en RD:</strong> Los posts con mayor engagement usan (1) pregunta directa al dueño de negocio, (2) un problema específico y reconocible, (3) la consecuencia inmediata (perder la venta/cliente), y (4) la solución simple. <strong>Evitar jerga técnica. Usar lenguaje de calle.</strong>
+    </div>
+  </section>
+
+  <!-- 8. RECOMENDACIONES -->
+  <section class="section" id="recomendaciones">
+    <h2 class="section-title"><div class="icon">💡</div> 8. Recomendaciones para Lanzar la Agencia</h2>
+    <p class="section-desc">Plan de acción basado en los hallazgos de la investigación. Qué hacer primero.</p>
+
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="rec-item">
+        <div class="rec-num">1</div>
+        <div>
+          <h4>Posicionarte como "el que ya lo hace" — Foam Creativo como caso de uso</h4>
+          <p>Ningún competidor en RD puede decir "yo mismo uso el agente en mi propio negocio con 5 años de historial de clientes y pedidos reales". Eduardo con Fomi tiene una ventaja narrativa única. El primer contenido debe ser: "Mi nombre es Eduardo, tengo una empresa de foam en RD, y construí un agente de IA que atiende mis clientes por WhatsApp. Esto es lo que hace en un día."</p>
+        </div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-num">2</div>
+        <div>
+          <h4>Lanzar en Instagram con contenido de pain points — no de tecnología</h4>
+          <p>El mercado no busca "agentes de IA". Busca "no perder ventas por no responder WhatsApp". Crear una cuenta de Instagram para la agencia con posts que hablen directamente de los problemas identificados: mensajes sin contestar, fines de semana trabajando, inventario caótico. Frecuencia mínima: 4 posts/semana. Usar los hashtags #pymesrd, #negociosrd, #chatbotrd.</p>
+        </div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-num">3</div>
+        <div>
+          <h4>Empezar con restaurantes y salones de belleza — sectores más fáciles de cerrar</h4>
+          <p>Son los sectores con mayor volumen de mensajes WhatsApp, decisores únicos (el dueño), ticket accesible para empezar y necesidad inmediata. La propuesta puede ser simple: "Te ahorro 3 horas al día de responder WhatsApp por RD$5,000 al mes." El ROI es inmediato y visible.</p>
+        </div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-num">4</div>
+        <div>
+          <h4>Usar la urgencia de facturación electrónica como puerta de entrada</h4>
+          <p>El deadline del 15 de mayo 2026 de DGII está moviendo a todas las PYMEs a digitalizar ahora. Crear una oferta de "paquete de digitalización urgente" que incluya agente de WhatsApp + integración con sistema de facturación. Es el mejor momento del año para prospectar.</p>
+        </div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-num">5</div>
+        <div>
+          <h4>Diferenciarse como "Agents as a Service" — no "chatbots"</h4>
+          <p>Los competidores venden chatbots. Un chatbot responde preguntas. Un agente de IA cotiza, recuerda conversaciones previas, busca información en la base de datos del negocio, genera PDFs, notifica al dueño y aprende. Este diferenciador debe estar en el nombre y el pitch desde el día 1. Ejemplo de nombre: "Agentes RD", "AgentePro RD", "FomiAgency".</p>
+        </div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-num">6</div>
+        <div>
+          <h4>Modelo de precios mensual, no proyecto</h4>
+          <p>Los competidores que más tracción tienen en Instagram ofrecen "planes mensuales" — no proyectos únicos. Esto reduce la barrera de entrada y genera ingresos recurrentes. Propuesta inicial: Plan Básico (agente WhatsApp) RD$3,500-5,000/mes. Plan Pro (agente + CRM + reportes) RD$8,000-12,000/mes. Empresa (personalizado) desde RD$20,000/mes.</p>
+        </div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-num">7</div>
+        <div>
+          <h4>Primeros 3 clientes: ofrecer precio reducido a cambio de testimonios en video</h4>
+          <p>El contenido más poderoso para vender en RD son testimonios de dueños de negocios dominicanos diciendo "antes perdía ventas, ahora mi agente responde por mí". Ofrecer los primeros 3 clientes a precio de costo a cambio de un testimonio en video y permiso para usar su logo como referencia.</p>
+        </div>
+      </div>
+
+      <div class="rec-item">
+        <div class="rec-num">8</div>
+        <div>
+          <h4>Usar el propio agente para atender leads de la agencia</h4>
+          <p>La forma más poderosa de demostrar el producto es que cuando un prospecto escribe por WhatsApp preguntando "¿cuánto cuesta su servicio?", sea el propio agente de IA quien responda, califique y agende la demo. Es el cierre de ventas más efectivo posible: la demo es la conversación misma.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary action plan -->
+    <div style="background:linear-gradient(135deg,#1e1b4b,#312e81);border:1px solid #4f46e5;border-radius:16px;padding:28px;margin-top:32px;">
+      <h3 style="color:#e2e8f0;font-size:1.1rem;font-weight:700;margin-bottom:16px;">Plan de 90 días para lanzar la agencia</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
+        <div>
+          <div style="color:#a5b4fc;font-weight:600;font-size:0.85rem;margin-bottom:8px;">MES 1 — Construir base</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
+            <li style="font-size:0.83rem;color:#cbd5e1;display:flex;gap:8px;"><span style="color:#4ade80;">✓</span>Crear Instagram y perfil de la agencia</li>
+            <li style="font-size:0.83rem;color:#cbd5e1;display:flex;gap:8px;"><span style="color:#4ade80;">✓</span>10 posts de pain points + soluciones</li>
+            <li style="font-size:0.83rem;color:#cbd5e1;display:flex;gap:8px;"><span style="color:#4ade80;">✓</span>Adaptar Fomi como demo para prospectos</li>
+            <li style="font-size:0.83rem;color:#cbd5e1;display:flex;gap:8px;"><span style="color:#4ade80;">✓</span>Contactar 20 restaurantes/salones en Santo Domingo</li>
+          </ul>
+        </div>
+        <div>
+          <div style="color:#a5b4fc;font-weight:600;font-size:0.85rem;margin-bottom:8px;">MES 2 — Primeros clientes</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
+            <li style="font-size:0.83rem;color:#cbd5e1;display:flex;gap:8px;"><span style="color:#fbbf24;">◐</span>Cerrar 2-3 clientes piloto (precio reducido)</li>
+            <li style="font-size:0.83rem;color:#cbd5e1;display:flex;gap:8px;"><span style="color:#fbbf24;">◐</span>Grabar testimonios en video</li>
+            <li style="font-size:0.83rem;color:#cbd5e1;display:flex;gap:8px;"><span style="color:#fbbf24;">◐</span>Publicar casos de éxito en Instagram</li>
+            <li style="font-size:0.83rem;color:#cbd5e1;display:flex;gap:8px;"><span style="color:#fbbf24;">◐</span>Activar WhatsApp de la agencia con agente propio</li>
+          </ul>
+        </div>
+        <div>
+          <div style="color:#a5b4fc;font-weight:600;font-size:0.85rem;margin-bottom:8px;">MES 3 — Escalar</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
+            <li style="font-size:0.83rem;color:#cbd5e1;display:flex;gap:8px;"><span style="color:#818cf8;">○</span>5-10 clientes de pago</li>
+            <li style="font-size:0.83rem;color:#cbd5e1;display:flex;gap:8px;"><span style="color:#818cf8;">○</span>Activar programa de referidos</li>
+            <li style="font-size:0.83rem;color:#cbd5e1;display:flex;gap:8px;"><span style="color:#818cf8;">○</span>Primer anuncio pagado en Instagram RD</li>
+            <li style="font-size:0.83rem;color:#cbd5e1;display:flex;gap:8px;"><span style="color:#818cf8;">○</span>Posicionar en Google "chatbot WhatsApp RD"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<footer>
+  Generado el 27 de abril de 2026 | Datos: Google Trends (pytrends), DataForSEO SERP (91 resultados, 83 dominios), Apify Instagram Scraper (176 posts) | Para Eduardo Acevedo — Foam Creativo / Agencia AaaS RD
+</footer>
+
+<script>
+// ── TRENDS BAR CHART ──────────────────────────────────────────────────────────
+const trendsCtx = document.getElementById('trendsBar').getContext('2d');
+const trendsLabels = [
+  'Asistente Virtual',
+  'Transformación Digital',
+  'Agente de IA',
+  'IA Empresas',
+  'Automatización Neg.',
+  'Chatbot Empresas',
+  'Digitaliz. Pymes',
+  'IA Negocios',
+  'Chatbot Dominicana',
+  'Tecnología Pymes'
+];
+const trendsValues = [21.0, 2.15, 0.21, 0.06, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+const trendsColors = trendsValues.map(v => {
+  if (v >= 10) return 'rgba(79,70,229,0.9)';
+  if (v >= 1) return 'rgba(124,58,237,0.8)';
+  if (v > 0) return 'rgba(167,139,250,0.7)';
+  return 'rgba(71,85,105,0.5)';
+});
+
+new Chart(trendsCtx, {
+  type: 'bar',
+  data: {
+    labels: trendsLabels,
+    datasets: [{
+      label: 'Promedio interés (0-100)',
+      data: trendsValues,
+      backgroundColor: trendsColors,
+      borderColor: trendsColors.map(c => c.replace('0.9)', '1)').replace('0.8)', '1)').replace('0.7)', '1)').replace('0.5)', '0.8)')),
+      borderWidth: 1,
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    responsive: true,
+    indexAxis: 'y',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` Promedio: ${ctx.parsed.x.toFixed(2)}/100`
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        ticks: { color: '#94a3b8', font: { size: 11 } },
+        max: 25
+      },
+      y: {
+        grid: { display: false },
+        ticks: { color: '#cbd5e1', font: { size: 11 } }
+      }
+    }
+  }
+});
+
+// ── HASHTAG BAR CHART ─────────────────────────────────────────────────────────
+const hashCtx = document.getElementById('hashtagBar').getContext('2d');
+new Chart(hashCtx, {
+  type: 'bar',
+  data: {
+    labels: ['#pymesrd','#automatizacionrd','#chatbotrd','#transformdigitalrd','#IArd','#negociosrd','#digitalizacionrd','#emprendimientord','#tecnologiard'],
+    datasets: [{
+      label: 'Posts recopilados',
+      data: [27, 24, 24, 24, 24, 21, 11, 15, 6],
+      backgroundColor: 'rgba(79,70,229,0.7)',
+      borderColor: 'rgba(79,70,229,1)',
+      borderWidth: 1,
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+      y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+    }
+  }
+});
+
+// ── CONTENT TYPE PIE ──────────────────────────────────────────────────────────
+const pieCtx = document.getElementById('contentPie').getContext('2d');
+new Chart(pieCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Proveedores de automatización/IA', 'PYMEs buscando soluciones', 'Facturación electrónica DGII', 'Emprendimientos generales', 'Otro/irrelevante'],
+    datasets: [{
+      data: [38, 22, 15, 16, 9],
+      backgroundColor: [
+        'rgba(79,70,229,0.85)',
+        'rgba(124,58,237,0.75)',
+        'rgba(167,139,250,0.7)',
+        'rgba(99,102,241,0.6)',
+        'rgba(71,85,105,0.5)'
+      ],
+      borderColor: '#0f0f1a',
+      borderWidth: 3,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: '#94a3b8', font: { size: 11 }, padding: 12, boxWidth: 14 }
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.label}: ${ctx.parsed}%`
+        }
+      }
+    }
+  }
+});
+</script>
+
+
+<a href="index_aaas.html" title="Volver al índice" style="position:fixed;bottom:24px;right:24px;background:#FF4B2B;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:11px 20px;border-radius:99px;text-decoration:none;z-index:9999;box-shadow:0 4px 24px rgba(255,75,43,.45);letter-spacing:.04em">&#8592; Índice</a>
+</body>
+</html>

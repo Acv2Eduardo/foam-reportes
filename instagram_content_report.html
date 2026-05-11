@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis de Contenido Instagram — Inteligencia de Mercado RD</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f1f5f9;
+    margin: 0;
+    padding: 0;
+    color: #1e293b;
+  }
+  .header {
+    background: #0f172a;
+    color: white;
+    padding: 36px 32px;
+    margin-bottom: 28px;
+  }
+  .header h1 { margin: 0 0 6px; font-size: 26px; }
+  .header p  { margin: 0; color: #94a3b8; font-size: 14px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px 48px; }
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .metric-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .metric-box .num { font-size: 28px; font-weight: 800; color: #6366f1; }
+  .metric-box .lbl { font-size: 12px; color: #64748b; margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: #f8fafc; padding: 10px 14px; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e2e8f0; }
+  td { padding: 10px 14px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafafa; }
+  a { color: #6366f1; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .badge-purple { background: #ede9fe; color: #5b21b6; }
+  .badge-green { background: #d1fae5; color: #065f46; }
+  .nota {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 16px;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+  }
+  .oport-item {
+    border-left: 4px solid #6366f1;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    background: #fafafa;
+    border-radius: 0 8px 8px 0;
+  }
+  .oport-item strong { color: #4f46e5; }
+  .chart-wrap { position: relative; max-width: 500px; margin: 0 auto 20px; }
+  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 700px) { .charts-row { grid-template-columns: 1fr; } }
+  .toc {
+    background: #0f172a;
+    color: #cbd5e1;
+    padding: 16px 24px;
+    border-radius: 10px;
+    margin-bottom: 28px;
+    font-size: 13px;
+  }
+  .toc a { color: #a5b4fc; }
+  .toc ul { margin: 8px 0 0; padding-left: 20px; }
+  .toc li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Análisis de Contenido Instagram — Inteligencia de Mercado RD</h1>
+  <p>IA · Automatización · Chatbot · WhatsApp · PYMEs Dominicanas | Generado: 2026-04-27 16:42</p>
+</div>
+
+<div class="container">
+
+  <!-- Índice -->
+  <div class="toc">
+    <strong>Contenido del reporte</strong>
+    <ul>
+      <li><a href="#resumen">1. Resumen ejecutivo</a></li>
+      <li><a href="#mapa">2. Mapa de contenido por hashtag</a></li>
+      <li><a href="#cuentas">3. Top 15 cuentas</a></li>
+      <li><a href="#painpoints">4. Pain points detectados</a></li>
+      <li><a href="#oportunidades">5. Oportunidades de contenido</a></li>
+      <li><a href="#virales">6. Posts más virales (Top 10)</a></li>
+      <li><a href="#pymesb">7. Grupo B — PYMEs hablando de tech</a></li>
+      <li><a href="#metodologia">8. Metodología y limitaciones</a></li>
+    </ul>
+  </div>
+
+  <!-- 1. Resumen ejecutivo -->
+  <div class="card" id="resumen">
+    <div class="section-title">1. Resumen Ejecutivo</div>
+
+    <div class="metric-grid">
+      <div class="metric-box"><div class="num">550</div><div class="lbl">Posts analizados</div></div>
+      <div class="metric-box"><div class="num">26</div><div class="lbl">Hashtags scrapeados</div></div>
+      <div class="metric-box"><div class="num">0</div><div class="lbl">Con error</div></div>
+      <div class="metric-box"><div class="num">352</div><div class="lbl">Posts Grupo A (IA/Tech)</div></div>
+      <div class="metric-box"><div class="num">198</div><div class="lbl">Posts Grupo B (PYMEs)</div></div>
+    </div>
+
+    <div class="charts-row">
+      <div>
+        <h3 style="font-size:15px;margin:0 0 12px;">Distribución de tipos de contenido</h3>
+        <div class="chart-wrap">
+          <canvas id="chartTipos"></canvas>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:15px;margin:0 0 12px;">Engagement promedio por hashtag (Grupo A)</h3>
+        <div class="chart-wrap">
+          <canvas id="chartHt"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#f0f9ff;border-radius:10px;padding:18px;margin-top:8px;">
+      <h3 style="margin:0 0 10px;font-size:15px;color:#0369a1;">Hallazgos principales</h3>
+      <ul style="margin:0;padding-left:20px;line-height:1.7;font-size:14px;">
+        <li>El tipo de contenido predominante es <strong>Pregunta</strong> (183 posts).</li>
+        <li>El contenido <strong>Promocional</strong> representa el <strong>16.7%</strong> de los posts — alta competencia de oferta.</li>
+        <li>El contenido <strong>Educativo</strong> ocupa el <strong>0.9%</strong> — oportunidad para diferenciarse con contenido de valor.</li>
+        <li><strong>14</strong> posts mencionan WhatsApp como canal de ventas o atención.</li>
+        <li>Solo <strong>52</strong> posts mencionan DGII/facturación electrónica — nicho muy poco cubierto.</li>
+        <li>De los 198 posts PYMEs analizados, <strong>163 (82.3%)</strong> mencionan tecnología.</li>
+      </ul>
+    </div>
+
+    <h3 style="font-size:15px;margin:20px 0 12px;">Señales detectadas en captions</h3>
+    
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px;">
+      <div style="background:#fef3c7;padding:14px;border-radius:10px;text-align:center;">
+        <div style="font-size:24px;font-weight:bold;color:#d97706;">14</div>
+        <div style="font-size:12px;color:#78350f;margin-top:4px;">Mencionan WhatsApp como canal</div>
+      </div>
+      <div style="background:#fee2e2;padding:14px;border-radius:10px;text-align:center;">
+        <div style="font-size:24px;font-weight:bold;color:#dc2626;">52</div>
+        <div style="font-size:12px;color:#7f1d1d;margin-top:4px;">Mencionan DGII/eCF/facturación</div>
+      </div>
+      <div style="background:#dbeafe;padding:14px;border-radius:10px;text-align:center;">
+        <div style="font-size:24px;font-weight:bold;color:#1d4ed8;">116</div>
+        <div style="font-size:12px;color:#1e3a8a;margin-top:4px;">Expresan problema específico</div>
+      </div>
+      <div style="background:#d1fae5;padding:14px;border-radius:10px;text-align:center;">
+        <div style="font-size:24px;font-weight:bold;color:#065f46;">231</div>
+        <div style="font-size:12px;color:#064e3b;margin-top:4px;">Incluyen llamada a la acción</div>
+      </div>
+      <div style="background:#ede9fe;padding:14px;border-radius:10px;text-align:center;">
+        <div style="font-size:24px;font-weight:bold;color:#5b21b6;">13</div>
+        <div style="font-size:12px;color:#4c1d95;margin-top:4px;">Hacen pregunta directa</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Mapa de contenido -->
+  <div class="card" id="mapa">
+    <div class="section-title">2. Mapa de Contenido por Hashtag</div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Hashtag</th>
+            <th style="text-align:center;">Grupo</th>
+            <th style="text-align:right;">Posts</th>
+            <th style="text-align:right;">Engagement prom.</th>
+            <th>Tipo predominante</th>
+            <th>Distribución de tipos</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        <tr>
+          <td>#tecnologiard</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">12</td>
+          <td style="text-align:right;">2.2</td>
+          <td>Promocional</td>
+          <td style="font-size:12px;color:#666;">Promocional(8), Pregunta(2), Pain point(1), Tendencia(1)</td>
+        </tr>
+        <tr>
+          <td>#techrd</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">18</td>
+          <td style="text-align:right;">2.4</td>
+          <td>Pregunta</td>
+          <td style="font-size:12px;color:#666;">Pregunta(7), Promocional(7), Otro(2), Tendencia(1), Pain point(1)</td>
+        </tr>
+        <tr>
+          <td>#softwarerd</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">18</td>
+          <td style="text-align:right;">5.3</td>
+          <td>Pregunta</td>
+          <td style="font-size:12px;color:#666;">Pregunta(10), Pain point(4), Promocional(4)</td>
+        </tr>
+        <tr>
+          <td>#innovacionrd</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">27</td>
+          <td style="text-align:right;">6.2</td>
+          <td>Pregunta</td>
+          <td style="font-size:12px;color:#666;">Pregunta(8), Promocional(5), Otro(5), Pain point(4), Tendencia(3), Sin caption(2)</td>
+        </tr>
+        <tr>
+          <td>#digitalizacionrd</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">12</td>
+          <td style="text-align:right;">23.6</td>
+          <td>Pregunta</td>
+          <td style="font-size:12px;color:#666;">Pregunta(6), Testimonio(3), Promocional(2), Pain point(1)</td>
+        </tr>
+        <tr>
+          <td>#automatizacionrd</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">24</td>
+          <td style="text-align:right;">2.8</td>
+          <td>Pregunta</td>
+          <td style="font-size:12px;color:#666;">Pregunta(17), Otro(3), Pain point(2), Sin caption(1), Promocional(1)</td>
+        </tr>
+        <tr>
+          <td>#chatbotrd</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">24</td>
+          <td style="text-align:right;">10.5</td>
+          <td>Testimonio</td>
+          <td style="font-size:12px;color:#666;">Testimonio(13), Pregunta(6), Promocional(3), Otro(1), Tendencia(1)</td>
+        </tr>
+        <tr>
+          <td>#inteligenciaartificialrd</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">24</td>
+          <td style="text-align:right;">33.7</td>
+          <td>Pregunta</td>
+          <td style="font-size:12px;color:#666;">Pregunta(8), Otro(6), Pain point(5), Testimonio(3), Promocional(1), Tendencia(1)</td>
+        </tr>
+        <tr>
+          <td>#iard</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">27</td>
+          <td style="text-align:right;">3.0</td>
+          <td>Otro</td>
+          <td style="font-size:12px;color:#666;">Otro(14), Pregunta(8), Tendencia(3), Testimonio(2)</td>
+        </tr>
+        <tr>
+          <td>#ialatam</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">18</td>
+          <td style="text-align:right;">16.2</td>
+          <td>Pregunta</td>
+          <td style="font-size:12px;color:#666;">Pregunta(11), Tendencia(2), Otro(2), Pain point(1), Promocional(1), Testimonio(1)</td>
+        </tr>
+        <tr>
+          <td>#chatbotpymes</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">1</td>
+          <td style="text-align:right;">0.0</td>
+          <td>Sin caption</td>
+          <td style="font-size:12px;color:#666;">Sin caption(1)</td>
+        </tr>
+        <tr>
+          <td>#automatizacionpymes</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">30</td>
+          <td style="text-align:right;">3.4</td>
+          <td>Pregunta</td>
+          <td style="font-size:12px;color:#666;">Pregunta(14), Pain point(5), Sin caption(4), Otro(3), Promocional(3), Testimonio(1)</td>
+        </tr>
+        <tr>
+          <td>#iaparapymes</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">24</td>
+          <td style="text-align:right;">3.4</td>
+          <td>Pregunta</td>
+          <td style="font-size:12px;color:#666;">Pregunta(11), Otro(5), Testimonio(5), Promocional(1), Tendencia(1), Pain point(1)</td>
+        </tr>
+        <tr>
+          <td>#whatsapprd</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">12</td>
+          <td style="text-align:right;">49.6</td>
+          <td>Otro</td>
+          <td style="font-size:12px;color:#666;">Otro(6), Pregunta(3), Promocional(2), Sin caption(1)</td>
+        </tr>
+        <tr>
+          <td>#whatsappmarketing</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">21</td>
+          <td style="text-align:right;">1.7</td>
+          <td>Otro</td>
+          <td style="font-size:12px;color:#666;">Otro(8), Pregunta(8), Pain point(2), Tendencia(1), Educativo(1), Testimonio(1)</td>
+        </tr>
+        <tr>
+          <td>#whatsappbusinessrd</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">24</td>
+          <td style="text-align:right;">57.0</td>
+          <td>Promocional</td>
+          <td style="font-size:12px;color:#666;">Promocional(13), Otro(9), Pregunta(2)</td>
+        </tr>
+        <tr>
+          <td>#agentesia</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">15</td>
+          <td style="text-align:right;">1.0</td>
+          <td>Testimonio</td>
+          <td style="font-size:12px;color:#666;">Testimonio(4), Pain point(4), Otro(4), Pregunta(2), Tendencia(1)</td>
+        </tr>
+        <tr>
+          <td>#iachatbot</td>
+          <td style="text-align:center;"><span style="background:#6366f1;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">A</span></td>
+          <td style="text-align:right;">21</td>
+          <td style="text-align:right;">3.4</td>
+          <td>Pregunta</td>
+          <td style="font-size:12px;color:#666;">Pregunta(9), Otro(5), Pain point(4), Testimonio(2), Sin caption(1)</td>
+        </tr>
+        <tr>
+          <td>#emprendedoresrd</td>
+          <td style="text-align:center;"><span style="background:#10b981;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">B</span></td>
+          <td style="text-align:right;">24</td>
+          <td style="text-align:right;">2.0</td>
+          <td>Promocional</td>
+          <td style="font-size:12px;color:#666;">Promocional(10), Pregunta(7), Otro(3), Pain point(3), Tendencia(1)</td>
+        </tr>
+        <tr>
+          <td>#pymesrd</td>
+          <td style="text-align:center;"><span style="background:#10b981;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">B</span></td>
+          <td style="text-align:right;">27</td>
+          <td style="text-align:right;">13.8</td>
+          <td>Pregunta</td>
+          <td style="font-size:12px;color:#666;">Pregunta(9), Pain point(7), Promocional(4), Otro(4), Educativo(2), Tendencia(1)</td>
+        </tr>
+        <tr>
+          <td>#negociosrd</td>
+          <td style="text-align:center;"><span style="background:#10b981;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">B</span></td>
+          <td style="text-align:right;">27</td>
+          <td style="text-align:right;">0.7</td>
+          <td>Promocional</td>
+          <td style="font-size:12px;color:#666;">Promocional(14), Pregunta(7), Pain point(5), Otro(1)</td>
+        </tr>
+        <tr>
+          <td>#emprendimientord</td>
+          <td style="text-align:center;"><span style="background:#10b981;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">B</span></td>
+          <td style="text-align:right;">18</td>
+          <td style="text-align:right;">5.8</td>
+          <td>Otro</td>
+          <td style="font-size:12px;color:#666;">Otro(7), Pregunta(5), Promocional(2), Educativo(2), Pain point(2)</td>
+        </tr>
+        <tr>
+          <td>#pymesdominicanas</td>
+          <td style="text-align:center;"><span style="background:#10b981;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">B</span></td>
+          <td style="text-align:right;">24</td>
+          <td style="text-align:right;">3.8</td>
+          <td>Pregunta</td>
+          <td style="font-size:12px;color:#666;">Pregunta(12), Otro(8), Promocional(2), Pain point(2)</td>
+        </tr>
+        <tr>
+          <td>#reposteriard</td>
+          <td style="text-align:center;"><span style="background:#10b981;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">B</span></td>
+          <td style="text-align:right;">30</td>
+          <td style="text-align:right;">4.8</td>
+          <td>Otro</td>
+          <td style="font-size:12px;color:#666;">Otro(22), Promocional(6), Pregunta(2)</td>
+        </tr>
+        <tr>
+          <td>#beautyrd</td>
+          <td style="text-align:center;"><span style="background:#10b981;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">B</span></td>
+          <td style="text-align:right;">27</td>
+          <td style="text-align:right;">6.9</td>
+          <td>Otro</td>
+          <td style="font-size:12px;color:#666;">Otro(13), Testimonio(6), Pain point(3), Promocional(3), Pregunta(2)</td>
+        </tr>
+        <tr>
+          <td>#foodrd</td>
+          <td style="text-align:center;"><span style="background:#10b981;color:white;padding:2px 8px;border-radius:10px;font-size:11px;">B</span></td>
+          <td style="text-align:right;">21</td>
+          <td style="text-align:right;">10.5</td>
+          <td>Otro</td>
+          <td style="font-size:12px;color:#666;">Otro(11), Pregunta(7), Pain point(2), Testimonio(1)</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota">Engagement = likes + comentarios. El tipo predominante refleja la mayoría de posts clasificados en ese hashtag.</p>
+  </div>
+
+  <!-- 3. Top cuentas -->
+  <div class="card" id="cuentas">
+    <div class="section-title">3. Top 15 Cuentas — Posibles Competidores o Referentes</div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Cuenta</th>
+            <th style="text-align:right;">Posts en muestra</th>
+            <th style="text-align:right;">Engagement total</th>
+            <th>Hashtags usados</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        <tr>
+          <td><a href="https://www.instagram.com/gcoderd/" target="_blank" style="color:#6366f1;">@gcoderd</a></td>
+          <td style="text-align:right;">23</td>
+          <td style="text-align:right;">35</td>
+          <td style="font-size:12px;color:#666;">automatizacionrd, innovacionrd, softwarerd</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/sistemashd1/" target="_blank" style="color:#6366f1;">@sistemashd1</a></td>
+          <td style="text-align:right;">17</td>
+          <td style="text-align:right;">2</td>
+          <td style="font-size:12px;color:#666;">emprendedoresrd, negociosrd, pymesdominicanas, pymesrd, softwarerd +1 más</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/sendiurd/" target="_blank" style="color:#6366f1;">@sendiurd</a></td>
+          <td style="text-align:right;">17</td>
+          <td style="text-align:right;">1,182</td>
+          <td style="font-size:12px;color:#666;">whatsappbusinessrd</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/botpro_rd/" target="_blank" style="color:#6366f1;">@botpro_rd</a></td>
+          <td style="text-align:right;">13</td>
+          <td style="text-align:right;">72</td>
+          <td style="font-size:12px;color:#666;">chatbotrd, whatsappbusinessrd</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/kontab.do/" target="_blank" style="color:#6366f1;">@kontab.do</a></td>
+          <td style="text-align:right;">12</td>
+          <td style="text-align:right;">7</td>
+          <td style="font-size:12px;color:#666;">pymesdominicanas</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/jennreposteria/" target="_blank" style="color:#6366f1;">@jennreposteria</a></td>
+          <td style="text-align:right;">12</td>
+          <td style="text-align:right;">12</td>
+          <td style="font-size:12px;color:#666;">reposteriard</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/la.mediation.assurance_ci/" target="_blank" style="color:#6366f1;">@la.mediation.assurance_ci</a></td>
+          <td style="text-align:right;">11</td>
+          <td style="text-align:right;">0</td>
+          <td style="font-size:12px;color:#666;">iard</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/vozy_ia/" target="_blank" style="color:#6366f1;">@vozy_ia</a></td>
+          <td style="text-align:right;">9</td>
+          <td style="text-align:right;">14</td>
+          <td style="font-size:12px;color:#666;">inteligenciaartificialrd</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/quezada_consulting_group/" target="_blank" style="color:#6366f1;">@quezada_consulting_group</a></td>
+          <td style="text-align:right;">9</td>
+          <td style="text-align:right;">1</td>
+          <td style="font-size:12px;color:#666;">emprendedoresrd, negociosrd</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/mangusoftrd/" target="_blank" style="color:#6366f1;">@mangusoftrd</a></td>
+          <td style="text-align:right;">8</td>
+          <td style="text-align:right;">9</td>
+          <td style="font-size:12px;color:#666;">innovacionrd</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/optiai_/" target="_blank" style="color:#6366f1;">@optiai_</a></td>
+          <td style="text-align:right;">8</td>
+          <td style="text-align:right;">12</td>
+          <td style="font-size:12px;color:#666;">automatizacionpymes</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/eudouglascristhian/" target="_blank" style="color:#6366f1;">@eudouglascristhian</a></td>
+          <td style="text-align:right;">8</td>
+          <td style="text-align:right;">13</td>
+          <td style="font-size:12px;color:#666;">agentesia</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/stonenovatech/" target="_blank" style="color:#6366f1;">@stonenovatech</a></td>
+          <td style="text-align:right;">6</td>
+          <td style="text-align:right;">2</td>
+          <td style="font-size:12px;color:#666;">softwarerd, techrd</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/probiz.soluciones/" target="_blank" style="color:#6366f1;">@probiz.soluciones</a></td>
+          <td style="text-align:right;">6</td>
+          <td style="text-align:right;">3</td>
+          <td style="font-size:12px;color:#666;">chatbotrd</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.instagram.com/impeccarelj/" target="_blank" style="color:#6366f1;">@impeccarelj</a></td>
+          <td style="text-align:right;">6</td>
+          <td style="text-align:right;">0</td>
+          <td style="font-size:12px;color:#666;">emprendedoresrd, negociosrd</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota">Estas cuentas aparecen con mayor frecuencia en los hashtags analizados. Alta presencia = posibles competidores directos o productores de contenido influyentes en el nicho.</p>
+  </div>
+
+  <!-- 4. Pain points -->
+  <div class="card" id="painpoints">
+    <div class="section-title">4. Pain Points Detectados — Frases Reales</div>
+    <p style="color:#555;font-size:14px;margin-bottom:16px;">Posts donde el caption expresa un problema de negocio, dificultad o frustración. Ordenados por engagement.</p>
+    
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@mujeres_empresarias_rd</strong>
+            · #pymesrd
+            · ❤️ 186 💬 8
+            · <a href="https://www.instagram.com/p/DXfe6Z7jnRK/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"Créeme que es menos agotador cuando creas a partir de quien eres, de tu historia, de lo que te hace diferente, que persiguiendo tendencias , cada semana sale una nueva, mientras tu te diluyes. No quiero eso para ti. Quiero que abreces tu marca, desde..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@holagpt.ai</strong>
+            · #ialatam
+            · ❤️ 113 💬 0
+            · <a href="https://www.instagram.com/p/DXjXkCIgCwn/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"🌐 NADIE ESTÁ HACIENDO ESTO CON IA... Y TÚ PUEDES COBRAR $500 HOY  ¿Sabías que el 70% de los negocios locales en LATAM NO tiene página web?  Eso no es un problema. Es tu oportunidad.  Con IA puedes crear una web profesional en minutos y cobrar entre $..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@anje_rd</strong>
+            · #inteligenciaartificialrd
+            · ❤️ 36 💬 1
+            · <a href="https://www.instagram.com/p/DSAwbQkifmJ/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"IA, Datos y Talento Joven: La nueva arquitectura de competitividad empresarial en RD🚀🇩🇴  La inteligencia artificial y la analítica de datos están redefiniendo cómo emprenden y toman decisiones los jóvenes empresarios dominicanos. El reto va más allá ..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@helixcoding_</strong>
+            · #softwarerd
+            · ❤️ 17 💬 2
+            · <a href="https://www.instagram.com/p/DXIQUhfjg4R/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"Todo empieza con una idea. 💡  Nosotros nos encargamos del resto el código, la estructura, los detalles que hacen que todo funcione de verdad.  Somos Helix Coding: dos personas apasionadas por la tecnología que decidieron unir fuerzas para ayudar a ne..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@lanavedigitalrd</strong>
+            · #inteligenciaartificialrd
+            · ❤️ 17 💬 1
+            · <a href="https://www.instagram.com/p/DURMtBpDxNs/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"🤖 ¿ADAPTACIÓN O EXTINCIÓN DIGITAL? El desafío de la IA en RD. 🇩🇴  La llegada de la Inteligencia Artificial a la República Dominicana marca un punto de no retorno similar a la revolución de internet. Durante una entrevista en el programa Casos e Impac..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@marcosberasp</strong>
+            · #emprendimientord
+            · ❤️ 18 💬 0
+            · <a href="https://www.instagram.com/p/DXnFgasDwuk/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"Una idea cambia la vida de los dominicanos  Vivimos en un país donde, muchas veces, las malas noticias hacen más ruido que las buenas. Encendemos la televisión o abrimos las redes y parece que todo está mal… pero esa no es la única realidad.  Yo no v..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@dimapps</strong>
+            · #digitalizacionrd
+            · ❤️ 16 💬 1
+            · <a href="https://www.instagram.com/p/CLMGbOTCD0D/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"Dar a conocer tu tienda física, y ofrecer la posibilidad de realizar compras 🛍 a través del dispositivo electrónico más utilizado en los últimos tiempos 📱, posiciona tu negocio en un lugar privilegiado vs. tu competencia :   👉localización y guía GPS📍..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@squareonecafe</strong>
+            · #foodrd
+            · ❤️ 17 💬 0
+            · <a href="https://www.instagram.com/p/DXRzmI0k-bp/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"Yo con hambre no soy yo… soy un problema 😭🔥  #SquareOneRD #FoodRD"</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@1andremota</strong>
+            · #iachatbot
+            · ❤️ 8 💬 0
+            · <a href="https://www.instagram.com/p/DP7LoEdD9-O/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"A gente sabe que tempo é dinheiro, e lead perdido é prejuízo. 💸  Sua equipe não aguenta mais perder horas em conversas que não vão para a frente, e você está cansado de ver oportunidades boas “morrerem” no meio do caminho. A verdade é que a inteligên..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@rostroperfectord</strong>
+            · #beautyrd
+            · ❤️ 8 💬 0
+            · <a href="https://www.instagram.com/p/DXo0XXsAvBf/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"Elegancia que nunca falla 🤍✨  Uñas en tono nude con acabado brillante: limpias, sofisticadas y perfectas para cualquier ocasión. Un clásico que resalta la belleza natural de tus manos 💅  #RostroPerfectoRD #UñasElegantes #NudeNails #ManosPerfectas #Be..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@yessrose19</strong>
+            · #pymesrd
+            · ❤️ 7 💬 0
+            · <a href="https://www.instagram.com/p/DXiKirOkaYC/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"Si todavía estás dejando la facturación electrónica para después… este carrusel es para ti.  El problema no es que no sepas hacerlo. Es que lo sigues posponiendo.  Y mientras más lo dejas… más presión, más errores y más caro te puede salir.  📅 15 de ..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@digitbillrd</strong>
+            · #softwarerd
+            · ❤️ 4 💬 0
+            · <a href="https://www.instagram.com/p/DXm8Os9Edsc/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"⚠️ La facturación electrónica en RD ya no es opcional.  Si tu negocio no está preparado: ❌ Puedes recibir multas ❌ Puedes tener problemas con la DGII ❌ Puedes perder tiempo y dinero  🚀 Con DigitBillRD te activas en minutos: ✔️ Emite e-CF sin complica..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@hugosolutions_</strong>
+            · #softwarerd
+            · ❤️ 4 💬 0
+            · <a href="https://www.instagram.com/p/DXWpCtTDjCP/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"🚨 ¡Atención empresarios!  El tiempo se está agotando para convertirte en emisor electrónico  📄 Certifícate antes de la fecha límite y evita:  ⚠ Multas ⚠ Bloqueos ⚠ Problemas con la DGII  Con Hugo Solutions te ayudamos en TODO el proceso  ✔ Rápido ✔ S..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@gleidysramirezoficial</strong>
+            · #inteligenciaartificialrd
+            · ❤️ 3 💬 1
+            · <a href="https://www.instagram.com/p/DTq3zqKkW5W/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"La brecha entre quienes dominan su dinero y quienes solo lo ven pasar se llama “Ventaja Tecnológica”.  El desorden financiero genera una carga cognitiva que te quita energía para lo que realmente importa: tu negocio, tu carrera o tu familia. Si sient..."</div>
+        </div>
+        <div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:14px 16px;margin-bottom:12px;border-radius:0 8px 8px 0;">
+          <div style="font-size:13px;color:#555;margin-bottom:6px;">
+            <strong>@pricesol.cl</strong>
+            · #automatizacionpymes
+            · ❤️ 4 💬 0
+            · <a href="https://www.instagram.com/p/DXiEtlwDNCQ/" target="_blank" style="color:#6366f1;">Ver post</a>
+          </div>
+          <div style="font-size:14px;color:#1a1a1a;font-style:italic;">"Hace poco hablé con el fundador de una startup que llevaba ocho meses esperando un sistema que nunca funcionó como esperaba. No era un tema de presupuesto. Era que contrató a alguien que desapareció después de la entrega. Un proveedor cumple un alcan..."</div>
+        </div>
+  </div>
+
+  <!-- 5. Oportunidades -->
+  <div class="card" id="oportunidades">
+    <div class="section-title">5. Oportunidades de Contenido</div>
+    
+        <div class="oport-item" style="border-left-color:#6366f1;">
+          <strong style="color:#6366f1;">1. Déficit de contenido educativo de calidad</strong>
+          <p style="margin:6px 0 0;font-size:14px;color:#374151;">Solo el 1% del contenido es educativo. Publicar guías, explicaciones simples y tutoriales sobre IA y automatización para PYMEs dominicanas tiene baja competencia y alto potencial de engagement.</p>
+        </div>
+        <div class="oport-item" style="border-left-color:#10b981;">
+          <strong style="color:#10b981;">2. WhatsApp como canal — audiencia ya convencida</strong>
+          <p style="margin:6px 0 0;font-size:14px;color:#374151;">14 posts ya usan WhatsApp como canal. La audiencia está familiarizada — hay oportunidad para contenido que muestre cómo automatizar WhatsApp con chatbots para PYMEs.</p>
+        </div>
+        <div class="oport-item" style="border-left-color:#3b82f6;">
+          <strong style="color:#3b82f6;">3. Escasez de casos de éxito y testimonios</strong>
+          <p style="margin:6px 0 0;font-size:14px;color:#374151;">Solo el 8% del contenido son testimonios. Los casos de éxito reales de PYMEs dominicanas usando IA/automatización son casi inexistentes — publicar uno bien documentado puede convertirse en viral.</p>
+        </div>
+        <div class="oport-item" style="border-left-color:#f97316;">
+          <strong style="color:#f97316;">4. Contenido que apela a dolores reales — muy poco usado</strong>
+          <p style="margin:6px 0 0;font-size:14px;color:#374151;">Solo el 11% del contenido habla de problemas reales. Los posts que nombran dolores específicos (tiempo perdido, errores manuales, costos altos) generan alta identificación con la audiencia PYME.</p>
+        </div>
+  </div>
+
+  <!-- 6. Posts más virales -->
+  <div class="card" id="virales">
+    <div class="section-title">6. Posts Más Virales — Top 10 por Engagement</div>
+    
+        <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <div>
+              <span style="background:#6366f1;color:white;padding:4px 10px;border-radius:12px;font-size:13px;font-weight:bold;">#1</span>
+              <span style="margin-left:10px;font-weight:bold;">@indotelrd</span>
+              <span style="margin-left:8px;font-size:12px;color:#888;">#inteligenciaartificialrd</span>
+            </div>
+            <div style="text-align:right;font-size:13px;">
+              <span style="color:#e1306c;">❤️ 591</span>
+              <span style="color:#555;margin-left:8px;">💬 38</span>
+              <br><strong>Engagement: 629</strong>
+            </div>
+          </div>
+          <div style="font-size:14px;color:#374151;margin-bottom:10px;line-height:1.5;">
+            Con el objetivo de fortalecer el desarrollo del ecosistema de inteligente artificial 🤖 de nuestro país, firmamos un acuerdo de cooperación con el Centro de Inteligencia Pública (CIP). &lt;br&gt;&lt;br&gt;Con esta alianza estratégica, nace la Academia de Inteligencia Artificial 🎓 para formar talento técnico 💡 y promover la alfabetización digital 📱 en diversos sectores de la sociedad.&lt;br&gt;&lt;br&gt;Nuestro presidente, Guido Gómez...
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <span style="background:#f3f4f6;padding:3px 10px;border-radius:10px;font-size:12px;">Otro</span>
+            <a href="https://www.instagram.com/p/DP2AgLkD_gQ/" target="_blank" style="color:#6366f1;font-size:13px;">Ver en Instagram →</a>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#f0f9ff;border-radius:8px;font-size:13px;color:#0369a1;">
+            <strong>Análisis:</strong> Alto ratio likes/comentarios — contenido visualmente atractivo o muy relatable · Caption largo y detallado — audiencia comprometida
+          </div>
+        </div>
+        <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <div>
+              <span style="background:#6366f1;color:white;padding:4px 10px;border-radius:12px;font-size:13px;font-weight:bold;">#2</span>
+              <span style="margin-left:10px;font-weight:bold;">@sendiurd</span>
+              <span style="margin-left:8px;font-size:12px;color:#888;">#whatsappbusinessrd</span>
+            </div>
+            <div style="text-align:right;font-size:13px;">
+              <span style="color:#e1306c;">❤️ 610</span>
+              <span style="color:#555;margin-left:8px;">💬 0</span>
+              <br><strong>Engagement: 610</strong>
+            </div>
+          </div>
+          <div style="font-size:14px;color:#374151;margin-bottom:10px;line-height:1.5;">
+            ¿SABÍAS QUÉ?👋🏻🟢 A través del WhatsApp Business con un perfil empresarial puedes interactuar con tus clientes de forma más rápida y segura.&lt;br&gt;&lt;br&gt;Intercambia información de forma más rápida y directa con los usuarios y facilita la comunicación interna en la empresa.&lt;br&gt;&lt;br&gt;¡Contáctanos  y entérate de las oportunidades que te ofrece adquirir un WhatsApp Business para tu empresa! #whatsappbusinessapi #whatsappb...
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <span style="background:#f3f4f6;padding:3px 10px;border-radius:10px;font-size:12px;">Pregunta</span>
+            <a href="https://www.instagram.com/p/CSFTpBfLM_n/" target="_blank" style="color:#6366f1;font-size:13px;">Ver en Instagram →</a>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#f0f9ff;border-radius:8px;font-size:13px;color:#0369a1;">
+            <strong>Análisis:</strong> Alto ratio likes/comentarios — contenido visualmente atractivo o muy relatable · Incluye pregunta al lector — fomenta participación
+          </div>
+        </div>
+        <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <div>
+              <span style="background:#6366f1;color:white;padding:4px 10px;border-radius:12px;font-size:13px;font-weight:bold;">#3</span>
+              <span style="margin-left:10px;font-weight:bold;">@sendiurd</span>
+              <span style="margin-left:8px;font-size:12px;color:#888;">#whatsappbusinessrd</span>
+            </div>
+            <div style="text-align:right;font-size:13px;">
+              <span style="color:#e1306c;">❤️ 445</span>
+              <span style="color:#555;margin-left:8px;">💬 0</span>
+              <br><strong>Engagement: 445</strong>
+            </div>
+          </div>
+          <div style="font-size:14px;color:#374151;margin-bottom:10px;line-height:1.5;">
+            😮¡Todos tus clientes pueden ser atendidos de manera simultánea! ⁣&lt;br&gt;⁣&lt;br&gt;👉No pierdas ni una sola venta y 𝐨𝐩𝐭𝐢𝐦𝐢𝐳𝐚 𝐞𝐥 𝐬𝐞𝐫𝐯𝐢𝐜𝐢𝐨 𝐚𝐥 𝐜𝐥𝐢𝐞𝐧𝐭𝐞 𝐝𝐞 𝐭𝐮 𝐞𝐦𝐩𝐫𝐞𝐬𝐚 𝐜𝐨𝐧 𝗪𝐡𝐚𝐭𝐬𝐀𝐩𝐩 𝐂𝐨𝐧𝐭𝐚𝐜𝐭 𝐂𝐞𝐧𝐭𝐞𝐫, que te permitirá intercambiar información directamente con tus usuarios y facilitará la comunicación interna de tu empresa. ⁣&lt;br&gt;⁣&lt;br&gt;¡Contáctanos y adquiere todos los beneficios de WhatsApp Business para tu empresa! ⁣&lt;br&gt;📧info@sendiu...
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <span style="background:#f3f4f6;padding:3px 10px;border-radius:10px;font-size:12px;">Promocional</span>
+            <a href="https://www.instagram.com/p/CT2RHaEtqa7/" target="_blank" style="color:#6366f1;font-size:13px;">Ver en Instagram →</a>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#f0f9ff;border-radius:8px;font-size:13px;color:#0369a1;">
+            <strong>Análisis:</strong> Alto ratio likes/comentarios — contenido visualmente atractivo o muy relatable · Caption largo y detallado — audiencia comprometida
+          </div>
+        </div>
+        <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <div>
+              <span style="background:#6366f1;color:white;padding:4px 10px;border-radius:12px;font-size:13px;font-weight:bold;">#4</span>
+              <span style="margin-left:10px;font-weight:bold;">@latriciclerard</span>
+              <span style="margin-left:8px;font-size:12px;color:#888;">#digitalizacionrd</span>
+            </div>
+            <div style="text-align:right;font-size:13px;">
+              <span style="color:#e1306c;">❤️ 199</span>
+              <span style="color:#555;margin-left:8px;">💬 11</span>
+              <br><strong>Engagement: 210</strong>
+            </div>
+          </div>
+          <div style="font-size:14px;color:#374151;margin-bottom:10px;line-height:1.5;">
+            El futuro que queremos es una mezcla inteligente entre tradición e innovación. &lt;br&gt;@somosmio se dedica a innovar el mercado dominicano ofreciendo servicios de pago digital de última generación. &lt;br&gt;La Triciclera se dedica a producir artesanalmente triciclos y carritos comerciales y de otro tipo, esperando ser digna de la tradición dominicana que ha hecho del triciclo una marca País. &lt;br&gt;Aquí el resultado, ...
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <span style="background:#f3f4f6;padding:3px 10px;border-radius:10px;font-size:12px;">Pregunta</span>
+            <a href="https://www.instagram.com/p/CUDDs4rLcSB/" target="_blank" style="color:#6366f1;font-size:13px;">Ver en Instagram →</a>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#f0f9ff;border-radius:8px;font-size:13px;color:#0369a1;">
+            <strong>Análisis:</strong> Alto ratio likes/comentarios — contenido visualmente atractivo o muy relatable · Incluye pregunta al lector — fomenta participación · Narrativa de transformación — genera aspiración
+          </div>
+        </div>
+        <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <div>
+              <span style="background:#6366f1;color:white;padding:4px 10px;border-radius:12px;font-size:13px;font-weight:bold;">#5</span>
+              <span style="margin-left:10px;font-weight:bold;">@creacionesljg</span>
+              <span style="margin-left:8px;font-size:12px;color:#888;">#whatsapprd</span>
+            </div>
+            <div style="text-align:right;font-size:13px;">
+              <span style="color:#e1306c;">❤️ 177</span>
+              <span style="color:#555;margin-left:8px;">💬 24</span>
+              <br><strong>Engagement: 201</strong>
+            </div>
+          </div>
+          <div style="font-size:14px;color:#374151;margin-bottom:10px;line-height:1.5;">
+            Cajitas de dulces de Plim Plim 💙🎈&lt;br&gt;¡El detalle perfecto para un cumpleaños lleno de alegría!&lt;br&gt;&lt;br&gt;✨ Personalizadas&lt;br&gt;✨ Hermosas y coloridas&lt;br&gt;✨ Listas para sorprender&lt;br&gt;&lt;br&gt;📩 Haz tu pedido por WhatsApp&lt;br&gt;&lt;br&gt;#PlimPlim #CajitasDulces #FiestaInfantil #DetallesRD #CumpleañosRD #HechoAMano #Personalizados #PartyFavor #VentaRD #WhatsAppRD #HazTuPedido #EncargaYa #ParaTuFiesta #ClientesFelices #Disponible #EmprendeRD #Dul...
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <span style="background:#f3f4f6;padding:3px 10px;border-radius:10px;font-size:12px;">Otro</span>
+            <a href="https://www.instagram.com/p/DXX9oZRkbvf/" target="_blank" style="color:#6366f1;font-size:13px;">Ver en Instagram →</a>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#f0f9ff;border-radius:8px;font-size:13px;color:#0369a1;">
+            <strong>Análisis:</strong> Alto ratio likes/comentarios — contenido visualmente atractivo o muy relatable · Menciona algo gratuito — alta atracción
+          </div>
+        </div>
+        <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <div>
+              <span style="background:#6366f1;color:white;padding:4px 10px;border-radius:12px;font-size:13px;font-weight:bold;">#6</span>
+              <span style="margin-left:10px;font-weight:bold;">@mujeres_empresarias_rd</span>
+              <span style="margin-left:8px;font-size:12px;color:#888;">#pymesrd</span>
+            </div>
+            <div style="text-align:right;font-size:13px;">
+              <span style="color:#e1306c;">❤️ 186</span>
+              <span style="color:#555;margin-left:8px;">💬 8</span>
+              <br><strong>Engagement: 194</strong>
+            </div>
+          </div>
+          <div style="font-size:14px;color:#374151;margin-bottom:10px;line-height:1.5;">
+            Créeme que es menos agotador cuando creas a partir de quien eres, de tu historia, de lo que te hace diferente, que persiguiendo tendencias , cada semana sale una nueva, mientras tu te diluyes. No quiero eso para ti. Quiero que abreces tu marca, desde quien eres, así es como nos vas a conquistar. &lt;br&gt;&lt;br&gt;#mujeresempresarias #marcasdominicanas #pymesrd
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <span style="background:#f3f4f6;padding:3px 10px;border-radius:10px;font-size:12px;">Pain point</span>
+            <a href="https://www.instagram.com/p/DXfe6Z7jnRK/" target="_blank" style="color:#6366f1;font-size:13px;">Ver en Instagram →</a>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#f0f9ff;border-radius:8px;font-size:13px;color:#0369a1;">
+            <strong>Análisis:</strong> Alto ratio likes/comentarios — contenido visualmente atractivo o muy relatable · Apela a un dolor real — alta identificación de la audiencia
+          </div>
+        </div>
+        <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <div>
+              <span style="background:#6366f1;color:white;padding:4px 10px;border-radius:12px;font-size:13px;font-weight:bold;">#7</span>
+              <span style="margin-left:10px;font-weight:bold;">@empleosbarahona</span>
+              <span style="margin-left:8px;font-size:12px;color:#888;">#whatsapprd</span>
+            </div>
+            <div style="text-align:right;font-size:13px;">
+              <span style="color:#e1306c;">❤️ 177</span>
+              <span style="color:#555;margin-left:8px;">💬 8</span>
+              <br><strong>Engagement: 185</strong>
+            </div>
+          </div>
+          <div style="font-size:14px;color:#374151;margin-bottom:10px;line-height:1.5;">
+            Oportunidades de empleos. 🔔 ¡Entérate primero!&lt;br&gt;Únete a nuestro grupo de WhatsApp de Empleos y Promociones Barahona 💼🔥&lt;br&gt;&lt;br&gt;📢 Vacantes&lt;br&gt;🎯 Ofertas&lt;br&gt;💡 Oportunidades reales&lt;br&gt;&lt;br&gt;👉 Recibe toda la información de primero y no te quedes fuera.&lt;br&gt;&lt;br&gt;📲 Link en la bio &lt;br&gt;&lt;br&gt;#EmpleosBarahona #PromocionesBarahona #Oportunidades #WhatsAppRD Barahona
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <span style="background:#f3f4f6;padding:3px 10px;border-radius:10px;font-size:12px;">Otro</span>
+            <a href="https://www.instagram.com/p/DU4QdneEV0-/" target="_blank" style="color:#6366f1;font-size:13px;">Ver en Instagram →</a>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#f0f9ff;border-radius:8px;font-size:13px;color:#0369a1;">
+            <strong>Análisis:</strong> Alto ratio likes/comentarios — contenido visualmente atractivo o muy relatable · Narrativa de transformación — genera aspiración
+          </div>
+        </div>
+        <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <div>
+              <span style="background:#6366f1;color:white;padding:4px 10px;border-radius:12px;font-size:13px;font-weight:bold;">#8</span>
+              <span style="margin-left:10px;font-weight:bold;">@holagpt.ai</span>
+              <span style="margin-left:8px;font-size:12px;color:#888;">#ialatam</span>
+            </div>
+            <div style="text-align:right;font-size:13px;">
+              <span style="color:#e1306c;">❤️ 161</span>
+              <span style="color:#555;margin-left:8px;">💬 0</span>
+              <br><strong>Engagement: 161</strong>
+            </div>
+          </div>
+          <div style="font-size:14px;color:#374151;margin-bottom:10px;line-height:1.5;">
+            🤖 SISTEMA EXPRESS: Automatiza tu WhatsApp en 5 minutos&lt;br&gt;&lt;br&gt;Mientras tú duermes, tu negocio responde, vende y cierra clientes. Esto ya está funcionando.&lt;br&gt;&lt;br&gt;✅ Conecta tu WhatsApp Business&lt;br&gt;✅ La IA aprende tus preguntas frecuentes&lt;br&gt;✅ Respuestas automáticas 24/7 desde el primer día&lt;br&gt;&lt;br&gt;No necesitas experiencia. Te toma 5 minutos. Hazlo hoy.&lt;br&gt;&lt;br&gt;📲 Configúralo hoy en HolaGPT → holagpt.com&lt;br&gt;&lt;br&gt;#HolaGPT #AutomatizacionIA...
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <span style="background:#f3f4f6;padding:3px 10px;border-radius:10px;font-size:12px;">Otro</span>
+            <a href="https://www.instagram.com/p/DXe_c23lVWa/" target="_blank" style="color:#6366f1;font-size:13px;">Ver en Instagram →</a>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#f0f9ff;border-radius:8px;font-size:13px;color:#0369a1;">
+            <strong>Análisis:</strong> Alto ratio likes/comentarios — contenido visualmente atractivo o muy relatable · Caption largo y detallado — audiencia comprometida
+          </div>
+        </div>
+        <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <div>
+              <span style="background:#6366f1;color:white;padding:4px 10px;border-radius:12px;font-size:13px;font-weight:bold;">#9</span>
+              <span style="margin-left:10px;font-weight:bold;">@officialricardocanela</span>
+              <span style="margin-left:8px;font-size:12px;color:#888;">#chatbotrd</span>
+            </div>
+            <div style="text-align:right;font-size:13px;">
+              <span style="color:#e1306c;">❤️ 142</span>
+              <span style="color:#555;margin-left:8px;">💬 18</span>
+              <br><strong>Engagement: 160</strong>
+            </div>
+          </div>
+          <div style="font-size:14px;color:#374151;margin-bottom:10px;line-height:1.5;">
+            Hoy fuimos testigos de un paso firme hacia el futuro. 📲🇩🇴&lt;br&gt;En el Consulado General de la República Dominicana en Miami @rdenmiami se presentó oficialmente el Call Center y ChatBot de la sede consular, una iniciativa de la honorable Cónsul Dra. Geanilda Vásquez @vasquezgeanilda con la visión de brindar un servicio más eficiente, moderno y humano a nuestra comunidad dominicana en el exterior.&lt;br&gt;&lt;br&gt;Este a...
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <span style="background:#f3f4f6;padding:3px 10px;border-radius:10px;font-size:12px;">Testimonio</span>
+            <a href="https://www.instagram.com/p/DMgbJDrJ1oX/" target="_blank" style="color:#6366f1;font-size:13px;">Ver en Instagram →</a>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#f0f9ff;border-radius:8px;font-size:13px;color:#0369a1;">
+            <strong>Análisis:</strong> Alto ratio likes/comentarios — contenido visualmente atractivo o muy relatable · Caption largo y detallado — audiencia comprometida · Testimonio real — genera confianza y credibilidad
+          </div>
+        </div>
+        <div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <div>
+              <span style="background:#6366f1;color:white;padding:4px 10px;border-radius:12px;font-size:13px;font-weight:bold;">#10</span>
+              <span style="margin-left:10px;font-weight:bold;">@strategicpowerconsultingrd</span>
+              <span style="margin-left:8px;font-size:12px;color:#888;">#whatsappbusinessrd</span>
+            </div>
+            <div style="text-align:right;font-size:13px;">
+              <span style="color:#e1306c;">❤️ 143</span>
+              <span style="color:#555;margin-left:8px;">💬 0</span>
+              <br><strong>Engagement: 143</strong>
+            </div>
+          </div>
+          <div style="font-size:14px;color:#374151;margin-bottom:10px;line-height:1.5;">
+            💬 WhatsApp Business no es solo una aplicación de mensajería, es una herramienta poderosa para conectar con tus clientes de manera efectiva.&lt;br&gt;&lt;br&gt;▪️Te permite ofrecer un servicio al cliente más personalizado, compartir información relevante y crear relaciones más sólidas.&lt;br&gt;&lt;br&gt; ¡Descubre cómo WhatsApp Business puede impulsar tu negocio y mejorar la comunicación con tus clientes! 💬📈 &lt;br&gt;&lt;br&gt;#WhatsAppBusiness #Com...
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <span style="background:#f3f4f6;padding:3px 10px;border-radius:10px;font-size:12px;">Promocional</span>
+            <a href="https://www.instagram.com/p/Cx8XOtELPpL/" target="_blank" style="color:#6366f1;font-size:13px;">Ver en Instagram →</a>
+          </div>
+          <div style="margin-top:10px;padding:10px;background:#f0f9ff;border-radius:8px;font-size:13px;color:#0369a1;">
+            <strong>Análisis:</strong> Alto ratio likes/comentarios — contenido visualmente atractivo o muy relatable · Caption largo y detallado — audiencia comprometida
+          </div>
+        </div>
+  </div>
+
+  <!-- 7. Grupo B -->
+  <div class="card" id="pymesb">
+    <div class="section-title">7. Grupo B — PYMEs Dominicanas Hablando de Tecnología</div>
+
+    <div class="metric-grid">
+      <div class="metric-box"><div class="num">198</div><div class="lbl">Posts PYMEs analizados</div></div>
+      <div class="metric-box"><div class="num">163</div><div class="lbl">Mencionan tecnología</div></div>
+      <div class="metric-box"><div class="num">82.3%</div><div class="lbl">Penetración tech en PYMEs</div></div>
+    </div>
+
+    <p style="font-size:14px;color:#555;margin-bottom:16px;">
+      Las PYMEs dominicanas <strong>sí mencionan tecnología</strong> en sus posts, aunque de forma limitada. Ver ejemplos abajo.
+    </p>
+
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Hashtag</th>
+            <th>Cuenta</th>
+            <th>Caption (extracto)</th>
+            <th style="text-align:right;">Engagement</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        <tr>
+          <td>emprendedoresrd</td>
+          <td><a href="https://www.instagram.com/impeccarelj/" target="_blank" style="color:#6366f1;">@impeccarelj</a></td>
+          <td style="font-size:12px;color:#555;">😂 Tipos de clientes en limpieza… ¿cuál eres tú?  🔍 El exigente: no se le escapa ni el más mínimo detalle 😌 El relajado: confía y deja todo en nuestras manos 👻 El desaparecido: aparece cuando más nos n...</td>
+          <td style="text-align:right;">0</td>
+          <td><a href="https://www.instagram.com/p/DXphmuuGhUX/" target="_blank" style="color:#6366f1;font-size:12px;">Ver</a></td>
+        </tr>
+        <tr>
+          <td>emprendedoresrd</td>
+          <td><a href="https://www.instagram.com/caribbeancopiers/" target="_blank" style="color:#6366f1;">@caribbeancopiers</a></td>
+          <td style="font-size:12px;color:#555;">🔥 ¡OFERTA ACTIVA! 🔥 Lleva tus rollos DTF y equipa tu taller con materiales de calidad 💪  🧾 Rollos DTF desde RD$2,600 🎨 Tintas DTF desde RD$1,100 🧂 Poliamida desde RD$550 el kilo  Ideal para emprendedo...</td>
+          <td style="text-align:right;">1</td>
+          <td><a href="https://www.instagram.com/p/DXpgnQxkS1q/" target="_blank" style="color:#6366f1;font-size:12px;">Ver</a></td>
+        </tr>
+        <tr>
+          <td>emprendedoresrd</td>
+          <td><a href="https://www.instagram.com/sistemashd1/" target="_blank" style="color:#6366f1;">@sistemashd1</a></td>
+          <td style="font-size:12px;color:#555;">¿Llevas tus cuentas en un cuaderno? Es hora de profesionalizarte con nuestro Combo de Facturación Esencial. Diseñado para colmados, tiendas pequeñas y emprendimientos que necesitan eficiencia al mejor...</td>
+          <td style="text-align:right;">0</td>
+          <td><a href="https://www.instagram.com/p/DXpfxH2j4kv/" target="_blank" style="color:#6366f1;font-size:12px;">Ver</a></td>
+        </tr>
+        <tr>
+          <td>emprendedoresrd</td>
+          <td><a href="https://www.instagram.com/sistemashd1/" target="_blank" style="color:#6366f1;">@sistemashd1</a></td>
+          <td style="font-size:12px;color:#555;">¿Buscas una solución económica pero completa para tu punto de venta? Nuestro Combo de Facturación básico es la respuesta perfecta para pequeños negocios y emprendedores.  Lo que incluye: ✅ Computadora...</td>
+          <td style="text-align:right;">1</td>
+          <td><a href="https://www.instagram.com/p/DXpez7oD6mF/" target="_blank" style="color:#6366f1;font-size:12px;">Ver</a></td>
+        </tr>
+        <tr>
+          <td>emprendedoresrd</td>
+          <td><a href="https://www.instagram.com/rinconcitoreposterord/" target="_blank" style="color:#6366f1;">@rinconcitoreposterord</a></td>
+          <td style="font-size:12px;color:#555;">La espátula correcta hace la diferencia, disponible en nuestra tienda.   📍Visítanos y lleva tu creatividad al siguiente nivel.  #Repostería #SuministrosDeRepostería #PasteleríaCreativa #CakeTools #Emp...</td>
+          <td style="text-align:right;">0</td>
+          <td><a href="https://www.instagram.com/p/DXpeDkNgX-z/" target="_blank" style="color:#6366f1;font-size:12px;">Ver</a></td>
+        </tr>
+        <tr>
+          <td>emprendedoresrd</td>
+          <td><a href="https://www.instagram.com/sistemashd1/" target="_blank" style="color:#6366f1;">@sistemashd1</a></td>
+          <td style="font-size:12px;color:#555;">Deja de comprar piezas por separado y de lidiar con instalaciones complicadas. Con nuestro Combo Pro, recibes una solución completa para empezar a facturar desde el primer minuto.  ¿Qué incluye este o...</td>
+          <td style="text-align:right;">0</td>
+          <td><a href="https://www.instagram.com/p/DXpdwMsD-qm/" target="_blank" style="color:#6366f1;font-size:12px;">Ver</a></td>
+        </tr>
+        <tr>
+          <td>emprendedoresrd</td>
+          <td><a href="https://www.instagram.com/sistemashd1/" target="_blank" style="color:#6366f1;">@sistemashd1</a></td>
+          <td style="font-size:12px;color:#555;">Presentamos la nueva versión de Préstamos Plus RD, diseñada para prestamistas que buscan modernidad, control y movilidad. No importa si estás en la oficina o en la calle, tu negocio va contigo.  ✨ ¿Qu...</td>
+          <td style="text-align:right;">0</td>
+          <td><a href="https://www.instagram.com/p/DXpdR9zD8Jw/" target="_blank" style="color:#6366f1;font-size:12px;">Ver</a></td>
+        </tr>
+        <tr>
+          <td>emprendedoresrd</td>
+          <td><a href="https://www.instagram.com/sistemashd1/" target="_blank" style="color:#6366f1;">@sistemashd1</a></td>
+          <td style="font-size:12px;color:#555;">¿Cansado de no saber exactamente cuánto vendes o qué tienes en inventario? Con FacturandoRD, simplificas tu administración para que puedas enfocarte en lo que realmente importa: hacer crecer tu empres...</td>
+          <td style="text-align:right;">0</td>
+          <td><a href="https://www.instagram.com/p/DXpa9LPD43N/" target="_blank" style="color:#6366f1;font-size:12px;">Ver</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 8. Metodología -->
+  <div class="card" id="metodologia">
+    <div class="section-title">8. Metodología y Limitaciones</div>
+
+    <h3 style="font-size:15px;margin:0 0 10px;">Metodología</h3>
+    <ul style="font-size:14px;line-height:1.8;margin:0 0 16px;padding-left:20px;">
+      <li><strong>Fuente:</strong> Instagram via Apify Actor <code>apify/instagram-hashtag-scraper</code></li>
+      <li><strong>Grupo A (IA/Tech/Automatización):</strong> 18 hashtags × máximo 40 posts = hasta 720 posts objetivo</li>
+      <li><strong>Grupo B (PYMEs RD):</strong> 8 hashtags × máximo 30 posts = hasta 240 posts objetivo</li>
+      <li><strong>Posts reales obtenidos:</strong> 550 (0 hashtags fallaron)</li>
+      <li><strong>Clasificación de contenido:</strong> Algoritmo de regex sobre captions en español — no es ML, puede tener falsos positivos</li>
+      <li><strong>Señales:</strong> Detección por patrones de palabras clave en texto del caption</li>
+      <li><strong>Fecha de recolección:</strong> 2026-04-27 16:42</li>
+    </ul>
+
+    <h3 style="font-size:15px;margin:16px 0 10px;">Limitaciones</h3>
+    <ul style="font-size:14px;line-height:1.8;margin:0 0 16px;padding-left:20px;">
+      <li><strong>Sesgo de plataforma:</strong> Instagram muestra resultados distintos según la ubicación y el historial del scraper. No refleja el 100% del contenido.</li>
+      <li><strong>Muestra limitada:</strong> El límite de posts por hashtag es 40/30. Los hashtags con millones de posts solo muestran los más recientes o populares.</li>
+      <li><strong>Clasificación automática:</strong> El algoritmo de regex tiene ~70-80% de precisión estimada. Posts con captions ambiguos o en inglés pueden clasificarse como "Otro".</li>
+      <li><strong>Sin datos de alcance real:</strong> Instagram no expone el reach orgánico; solo se puede medir engagement (likes + comentarios).</li>
+      <li><strong>Hashtags con poca actividad:</strong> Algunos hashtags muy específicos (ej. #chatbotrd, #whatsappbusinessrd) pueden tener muy pocos posts genuinos.</li>
+      <li><strong>Captions truncados:</strong> Los captions se almacenan hasta 1,500 caracteres para mantener el JSON manejable.</li>
+      <li><strong>Riesgo de cuentas spam:</strong> Algunos posts en hashtags populares son spam o contenido no relacionado.</li>
+    </ul>
+
+    <h3 style="font-size:15px;margin:16px 0 10px;">Hashtags con errores (0)</h3>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr><th>Hashtag</th><th>Grupo</th><th>Error</th></tr>
+        </thead>
+        <tbody>
+          <tr><td colspan='3' style='color:#16a34a;text-align:center;'>Todos los hashtags se procesaron sin errores.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+// Gráfica de tipos de contenido (doughnut)
+new Chart(document.getElementById('chartTipos'), {
+  type: 'doughnut',
+  data: {
+    labels: ["Promocional", "Pregunta", "Pain point", "Tendencia", "Otro", "Sin caption", "Testimonio", "Educativo"],
+    datasets: [{
+      data: [92, 183, 59, 17, 142, 10, 42, 5],
+      backgroundColor: ["#6366f1", "#10b981", "#f59e0b", "#ef4444", "#3b82f6", "#8b5cf6", "#14b8a6", "#f97316"],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 12 } } },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.label}: ${ctx.parsed} posts (${Math.round(ctx.parsed/ctx.dataset.data.reduce((a,b)=>a+b,0)*100)}%)`
+        }
+      }
+    }
+  }
+});
+
+// Gráfica de engagement por hashtag
+new Chart(document.getElementById('chartHt'), {
+  type: 'bar',
+  data: {
+    labels: ["#whatsappbusinessrd", "#whatsapprd", "#inteligenciaartificialrd", "#digitalizacionrd", "#ialatam", "#chatbotrd", "#innovacionrd", "#softwarerd", "#automatizacionpymes", "#iaparapymes", "#iachatbot", "#iard", "#automatizacionrd", "#techrd", "#tecnologiard"],
+    datasets: [{
+      label: 'Engagement promedio',
+      data: [57.0, 49.6, 33.7, 23.6, 16.2, 10.5, 6.2, 5.3, 3.4, 3.4, 3.4, 3.0, 2.8, 2.4, 2.2],
+      backgroundColor: '#6366f1',
+      borderRadius: 5,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+    },
+    scales: {
+      x: { beginAtZero: true }
+    }
+  }
+});
+</script>
+
+<a href="index_aaas.html" title="Volver al índice" style="position:fixed;bottom:24px;right:24px;background:#FF4B2B;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:11px 20px;border-radius:99px;text-decoration:none;z-index:9999;box-shadow:0 4px 24px rgba(255,75,43,.45);letter-spacing:.04em">&#8592; Índice</a>
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AaaS RD · Inteligencia Multi-Canal · Foam Creativo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy:#0A0E27; --navy-2:#141A3B; --navy-3:#1E2654;
+  --orange:#FF4B2B; --orange-2:#FF7A45;
+  --gold:#D4AF37; --teal:#14B8A6; --purple:#8B5CF6; --red:#EF4444; --green:#22C55E; --amber:#F59E0B;
+  --text:#E8EAF3; --muted:#9AA0BF; --border:rgba(255,255,255,.08); --card:rgba(255,255,255,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.02em}
+section{padding:90px 6vw;max-width:1400px;margin:0 auto}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);padding:6px 14px;border:1px solid var(--orange);border-radius:99px;margin-bottom:18px}
+.hero{background:radial-gradient(ellipse at top right,rgba(255,75,43,.18),transparent 55%),radial-gradient(ellipse at bottom left,rgba(212,175,55,.12),transparent 55%),var(--navy);padding:120px 6vw 80px;border-bottom:1px solid var(--border)}
+.hero h1{font-size:clamp(36px,5vw,68px);line-height:1.05;margin-bottom:22px}
+.hero h1 .grad{background:linear-gradient(90deg,var(--orange),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p.lead{font-size:20px;color:var(--muted);max-width:780px;margin-bottom:48px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px}
+.kpi .num{font-family:'Space Grotesk';font-size:42px;font-weight:700;background:linear-gradient(90deg,var(--orange),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.kpi .lbl{color:var(--muted);font-size:13px;margin-top:10px;font-weight:500}
+h2.sec{font-size:clamp(28px,3.4vw,44px);margin-bottom:14px}
+.sub{color:var(--muted);font-size:17px;max-width:820px;margin-bottom:48px}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:22px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-3px);border-color:rgba(255,75,43,.4)}
+.card h3{font-size:19px;margin-bottom:10px;color:#fff}
+.card .role{font-size:12px;color:var(--orange);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.card p{color:var(--muted);font-size:14px}
+.card ul{list-style:none;margin-top:12px}
+.card ul li{color:var(--muted);font-size:13px;padding:5px 0;border-top:1px solid var(--border)}
+.card ul li:first-child{border-top:none}
+.card ul li b{color:var(--text)}
+.divider{border:none;height:1px;background:var(--border);margin:60px 0}
+.chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:30px;margin-top:30px}
+.chart-wrap h3{margin-bottom:6px;font-size:18px}
+.chart-wrap .ctx{color:var(--muted);font-size:13px;margin-bottom:20px}
+.chart-box{position:relative;height:380px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:18px}
+table th{text-align:left;padding:12px 14px;background:var(--navy-2);color:var(--gold);font-size:11px;letter-spacing:.1em;text-transform:uppercase;border-bottom:2px solid var(--border)}
+table td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+table tr:hover td{background:rgba(255,255,255,.03)}
+.pill{display:inline-block;font-size:10px;font-weight:700;padding:4px 9px;border-radius:99px;letter-spacing:.06em;text-transform:uppercase}
+.pill.high{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.pill.mid{background:rgba(245,158,11,.15);color:var(--amber);border:1px solid rgba(245,158,11,.3)}
+.pill.low{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.pill.gold{background:rgba(212,175,55,.15);color:var(--gold);border:1px solid rgba(212,175,55,.3)}
+.callout{background:linear-gradient(135deg,rgba(255,75,43,.1),rgba(212,175,55,.05));border:1px solid rgba(255,75,43,.3);border-radius:16px;padding:30px;margin:30px 0}
+.callout h4{color:var(--orange);font-size:13px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px}
+.callout p{font-size:18px;color:#fff;line-height:1.5}
+.tier-card{position:relative;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px;border-top:4px solid var(--orange)}
+.tier-card.high{border-top-color:var(--red)}
+.tier-card.mid{border-top-color:var(--amber)}
+.tier-card.low{border-top-color:var(--green)}
+.tier-card h4{font-size:16px;margin-bottom:6px}
+.tier-card .meta{font-size:12px;color:var(--muted);margin-bottom:12px}
+.tier-card p{font-size:13px;color:var(--muted)}
+footer{padding:60px 6vw;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid var(--border)}
+.bullet-list{list-style:none}
+.bullet-list li{padding:10px 0 10px 24px;position:relative;color:var(--text);font-size:15px;border-bottom:1px solid var(--border)}
+.bullet-list li::before{content:"▸";position:absolute;left:0;color:var(--orange);font-weight:700}
+.bullet-list li b{color:#fff}
+.section-anchor{padding-top:30px;border-top:1px solid var(--border)}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-top:30px}
+.toc h4{color:var(--gold);font-size:12px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px}
+.toc ol{padding-left:20px;color:var(--muted)}
+.toc ol li{padding:5px 0}
+.toc ol li a{color:var(--text);text-decoration:none}
+.toc ol li a:hover{color:var(--orange)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="tag">Inteligencia Multi-Canal · Abril 2026</span>
+  <h1>Mapa de canales <span class="grad">AaaS en RD</span><br>4 frentes · 0 líderes consolidados</h1>
+  <p class="lead">Investigación cruzada en Meta Ads Library, ManyChat ecosystem, LinkedIn, X, Facebook Groups e Instagram para identificar dónde están los competidores reales, dónde está el silencio, y dónde Foam Creativo puede capturar la categoría "AaaS dominicana".</p>
+  <div class="kpis">
+    <div class="kpi"><div class="num">~4,800</div><div class="lbl">anuncios activos en RD relacionados a IA / chatbot / automatización</div></div>
+    <div class="kpi"><div class="num">0</div><div class="lbl">agencias dominicanas anunciando AaaS en Meta Ads RD ahora mismo</div></div>
+    <div class="kpi"><div class="num">$90-140</div><div class="lbl">USD/mes solo en software ManyChat para una PYME activa con WhatsApp + AI</div></div>
+    <div class="kpi"><div class="num">0</div><div class="lbl">ManyChat Experts dominicanos con presencia SEO/IG visible</div></div>
+  </div>
+  <div class="toc">
+    <h4>Contenido</h4>
+    <ol>
+      <li><a href="#meta">1 · Meta Ads Library RD — qué se anuncia ahora mismo</a></li>
+      <li><a href="#manychat">2 · ManyChat en RD — el techo de pricing y el vacío de partners</a></li>
+      <li><a href="#linkedin">3 · LinkedIn RD — competidores, voces y silencios</a></li>
+      <li><a href="#xfb">4 · X + Facebook Groups — plan de acceso y cuentas a vigilar</a></li>
+      <li><a href="#sintesis">5 · Síntesis cruzada y plan de ataque</a></li>
+    </ol>
+  </div>
+</div>
+
+<!-- ============= 1 · META ADS ============= -->
+<section id="meta">
+  <span class="tag">Capítulo 1 · Meta Ads Library</span>
+  <h2 class="sec">¿Quién está pagando ahora mismo en Meta para captar leads de IA en RD?</h2>
+  <p class="sub">Extracción directa de Facebook Ads Library con filtro país=DO, estado=activo, abril 2026. 6 búsquedas por keyword, agregadas por anunciante.</p>
+
+  <div class="chart-wrap">
+    <h3>Volumen de anuncios activos por keyword en RD</h3>
+    <p class="ctx">Cantidad aproximada de anuncios activos que devuelve Meta Ads Library al filtrar por país República Dominicana — abril 2026</p>
+    <div class="chart-box"><canvas id="chKw"></canvas></div>
+  </div>
+
+  <div class="chart-wrap">
+    <h3>Top anunciantes — distribución por keyword (DO, activos)</h3>
+    <p class="ctx">Páginas con más copias activas en cada vertical. WhatChimp (mass-WhatsApp messenger global) y Nova - AI Chatbot (consumer app) saturan el inventario; las agencias locales reales no aparecen.</p>
+    <div class="chart-box"><canvas id="chAdv"></canvas></div>
+  </div>
+
+  <h3 style="font-size:22px;margin-top:50px;margin-bottom:14px">Anunciantes activos por keyword</h3>
+  <p class="sub">Lo que aparece arriba es lo que Eduardo está enfrentando en el feed de los dueños de PYME dominicanas hoy.</p>
+
+  <table>
+    <thead><tr><th>Keyword</th><th>Resultados ~</th><th>Top anunciantes (copia activa)</th><th>Naturaleza</th></tr></thead>
+    <tbody>
+      <tr><td><b>"agente de IA"</b></td><td>120</td><td>WhatChimp (9), WhatsApp for Business (4), Meta for Business (2), Orangutan.ia (2), respond.io, Deel, Melizai</td><td><span class="pill mid">Mix global + mass-WA</span></td></tr>
+      <tr><td><b>"chatbot"</b></td><td>910</td><td>Nova - AI Chatbot (23), WhatChimp (5), TeraBot</td><td><span class="pill low">Consumer global</span></td></tr>
+      <tr><td><b>"automatización whatsapp"</b></td><td>87</td><td>Tu Academia (6), Dubner Mendoza (3), Whaticket Latam (2), Take App (2), Innovación Digital360, Alante Digital, RespondeYa</td><td><span class="pill high">Aquí está la pelea real</span></td></tr>
+      <tr><td><b>"agencia de IA"</b></td><td>120</td><td>Felipe Vergara (6), Meta for Business (4), Odental Agency (4), SaleAds Juan ADS (4), Practical AI, Orangutan.ia</td><td><span class="pill mid">Infoproductos hispanos</span></td></tr>
+      <tr><td><b>"inteligencia artificial"</b></td><td>3,500</td><td>WhatChimp (5), AIDesign (3), Dola, ClipShort, Margarita Pasos, ADEN Business School, Nico Seoane</td><td><span class="pill low">Apps consumer + cursos</span></td></tr>
+      <tr><td><b>"automatizar negocio"</b></td><td>120</td><td>WhatChimp (8), David Castellanos (4), Whaticket Latam, Solusync, Digital AI Lab, RespondeYa, Xtractapp, Dubner Mendoza</td><td><span class="pill high">Cluster B2B real</span></td></tr>
+    </tbody>
+  </table>
+
+  <hr class="divider">
+
+  <h3 style="font-size:22px;margin-bottom:14px">Lectura estratégica</h3>
+  <div class="grid-3">
+    <div class="card" style="border-top:3px solid var(--red)">
+      <div class="role">Hallazgo #1</div>
+      <h3>WhatChimp domina el inventario, pero NO es competencia directa</h3>
+      <p>Mass-WhatsApp messenger global con presupuesto agresivo. Compite por <b>atención y pricing percibido</b>, no por servicio. Producto: enviar masivos sin baneo. Su existencia <b>educa al mercado RD</b> en que "WhatsApp + IA" es viable — beneficia a Foam.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--amber)">
+      <div class="role">Hallazgo #2</div>
+      <h3>Whaticket Latam = competidor regional real visible en RD</h3>
+      <p>Aparece en "automatización whatsapp" y "automatizar negocio". Plataforma multi-canal con chatbots. Es el benchmark de pricing y feature-set contra el cual Foam debe diferenciar narrativa: "agente con tool-use, no flow-builder con IA bolt-on".</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--gold)">
+      <div class="role">Hallazgo #3</div>
+      <h3>Cero agencias dominicanas anunciando AaaS</h3>
+      <p>Ninguno de los 18 competidores locales mapeados (BotPro, Centria, IARD, Nadakki, FLAI, Vex AI, etc.) aparece pagando Meta Ads en RD para keywords de IA/agentes. <b>Inventario barato y cero ruido competitivo local</b> para arrancar campañas.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--purple)">
+      <div class="role">Hallazgo #4</div>
+      <h3>Infoproductos hispanos roban impresiones a las agencias</h3>
+      <p>Felipe Vergara, Dubner Mendoza, David Castellanos, Margarita Pasos, Tu Academia, Nico Seoane: todos venden <b>cursos</b> de "monta tu agencia de IA". Educan al cliente final a <b>autohacerlo</b> — riesgo de comoditización si Foam no se posiciona como servicio gestionado de outcome.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--teal)">
+      <div class="role">Hallazgo #5</div>
+      <h3>Jugadores menores a vigilar individualmente</h3>
+      <p><b>Orangutan.ia · Practical AI · Digital AI Lab · RespondeYa · Innovación Digital360 · Alante Digital · Solusync · Xtractapp · Take App.</b> Aparecen con 1-2 copias activas. Mezcla de SaaS y agencias — pendiente perfilar individualmente.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--orange)">
+      <div class="role">Hallazgo #6</div>
+      <h3>Meta for Business pisa la categoría "agente IA"</h3>
+      <p>Meta promueve <b>directamente</b> sus AI agents para empresas en feed dominicano. Confirma que la categoría está activa para Meta. Riesgo: en 12-18 meses Meta ofrecerá agente nativo gratis dentro de WhatsApp Business — Foam debe capitalizar la ventana <b>ahora</b>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 2 · MANYCHAT ============= -->
+<section id="manychat" class="section-anchor">
+  <span class="tag">Capítulo 2 · ManyChat RD</span>
+  <h2 class="sec">El techo de pricing está más alto de lo que parece</h2>
+  <p class="sub">ManyChat es el "elefante invisible" — todos saben de él, casi nadie lo vende localmente, y su precio real define la disposición a pagar de la PYME RD por IA conversacional.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="role">Pricing real (marzo 2026)</div>
+      <h3>4 tiers + add-ons que muerden</h3>
+      <table style="margin-top:14px">
+        <thead><tr><th>Plan</th><th>USD/mes</th><th>Contactos</th></tr></thead>
+        <tbody>
+          <tr><td>Free</td><td>$0</td><td>25</td></tr>
+          <tr><td>Essential</td><td>$14</td><td>250</td></tr>
+          <tr><td>Pro <span class="pill gold">desbloquea WA</span></td><td>$29</td><td>2,500</td></tr>
+          <tr><td>Business</td><td>$69</td><td>7,500</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:18px;color:var(--muted);font-size:13px"><b>AI Step add-on:</b> +$29/mes. <b>WhatsApp:</b> $0.02-$0.08 por conversación. <b>Inbox Pro:</b> $99/mes 3 seats.</p>
+    </div>
+    <div class="callout" style="margin:0">
+      <h4>Implicación de pricing</h4>
+      <p>Una PYME activa con WhatsApp + AI pagando ManyChat termina en <b>$90-140 USD/mes solo en software</b>, sin contar quien arme los flujos. Esto deja techo cómodo para vender AaaS gestionado a <b>$200-500 USD/mes</b> con agente Claude nativo, setup, mantenimiento y outcomes verticales.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="role">SEO RD</div>
+      <h3>ManyChat NO rankea para queries con "República Dominicana"</h3>
+      <p>SERP RD lo gana <b>WhatsMkt</b> y <b>Smartbot.site</b>. ManyChat solo aparece para queries genéricas en español. Hay espacio para rankear con contenido localizado <i>"agente WhatsApp para PYMES dominicanas 2026"</i>.</p>
+    </div>
+    <div class="card">
+      <div class="role">Instagram & partners</div>
+      <h3>0 ManyChat Experts dominicanos visibles</h3>
+      <p>Los referentes hispanos están en Perú (Aprende Más Latam, EMDI/Rafael Horna) y España (Boluda). Búsquedas <code>site:instagram.com manychat "santo domingo"</code> retornan vacío. <b>Vacío total para capturar.</b></p>
+    </div>
+    <div class="card">
+      <div class="role">Casos en RD</div>
+      <h3>0 testimonios públicos de empresas dominicanas</h3>
+      <p>ManyChat publica casos de México y Colombia, ningún caso destacado de RD. La marca tiene <b>awareness sin anclaje local</b> — escenario perfecto para Foam: el cliente sabe "que existe algo así" pero no tiene a quién contratar.</p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:30px">
+    <h4>Jugada estratégica</h4>
+    <p><b>Híbrido partner + producto propio:</b> aplicar al Partner Program de ManyChat para casos donde el cliente solo necesita auto-DM básico en IG (ManyChat gana ahí). Foam vende lo de arriba: agentes con lógica de negocio, tool-use real, integraciones (Excel/Supabase/CRM). ManyChat vende lo de abajo. Comisión recurrente + posicionamiento "Certified Partner" RD.</p>
+  </div>
+</section>
+
+<!-- ============= 3 · LINKEDIN ============= -->
+<section id="linkedin" class="section-anchor">
+  <span class="tag">Capítulo 3 · LinkedIn RD</span>
+  <h2 class="sec">Competidores fragmentados, vacío de líder de opinión local</h2>
+  <p class="sub">LinkedIn es el canal donde están los decisores B2B de PYMEs medianas y grandes. Mapa actualizado de quién habla de IA, quién opera como agencia, y dónde está la silla vacía.</p>
+
+  <div class="grid-3">
+    <div class="tier-card high">
+      <h4>BotPro RD</h4>
+      <div class="meta">~2,000 seguidores · Chatbot omnicanal con IA</div>
+      <p>Competidor directo más visible. Mismo ICP (PYMEs RD). Ya identificado en Instagram (botpro_rd 1,394 + sendiu group 1,633). Posible aliado antes que enemigo.</p>
+    </div>
+    <div class="tier-card high">
+      <h4>NEXA-AI</h4>
+      <div class="meta">+300k conversaciones · Agentes de voz español</div>
+      <p>Único jugador RD con agentes de voz a escala. No solapan 1:1 con AaaS WhatsApp pero validan el mercado. Aliado natural para tickets enterprise.</p>
+    </div>
+    <div class="tier-card mid">
+      <h4>Techain AI</h4>
+      <div class="meta">Argentina · Agencia automatización IA #1 LATAM</div>
+      <p>Benchmark regional. Claudio Conde como referente. Estilo "agencia con casos numéricos". Pisa LATAM pero no RD específicamente.</p>
+    </div>
+    <div class="tier-card mid">
+      <h4>Vex Soluciones</h4>
+      <div class="meta">Consultora ML/DL · enterprise</div>
+      <p>Ticket alto, sectorial (negocios/salud/educación). No compite por PYME — complementa.</p>
+    </div>
+    <div class="tier-card mid">
+      <h4>AI Santo Domingo</h4>
+      <div class="meta">aisantodomingo.com · automatización</div>
+      <p>Posicionamiento SEO local fuerte. Mensaje genérico "automatización inteligente" — sin nicho claro.</p>
+    </div>
+    <div class="tier-card mid">
+      <h4>Automaxia</h4>
+      <div class="meta">Multi-agentes IA · big data</div>
+      <p>Discurso técnico avanzado, audiencia más enterprise. Bajo perfil comercial visible.</p>
+    </div>
+    <div class="tier-card low">
+      <h4>Iation</h4>
+      <div class="meta">iation.ai · optimización procesos</div>
+      <p>Copy comercial enfocado en reducir costos. Sin caso público destacado.</p>
+    </div>
+    <div class="tier-card low">
+      <h4>Edsel Ads</h4>
+      <div class="meta">Marketing digital + IA · RD/Hispano US</div>
+      <p>Cruce ads + IA. Posible canal de partnership (lleva tráfico paid, Foam pone agentes).</p>
+    </div>
+    <div class="tier-card low">
+      <h4>SODIA · OGTIC · INDOTEL</h4>
+      <div class="meta">Sector público / academia</div>
+      <p>Aliados regulatorios y de comunidad. Eventos, ENIA, redes de credibilidad.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <h3 style="font-size:22px;margin-bottom:14px">Personas con voz IA en RD que importan</h3>
+  <div class="grid-4">
+    <div class="card"><h3>Walder S. Franco</h3><p>Software Engineer · AI · Ciberseguridad. Builder técnico con producto SaaS escolar. Perfil ideal para alianza.</p></div>
+    <div class="card"><h3>Carlos Miranda Levy</h3><p>Veterano transformación digital RD. Conecta con empresarios tradicionales, ex-Educando.</p></div>
+    <div class="card"><h3>Eduvigis Ortiz</h3><p>WomenInTechDR, mentora Fulbright. Acceso a círculos corporativos y banca.</p></div>
+    <div class="card"><h3>Edsel Marte</h3><p>Founder Edsel Ads. Cruce ads + IA. Canal potencial de leads paid.</p></div>
+    <div class="card"><h3>Domini Code</h3><p>Dev RD joven. Contenido AI agents, spec-driven. Comunidad dev viva.</p></div>
+    <div class="card"><h3>Bersabeth Familia</h3><p>Comunicadora tech (Acento). Llega a sector público y prensa.</p></div>
+    <div class="card"><h3>Líderes Cluster Software</h3><p>Acceso a 100+ empresas tech socias. Networking sectorial directo.</p></div>
+    <div class="card"><h3>Banreservas Lab</h3><p>José Clase / voceros innovación banca. Cliente AaaS gigante potencial.</p></div>
+  </div>
+
+  <div class="callout" style="margin-top:34px">
+    <h4>La silla vacía</h4>
+    <p>Fuera de OGTIC institucional y Techain (Argentina), <b>RD no tiene un "Juan Merodio dominicano"</b> — un líder de opinión personal que combine credibilidad técnica + storytelling de PYME + casos verificables. Eduardo, con Foam Creativo + Fomi como caso piloto y un P&L propio, está en posición única para capturar esa silla en 90-180 días publicando 3x por semana.</p>
+  </div>
+
+  <h3 style="font-size:22px;margin-top:40px;margin-bottom:14px">Hashtags y combo recomendado</h3>
+  <div class="grid-4">
+    <div class="card"><h3>Volumen alto</h3><p>#InteligenciaArtificial · #IA · #PYMES · #Automatización · #TransformaciónDigital</p></div>
+    <div class="card"><h3>Geo</h3><p>#RepúblicaDominicana · #SantoDomingo · #ENIA · #ClusterSoftwareRD · #GovTechRD</p></div>
+    <div class="card"><h3>Nicho intent alto</h3><p>#AIagents · #ChatbotWhatsApp · #AaaS · #AgentesIA · #WhatsAppBusiness</p></div>
+    <div class="card"><h3>Combo por post (4-6)</h3><p>#InteligenciaArtificial #AIagents #PYMES #Automatización #RepúblicaDominicana + 1 nicho (#ChatbotWhatsApp o #ENIA)</p></div>
+  </div>
+</section>
+
+<!-- ============= 4 · X + FB GROUPS ============= -->
+<section id="xfb" class="section-anchor">
+  <span class="tag">Capítulo 4 · X (Twitter) + Facebook Groups</span>
+  <h2 class="sec">Plan de acceso para los dos canales aún sin instrumentar</h2>
+  <p class="sub">Estos canales requieren credenciales que Eduardo aún no proveyó. Aquí va la lista de cuentas/grupos a vigilar y el plan exacto para activar el listening.</p>
+
+  <h3 style="font-size:22px;margin-bottom:14px">X (Twitter) — 25 handles a monitorear</h3>
+  <div class="grid-3">
+    <div class="card">
+      <div class="role">Institucional RD</div>
+      <h3>Reguladores y promotores</h3>
+      <ul>
+        <li><b>@indotel</b> · regulador telecom</li>
+        <li><b>@MicmRD</b> · programas PYME</li>
+        <li><b>@ProDominicana</b> · servicios tech</li>
+        <li><b>@CamaraTIC</b> · eventos IA</li>
+        <li><b>@ITLA_RD</b> · talento IA</li>
+        <li><b>@Banreservas</b> · fintech RD</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="role">Creadores hispanos</div>
+      <h3>Audiencia LATAM con peso RD</h3>
+      <ul>
+        <li><b>@dotcsv</b> · referente IA español</li>
+        <li><b>@midudev</b> · n8n/Make tutoriales</li>
+        <li><b>@nataliarojas</b> · automation educator</li>
+        <li><b>@somosbluedot</b> · agencia LATAM IA</li>
+        <li><b>@DotsAndBytesEC</b> · automatización</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="role">A descubrir</div>
+      <h3>Búsquedas a ejecutar</h3>
+      <ul>
+        <li><code>site:x.com "agente IA" "República Dominicana"</code></li>
+        <li><code>site:x.com "n8n" "RD" OR "Santo Domingo"</code></li>
+        <li><code>site:x.com "chatbot WhatsApp" "Dominicana"</code></li>
+        <li>Validar si las 18 micro-agencias IG mapeadas tienen X duplicado</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-size:22px;margin-top:40px;margin-bottom:14px">Facebook Groups — 14 grupos clave</h3>
+  <table>
+    <thead><tr><th>Grupo</th><th>Tema</th><th>Miembros aprox</th><th>Prioridad</th></tr></thead>
+    <tbody>
+      <tr><td>Emprendedores Dominicanos</td><td>PYME general</td><td>50-100k</td><td><span class="pill high">Alta</span></td></tr>
+      <tr><td>PYMES República Dominicana</td><td>Negocios pequeños</td><td>20-40k</td><td><span class="pill high">Alta</span></td></tr>
+      <tr><td>Marketing Digital República Dominicana</td><td>Marketing/ads</td><td>30-60k</td><td><span class="pill high">Alta</span></td></tr>
+      <tr><td>Marketing Digital RD - Aprende y Comparte</td><td>Educación marketing</td><td>15-30k</td><td><span class="pill mid">Media</span></td></tr>
+      <tr><td>Comunidad Tech Dominicana / DevDominicano</td><td>Devs RD</td><td>5-15k</td><td><span class="pill mid">Media</span></td></tr>
+      <tr><td>Mujeres Emprendedoras RD</td><td>Mujeres PYME</td><td>20-40k</td><td><span class="pill mid">Media</span></td></tr>
+      <tr><td>Negocios y Emprendimientos RD</td><td>Networking</td><td>30-50k</td><td><span class="pill high">Alta</span></td></tr>
+      <tr><td>Freelancers Dominicanos</td><td>Servicios independientes</td><td>10-20k</td><td><span class="pill mid">Media</span></td></tr>
+      <tr><td>Ecommerce República Dominicana</td><td>Tiendas online</td><td>10-25k</td><td><span class="pill high">Alta</span></td></tr>
+      <tr><td>WhatsApp Business RD</td><td>Operativa WA</td><td>3-10k</td><td><span class="pill high">Alta</span></td></tr>
+      <tr><td>Inteligencia Artificial en Español</td><td>LATAM IA</td><td>100k+</td><td><span class="pill mid">Media</span></td></tr>
+      <tr><td>Automatización con IA - LATAM</td><td>n8n/Make/GPTs</td><td>20-50k</td><td><span class="pill mid">Media</span></td></tr>
+      <tr><td>ChatGPT y IA para Negocios LATAM</td><td>Aplicación PYME</td><td>50k+</td><td><span class="pill mid">Media</span></td></tr>
+      <tr><td>Make.com / n8n en Español</td><td>Builders</td><td>10-30k</td><td><span class="pill low">Baja</span></td></tr>
+    </tbody>
+  </table>
+
+  <hr class="divider">
+
+  <h3 style="font-size:22px;margin-bottom:14px">Qué necesita proveer Eduardo para activar listening</h3>
+  <div class="grid-2">
+    <div class="card" style="border-top:3px solid var(--purple)">
+      <div class="role">X (Twitter)</div>
+      <h3>Vía Apify · token ya disponible</h3>
+      <ul>
+        <li><b>Opción A:</b> X API Basic ~$200/mes · bearer token oficial</li>
+        <li><b>Opción B (recomendada):</b> Apify actor <code>apidojo/tweet-scraper</code> · usa <code>APIFY_TOKEN</code> ya configurado</li>
+        <li><b>Opción C:</b> twstalker.com / nitter scraping HTML público</li>
+      </ul>
+      <p style="margin-top:14px;color:var(--text)"><b>Recomendación:</b> empezar con Apify, validar 25 handles, decidir si vale API oficial.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--red)">
+      <div class="role">Facebook Groups</div>
+      <h3>Bloqueador real · requiere cookies</h3>
+      <ul>
+        <li>Meta NO permite API pública para grupos desde 2019</li>
+        <li>Único camino: scraping con sesión logueada</li>
+        <li>Eduardo debe exportar cookies <code>c_user, xs, datr, fr, sb</code> con extensión Cookie-Editor</li>
+        <li>Confirmar membresía en grupos objetivo (sin membership los posts no son visibles)</li>
+        <li>Apify actor <code>apify/facebook-groups-scraper</code> · ~$0.50-$2 por 1k posts</li>
+      </ul>
+      <p style="margin-top:14px;color:var(--orange);font-size:13px"><b>⚠ Riesgo:</b> usar cuenta secundaria de Eduardo, NO la principal de Foam Creativo. Meta puede banear ante scraping agresivo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 5 · SÍNTESIS ============= -->
+<section id="sintesis" class="section-anchor">
+  <span class="tag">Capítulo 5 · Síntesis cruzada</span>
+  <h2 class="sec">Plan de ataque por canal · próximos 90 días</h2>
+  <p class="sub">Lectura cruzada de los 4 canales + lo ya mapeado (18 IG · 6 webs · SERP DataForSEO · Google Trends) para definir dónde poner energía.</p>
+
+  <ul class="bullet-list">
+    <li><b>Meta Ads:</b> arrancar campañas en RD con keywords <code>"automatización whatsapp"</code> y <code>"automatizar negocio"</code> (87 y 120 anuncios activos respectivamente, sin agencias dominicanas anunciando). Inventario barato y 0 ruido competitivo local.</li>
+    <li><b>ManyChat:</b> aplicar al Partner Program · publicar contenido SEO en español-RD tipo <i>"ManyChat vs agente IA custom para PYME dominicana"</i>. Posicionarse como "Certified Partner" + servicio gestionado encima.</li>
+    <li><b>LinkedIn:</b> doble cuenta (Eduardo personal + página Foam AaaS). 3 publicaciones/semana, 90 días. Mensaje: <i>"el dueño que automatizó su propia PYME"</i>. DM con loom de 60s mostrando Fomi cotizando en vivo a dueños de PYMEs medianas (clínicas, ferreterías, distribuidoras, escuelas, despachos legales).</li>
+    <li><b>X:</b> activar Apify (token existe). Listening sobre 25 handles + 11 hashtags clave (#IARD, #PYMERD, #AutomatizaciónRD). Valor: detectar oportunidades en tiempo real más que volumen de leads.</li>
+    <li><b>Facebook Groups:</b> Eduardo provee cookies de cuenta secundaria → scraping vía Apify de los 7 grupos de prioridad alta. Valor: encontrar dueños quejándose de "no doy abasto en WhatsApp" — leads más calientes del ecosistema.</li>
+    <li><b>Aliados antes que competidores:</b> abrir conversación con BotPro RD, NEXA-AI, Edsel Ads. Co-marketing y referidos antes de pelear SEO. AaaS de Foam = capa de agentes verticales sobre su infraestructura.</li>
+  </ul>
+
+  <div class="callout" style="margin-top:40px">
+    <h4>La síntesis en una línea</h4>
+    <p>El mercado de IA en RD <b>está educado pero no atendido</b>: hay 4,800 anuncios pagando para captar la atención del dueño de PYME, pero 0 agencias dominicanas en el inventario, 0 ManyChat Experts visibles, 0 líderes de opinión locales consolidados. La ventana es ahora — antes que Meta lance agente nativo gratis en WhatsApp Business y antes que un competidor regional capture la categoría "AaaS dominicana".</p>
+  </div>
+
+  <h3 style="font-size:22px;margin-top:50px;margin-bottom:14px">Próximos accionables (orden de prioridad)</h3>
+  <table>
+    <thead><tr><th>#</th><th>Acción</th><th>Bloquea</th><th>ETA</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Eduardo valida 25 handles X + 14 grupos FB (marca cuáles le interesan)</td><td>—</td><td>1 día</td></tr>
+      <tr><td>2</td><td>Aplicar al ManyChat Partner Program</td><td>—</td><td>1 día</td></tr>
+      <tr><td>3</td><td>Lanzar primera campaña Meta Ads en RD con copy "agente IA dominicano"</td><td>Creativo + landing</td><td>3 días</td></tr>
+      <tr><td>4</td><td>Calendario LinkedIn 12 semanas · 3 posts/semana con casos Fomi</td><td>Eduardo aprobar tono</td><td>2 días</td></tr>
+      <tr><td>5</td><td>Eduardo exporta cookies FB de cuenta secundaria → <code>FB_COOKIES_JSON</code></td><td>Eduardo</td><td>30 min</td></tr>
+      <tr><td>6</td><td>Construir <code>scripts/x_listening.py</code> con Apify (25 handles + 11 hashtags)</td><td>Validación handles</td><td>1 día</td></tr>
+      <tr><td>7</td><td>Construir <code>scripts/fb_groups_scraper.py</code> con Apify + cookies</td><td>Cookies</td><td>1 día</td></tr>
+      <tr><td>8</td><td>Producir contenido SEO RD: 5 posts blog tipo "ManyChat vs agente custom"</td><td>—</td><td>1 semana</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  <p><b>Inteligencia Multi-Canal AaaS RD</b> · Foam Creativo · Abril 2026</p>
+  <p style="margin-top:10px">Datos de campo: Meta Ads Library DO (6 keywords) · ManyChat pricing oficial · LinkedIn público · ecosistema X/FB hispano-RD</p>
+</footer>
+
+<script>
+Chart.defaults.color='#9AA0BF';
+Chart.defaults.borderColor='rgba(255,255,255,.06)';
+Chart.defaults.font.family='Inter, system-ui';
+
+new Chart(document.getElementById('chKw'),{
+  type:'bar',
+  data:{labels:['"inteligencia artificial"','"chatbot"','"agente de IA"','"agencia de IA"','"automatizar negocio"','"automatización whatsapp"'],
+    datasets:[{label:'Anuncios activos en DO',data:[3500,910,120,120,120,87],
+      backgroundColor:['#8B5CF6','#8B5CF6','#FF4B2B','#FF4B2B','#D4AF37','#D4AF37'],borderRadius:8}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{type:'logarithmic',title:{display:true,text:'Anuncios activos (escala log)',color:'#9AA0BF'}}}}
+});
+
+new Chart(document.getElementById('chAdv'),{
+  type:'bar',
+  data:{labels:['WhatChimp','Nova - AI Chatbot','Tu Academia','Felipe Vergara','Whaticket Latam','Dubner Mendoza','David Castellanos','Odental Agency','SaleAds Juan ADS','Meta for Business','Orangutan.ia','AIDesign','Take App'],
+    datasets:[{label:'Copias activas (suma 6 keywords)',data:[27,24,6,7,3,4,4,4,4,6,3,3,2],
+      backgroundColor:'#FF4B2B',borderRadius:6}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{title:{display:true,text:'Suma de copias activas detectadas',color:'#9AA0BF'}}}}
+});
+</script>
+
+
+<a href="index_aaas.html" title="Volver al índice" style="position:fixed;bottom:24px;right:24px;background:#FF4B2B;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:11px 20px;border-radius:99px;text-decoration:none;z-index:9999;box-shadow:0 4px 24px rgba(255,75,43,.45);letter-spacing:.04em">&#8592; Índice</a>
+</body>
+</html>

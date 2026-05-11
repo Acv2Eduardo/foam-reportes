@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Listening — Automatización/IA para PYMEs en RD</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f0f4f8;
+      color: #2d3748;
+      line-height: 1.7;
+    }
+    .header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2d5282 100%);
+      color: white;
+      padding: 48px 40px 36px;
+    }
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .header .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      margin-bottom: 20px;
+    }
+    .header-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .meta-badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.85rem;
+    }
+    nav {
+      background: #1e3a5f;
+      padding: 0 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    nav ul { display: flex; list-style: none; gap: 0; flex-wrap: wrap; }
+    nav a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      padding: 14px 16px;
+      display: block;
+      font-size: 0.875rem;
+      transition: color 0.2s, background 0.2s;
+    }
+    nav a:hover { color: white; background: rgba(255,255,255,0.1); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 36px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .section h2 {
+      font-size: 1.4rem;
+      color: #1e3a5f;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e8f4f8;
+    }
+    .section h3 {
+      font-size: 1.1rem;
+      color: #2d5282;
+      margin: 24px 0 12px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: #e8f4f8;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-card .number {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #1e3a5f;
+    }
+    .stat-card .label {
+      font-size: 0.8rem;
+      color: #4a5568;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .stat-card.failed { background: #fff5f5; }
+    .stat-card.failed .number { color: #c53030; }
+    .stat-card.partial { background: #fffbeb; }
+    .stat-card.partial .number { color: #b7791f; }
+    .stat-card.success { background: #f0fff4; }
+    .stat-card.success .number { color: #276749; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th {
+      background: #1e3a5f;
+      color: white;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f7fafc; }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .badge-success { background: #c6f6d5; color: #22543d; }
+    .badge-warning { background: #fefcbf; color: #744210; }
+    .badge-error { background: #fed7d7; color: #742a2a; }
+    .badge-info { background: #bee3f8; color: #2a4365; }
+    .quote {
+      background: #e8f4f8;
+      border-left: 4px solid #1e3a5f;
+      padding: 16px 20px;
+      margin: 12px 0;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+    .quote .author {
+      font-style: normal;
+      font-size: 0.8rem;
+      color: #4a5568;
+      margin-top: 8px;
+    }
+    .pain-point {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 14px 0;
+      border-left: 4px solid #c53030;
+    }
+    .pain-point h4 { color: #c53030; margin-bottom: 8px; font-size: 1rem; }
+    .pain-point .evidence { font-size: 0.875rem; color: #4a5568; }
+    .opportunity {
+      background: #f0fff4;
+      border: 1px solid #9ae6b4;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 14px 0;
+      border-left: 4px solid #276749;
+    }
+    .opportunity h4 { color: #276749; margin-bottom: 8px; font-size: 1rem; }
+    .opportunity .evidence { font-size: 0.875rem; color: #4a5568; }
+    .limitation {
+      background: #fffaf0;
+      border: 1px solid #f6ad55;
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin: 14px 0;
+    }
+    .limitation h4 { color: #c05621; margin-bottom: 6px; }
+    .chart-container {
+      position: relative;
+      max-width: 600px;
+      margin: 24px auto;
+    }
+    .platform-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .platform-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+    }
+    .icon-twitter { background: #1d9bf0; }
+    .icon-maps { background: #4285f4; }
+    .icon-reddit { background: #ff4500; }
+    .icon-trustpilot { background: #00b67a; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 680px) {
+      .two-col { grid-template-columns: 1fr; }
+      .header { padding: 32px 20px 24px; }
+      nav { padding: 0 12px; }
+      .container { padding: 24px 12px; }
+    }
+    .warning-box {
+      background: #fffbeb;
+      border: 1px solid #f6ad55;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+    .info-box {
+      background: #ebf8ff;
+      border: 1px solid #90cdf4;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+    .competitor-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin: 12px 0;
+    }
+    .competitor-card h4 { color: #1e3a5f; margin-bottom: 6px; }
+    .stars { color: #f6ad55; }
+    .no-data {
+      background: #f7fafc;
+      border: 2px dashed #cbd5e0;
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      color: #718096;
+      font-size: 0.9rem;
+    }
+    footer {
+      background: #1e3a5f;
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 24px;
+      font-size: 0.85rem;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Social Listening: Automatización e IA para PYMEs en RD</h1>
+  <p class="subtitle">Recopilación y análisis de opiniones auténticas sobre tecnología para negocios en República Dominicana</p>
+  <div class="header-meta">
+    <span class="meta-badge">📅 27 de abril de 2026</span>
+    <span class="meta-badge">🔍 Herramienta: Apify</span>
+    <span class="meta-badge">🌐 2 plataformas con datos</span>
+    <span class="meta-badge">📊 347 ítems recopilados</span>
+  </div>
+</div>
+
+<nav>
+  <ul>
+    <li><a href="#metodologia">Metodología</a></li>
+    <li><a href="#hallazgos">Hallazgos por plataforma</a></li>
+    <li><a href="#frustraciones">Frustraciones frecuentes</a></li>
+    <li><a href="#painpoints">Pain points</a></li>
+    <li><a href="#competidores">Competidores</a></li>
+    <li><a href="#implicaciones">Implicaciones AaaS</a></li>
+    <li><a href="#limitaciones">Limitaciones</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+
+  <!-- METODOLOGÍA -->
+  <div class="section" id="metodologia">
+    <h2>1. Metodología</h2>
+
+    <h3>Plataformas intentadas y resultados de scraping</h3>
+    <div class="stats-grid">
+      <div class="stat-card failed">
+        <div class="number">0</div>
+        <div class="label">Twitter/X — Bloqueado</div>
+      </div>
+      <div class="stat-card success">
+        <div class="number">297</div>
+        <div class="label">Google Maps — Reseñas</div>
+      </div>
+      <div class="stat-card success">
+        <div class="number">50</div>
+        <div class="label">Reddit — Posts + Comentarios</div>
+      </div>
+      <div class="stat-card failed">
+        <div class="number">0</div>
+        <div class="label">Trustpilot — Sin datos</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Plataforma</th>
+          <th>Actor Apify</th>
+          <th>Run ID</th>
+          <th>Estado</th>
+          <th>Ítems</th>
+          <th>Notas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Twitter/X</td>
+          <td><code>61RPP7dywgiy0JPD0</code> (Tweet Scraper V2)</td>
+          <td><code>cHCmsMhXSN1DhowtF</code></td>
+          <td><span class="badge badge-error">BLOQUEADO</span></td>
+          <td>0</td>
+          <td>Actor requiere plan pago de Apify. Mensaje explícito: "You cannot use the API with the Free Plan."</td>
+        </tr>
+        <tr>
+          <td>Google Maps</td>
+          <td><code>Xb8osYTtOjlsgI6k9</code> (Reviews Scraper)</td>
+          <td><code>wKtUTPdGQVrc9r5fe</code></td>
+          <td><span class="badge badge-success">ÉXITO</span></td>
+          <td>297</td>
+          <td>Búsquedas: "inteliard", "buggin dev", "agencia chatbot", "automatizacion empresas" + Santo Domingo</td>
+        </tr>
+        <tr>
+          <td>Reddit</td>
+          <td><code>oAuCIx3ItNrs2okjQ</code> (reddit-scraper-lite)</td>
+          <td><code>bkRqXNvcdeQr2Rtt8</code></td>
+          <td><span class="badge badge-success">ÉXITO PARCIAL</span></td>
+          <td>50</td>
+          <td>r/Dominican: 5 posts sobre negocios. Términos "chatbot" y "automatizacion" no generaron posts específicos</td>
+        </tr>
+        <tr>
+          <td>Trustpilot</td>
+          <td><code>4AQb7n4pXPxFQQ2w5</code> (Reviews Scraper)</td>
+          <td><code>nCkNwdzgrBfBdICUg</code></td>
+          <td><span class="badge badge-error">TIMEOUT</span></td>
+          <td>0</td>
+          <td>Tiempo de espera agotado (300s). Búsquedas de chatbot/automatización LatAm no retornaron resultados</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Queries ejecutadas</h3>
+    <div class="two-col">
+      <div>
+        <strong>Google Maps:</strong>
+        <ul style="margin-top:8px; padding-left:20px; font-size:0.9rem;">
+          <li>agencia chatbot Santo Domingo</li>
+          <li>automatizacion empresas Santo Domingo</li>
+          <li>inteliard Santo Domingo</li>
+          <li>buggin dev Santo Domingo</li>
+        </ul>
+      </div>
+      <div>
+        <strong>Reddit (r/Dominican):</strong>
+        <ul style="margin-top:8px; padding-left:20px; font-size:0.9rem;">
+          <li>chatbot (sin resultados relevantes)</li>
+          <li>automatizacion (sin resultados relevantes)</li>
+          <li>whatsapp business</li>
+          <li>chatbot pymes (r/latinoamerica)</li>
+          <li>automatizacion negocio (r/latinoamerica)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Período de recopilación</h3>
+    <p>Todos los scrapers se ejecutaron el <strong>27 de abril de 2026</strong>, entre las 18:29 y 18:45 UTC. Los datos de Google Maps y Reddit corresponden al contenido público disponible en esas plataformas en ese momento; las reseñas de Google Maps datan de 2021–2026.</p>
+
+    <div class="warning-box">
+      <strong>⚠️ Nota importante sobre el alcance:</strong> De las 4 plataformas objetivo, solo 2 retornaron datos utilizables. Twitter/X requiere plan pago de Apify y Trustpilot no encontró empresas de chatbot/automatización con presencia verificable en el directorio para RD/LatAm. Los hallazgos de este reporte se basan exclusivamente en Google Maps Reviews y Reddit.
+    </div>
+  </div>
+
+  <!-- HALLAZGOS POR PLATAFORMA -->
+  <div class="section" id="hallazgos">
+    <h2>2. Hallazgos por Plataforma</h2>
+
+    <!-- Google Maps -->
+    <div class="platform-header">
+      <div class="platform-icon icon-maps">G</div>
+      <h3 style="margin:0; border:none; padding:0;">Google Maps Reviews</h3>
+    </div>
+
+    <div class="stats-grid" style="grid-template-columns: repeat(4,1fr);">
+      <div class="stat-card">
+        <div class="number">297</div>
+        <div class="label">Reseñas recopiladas</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">152</div>
+        <div class="label">Con texto sustantivo</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">26</div>
+        <div class="label">Empresas encontradas</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">4.7</div>
+        <div class="label">Calificación promedio (★)</div>
+      </div>
+    </div>
+
+    <h3>Distribución de calificaciones</h3>
+    <div class="chart-container" style="max-width: 450px;">
+      <canvas id="starsChart"></canvas>
+    </div>
+
+    <h3>Empresas encontradas en Santo Domingo (tecnología/automatización)</h3>
+    <p style="font-size:0.9rem; color:#4a5568; margin-bottom:16px;">Las búsquedas de "inteliard", "botcity" y "buggin.dev" retornaron resultados de Google Maps para empresas de tecnología y automatización con presencia en RD. Se identificaron 26 empresas únicas.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Empresa</th>
+          <th>Categoría Google Maps</th>
+          <th>★ Prom</th>
+          <th>Reseñas en Maps</th>
+          <th>Tipo real</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>NC Automatización y Controles SRL</strong></td><td>Tienda de electrónica</td><td>4.8 ★</td><td>627</td><td>Automatización industrial</td></tr>
+        <tr><td><strong>Centro Indotel</strong></td><td>Museo tecnológico</td><td>4.7 ★</td><td>606</td><td>Institución pública</td></tr>
+        <tr><td><strong>INDOTEL</strong></td><td>Oficina Gobierno</td><td>3.5 ★</td><td>188</td><td>Regulador telecom</td></tr>
+        <tr><td><strong>Tracemark Technologies SRL</strong></td><td>Oficinas empresa</td><td>5.0 ★</td><td>58</td><td>Automatización industrial</td></tr>
+        <tr><td><strong>DUSSICH SERVICES SRL</strong></td><td>Sistemas de seguridad</td><td>4.5 ★</td><td>58</td><td>Seguridad electrónica</td></tr>
+        <tr><td><strong>Nardi Automatizaciones (Ascensores)</strong></td><td>Ascensorista</td><td>5.0 ★</td><td>34</td><td>Automatización edificios</td></tr>
+        <tr><td><strong>Integra Dominicana</strong></td><td>N/D</td><td>4.9 ★</td><td>16</td><td><strong>Home automation / domótica</strong></td></tr>
+        <tr><td><strong>Intelcia DR</strong></td><td>Centro de llamadas</td><td>3.5 ★</td><td>15</td><td>BPO / Call center</td></tr>
+        <tr><td><strong>Domotics</strong></td><td>Soporte TI</td><td>4.5 ★</td><td>13</td><td><strong>Domótica / automatización hogar</strong></td></tr>
+        <tr><td><strong>Botcity</strong></td><td>Empresa de software</td><td>5.0 ★</td><td>3</td><td><strong>Chatbot / software RD</strong></td></tr>
+        <tr><td><strong>Inteligent Card Innovation ICIR</strong></td><td>Instituto Tecnología</td><td>5.0 ★</td><td>6</td><td>Tarjetas inteligentes / tech</td></tr>
+        <tr><td><strong>GestionXpress</strong></td><td>N/D</td><td>5.0 ★</td><td>1</td><td><strong>Optimización procesos PYMEs</strong></td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box" style="margin-top:20px;">
+      <strong>Hallazgo clave:</strong> La gran mayoría de empresas de "automatización" encontradas en Santo Domingo operan en automatización industrial (PLC, motores, fabricas, ascensores) o domótica residencial — <strong>no</strong> en chatbots o IA para PYMEs de servicios. Las pocas excepciones relevantes son Botcity (3 reseñas únicamente), GestionXpress e Integra Dominicana.
+    </div>
+
+    <h3>Citas textuales representativas — Google Maps</h3>
+
+    <div class="quote">
+      "Pude optimizar los procesos de mi empresa e implementé nuevos métodos de gestión."
+      <div class="author">— Reseña de GestionXpress, Santo Domingo ★★★★★</div>
+    </div>
+
+    <div class="quote">
+      "Excelentes servicios de tecnología, yo tengo una tarjeta inteligente que me hicieron y me ahorré muchísimo en tarjetas tradicionales."
+      <div class="author">— Reseña de Inteligent Card Innovation ICIR SRL ★★★★★</div>
+    </div>
+
+    <div class="quote">
+      "Has potential, but is very poor in communication and attending to their clients."
+      <div class="author">— Reseña 1 estrella de A&C, Dominicana, SRL (empresa de automatización)</div>
+    </div>
+
+    <div class="quote">
+      "INDOTEL demuestra total desinterés por proteger a los consumidores. Denuncié a Claro RD por cobros abusivos de un servicio que nunca usé, y su respuesta fue: 'No podemos ayudarle'."
+      <div class="author">— Reseña de INDOTEL ★ (regulador de telecomunicaciones)</div>
+    </div>
+
+    <div class="quote">
+      "Estaba sufriendo abusos de la compañía Altice con el Internet malísimo, se caía 5 veces al día diario y no me querían desvincular. INDOTEL me ayudó con el caso y salí de ese saco de sal."
+      <div class="author">— Reseña de INDOTEL ★★★★ (señala frustración con proveedores de internet)</div>
+    </div>
+
+    <!-- Reddit -->
+    <div class="platform-header" style="margin-top: 36px;">
+      <div class="platform-icon icon-reddit">R</div>
+      <h3 style="margin:0; border:none; padding:0;">Reddit — r/Dominican</h3>
+    </div>
+
+    <div class="stats-grid" style="grid-template-columns: repeat(4,1fr);">
+      <div class="stat-card">
+        <div class="number">50</div>
+        <div class="label">Posts + comentarios</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">5</div>
+        <div class="label">Posts principales</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">45</div>
+        <div class="label">Comentarios</div>
+      </div>
+      <div class="stat-card partial">
+        <div class="number">0</div>
+        <div class="label">Menciones de chatbot/IA</div>
+      </div>
+    </div>
+
+    <h3>Posts recopilados</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Título del post</th>
+          <th>Upvotes</th>
+          <th>Comentarios</th>
+          <th>Relevancia</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>¿Cuál creen que es el mejor negocio para montar en RD o cómo podría tener participación en uno?</td>
+          <td>7</td>
+          <td>23</td>
+          <td><span class="badge badge-info">Media</span></td>
+        </tr>
+        <tr>
+          <td>¿Han emprendido algún negocio en familia alguna vez? ¿Lo recomiendan?</td>
+          <td>2</td>
+          <td>9</td>
+          <td><span class="badge badge-info">Media</span></td>
+        </tr>
+        <tr>
+          <td>Personas Que Quieran Utilizar Mi App en Google/Apple Store (app tipo Uber Eats local)</td>
+          <td>16</td>
+          <td>25</td>
+          <td><span class="badge badge-success">Alta</span></td>
+        </tr>
+        <tr>
+          <td>Cómo hacen algunas personas para importar y vender PlayStation 5 al mismo precio que oficial</td>
+          <td>10</td>
+          <td>21</td>
+          <td><span class="badge badge-warning">Baja</span></td>
+        </tr>
+        <tr>
+          <td>Dropshipping — retomar negocio con amigo</td>
+          <td>1</td>
+          <td>9</td>
+          <td><span class="badge badge-warning">Baja</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Citas textuales representativas — Reddit</h3>
+
+    <div class="quote">
+      "Ta difícil manin. Los negocios en dominicana son muy informales y complicados. Si dependes de otra gente fácilmente te van a tumbar. Búscate algún tipo de trabajo que quieras hacer y un mentor que no se meta contigo en el negocio."
+      <div class="author">— Comentario r/Dominican sobre emprender en RD</div>
+    </div>
+
+    <div class="quote">
+      "En RD todo es posible mi pequeño saltamontes. Chiperos, estafadores (muchos), gente seria con vueltas de evasión. Está es la isla de tener contactos. (Sadly)."
+      <div class="author">— Comentario r/Dominican sobre negocios en RD</div>
+    </div>
+
+    <div class="quote">
+      "Mi app es muy simple, es como Uber Eats pero con más variaciones. Por ejemplo, necesitas comida de un restaurant que no está en Uber Eats o Pedidos Ya, o alguien que te pinte las paredes, o alguien te recoja esa mesa de IKEA. Mi app ayuda con eso."
+      <div class="author">— Post r/Dominican, ingeniera dominicano-americana lanzando una app</div>
+    </div>
+
+    <!-- Twitter y Trustpilot sin datos -->
+    <div class="platform-header" style="margin-top: 36px;">
+      <div class="platform-icon icon-twitter">X</div>
+      <h3 style="margin:0; border:none; padding:0;">Twitter/X — Sin datos</h3>
+    </div>
+    <div class="no-data">
+      El actor de Twitter en Apify (Tweet Scraper V2, ID: <code>61RPP7dywgiy0JPD0</code>) bloqueó el run con el mensaje: <em>"You cannot use the API with the Free Plan. Please subscribe to a paid plan on Apify."</em> No se obtuvo ningún dato. Alternativa recomendada: usar la API oficial de Twitter/X con cuenta de desarrollador, o actualizar a plan de pago en Apify.
+    </div>
+
+    <div class="platform-header" style="margin-top: 28px;">
+      <div class="platform-icon icon-trustpilot">T</div>
+      <h3 style="margin:0; border:none; padding:0;">Trustpilot — Sin datos</h3>
+    </div>
+    <div class="no-data">
+      El actor de Trustpilot (<code>4AQb7n4pXPxFQQ2w5</code>) alcanzó el tiempo límite (300s) sin devolver ítems. Las búsquedas de "chatbot dominicana", "automatizacion pymes latinoamerica" y "whatsapp bot latinoamerica" no encontraron empresas con perfil en Trustpilot. Esto refleja que las empresas de este sector en RD/LatAm no tienen presencia significativa en Trustpilot, que es una plataforma orientada principalmente a mercados anglosajones y europeos.
+    </div>
+  </div>
+
+  <!-- FRUSTRACIONES FRECUENTES -->
+  <div class="section" id="frustraciones">
+    <h2>3. Frustraciones Más Frecuentes</h2>
+    <div class="warning-box">
+      <strong>Aviso metodológico:</strong> Los datos recopilados no contienen menciones directas y abundantes de chatbots o IA para PYMEs. Las frustraciones identificadas se infieren de los temas tratados en los posts de Reddit (negocios en RD) y las reseñas de Google Maps (empresas de tecnología). Se señala explícitamente cuando una conclusión es una inferencia vs. un dato directo.
+    </div>
+
+    <h3>Tabla de frustraciones por frecuencia de mención</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Frustración / Tema</th>
+          <th>Fuente</th>
+          <th>Menciones</th>
+          <th>Tipo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Mala conectividad / internet poco confiable (Altice, Claro)</td>
+          <td>Google Maps (INDOTEL)</td>
+          <td>5 reseñas directas</td>
+          <td><span class="badge badge-error">Dato directo</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Informalidad y falta de confianza en el ecosistema de negocios en RD</td>
+          <td>Reddit r/Dominican</td>
+          <td>4 comentarios</td>
+          <td><span class="badge badge-error">Dato directo</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Dificultad para emprender / acceso a capital y crédito</td>
+          <td>Reddit r/Dominican</td>
+          <td>3 comentarios</td>
+          <td><span class="badge badge-error">Dato directo</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Mala comunicación / atención al cliente de proveedores tecnológicos</td>
+          <td>Google Maps</td>
+          <td>2 reseñas negativas</td>
+          <td><span class="badge badge-error">Dato directo</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Falta de soluciones tecnológicas asequibles para negocios pequeños</td>
+          <td>Reddit (mención app), Google Maps</td>
+          <td>2 menciones indirectas</td>
+          <td><span class="badge badge-warning">Inferencia</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Ecosistema de chatbots/IA para negocios locales prácticamente invisible</td>
+          <td>Ausencia de resultados en todas las plataformas</td>
+          <td>—</td>
+          <td><span class="badge badge-warning">Inferencia por ausencia</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Palabras más frecuentes en reseñas de Google Maps</h3>
+    <div class="chart-container" style="max-width: 600px;">
+      <canvas id="keywordsChart"></canvas>
+    </div>
+
+    <h3>Temas dominantes en Reddit r/Dominican</h3>
+    <div class="chart-container" style="max-width: 500px;">
+      <canvas id="redditTopicsChart"></canvas>
+    </div>
+  </div>
+
+  <!-- PAIN POINTS CONSOLIDADOS -->
+  <div class="section" id="painpoints">
+    <h2>4. Pain Points Consolidados</h2>
+    <p style="margin-bottom: 20px; color: #4a5568;">Los cinco pain points más importantes identificados, con evidencia textual y calificación de solidez del dato.</p>
+
+    <div class="pain-point">
+      <h4>🔴 Pain Point #1: Infraestructura digital poco confiable (internet, telefonía)</h4>
+      <p class="evidence"><strong>Evidencia directa:</strong> Múltiples reseñas negativas de INDOTEL (regulador de telecomunicaciones de RD) mencionan problemas con proveedores de internet (Altice, Claro): conexión inestable, cobros abusivos, imposibilidad de cambiar de proveedor. Un usuario describe internet que "se caía 5 veces al día diario".</p>
+      <p class="evidence" style="margin-top:8px;"><strong>Implicación para IA/PYMEs:</strong> Cualquier solución de IA que dependa de conectividad continua (WhatsApp bots, chatbots en nube) enfrenta un obstáculo de infraestructura que está fuera del control del proveedor de software. <span class="badge badge-error">Solidez: Alta (dato directo)</span></p>
+    </div>
+
+    <div class="pain-point">
+      <h4>🔴 Pain Point #2: Desconfianza en el ecosistema de negocios y proveedores</h4>
+      <p class="evidence"><strong>Evidencia directa:</strong> Usuarios de Reddit describen el entorno de negocios en RD como "muy informal y complicado", con riesgo de que proveedores "te tumben". El valor de las recomendaciones personales ("contactos") aparece explícitamente. Una reseña negativa en Google Maps señala que una empresa tiene "potential, but is very poor in communication and attending to their clients".</p>
+      <p class="evidence" style="margin-top:8px;"><strong>Implicación:</strong> La adopción de nuevas tecnologías para negocios requiere superar una barrera alta de confianza. Las PYMEs dominicanas son más propensas a adoptar soluciones recomendadas por pares conocidos que por marketing digital. <span class="badge badge-error">Solidez: Alta (dato directo)</span></p>
+    </div>
+
+    <div class="pain-point">
+      <h4>🟡 Pain Point #3: Mercado de chatbots/IA para PYMEs prácticamente inexistente o invisible en plataformas de reseñas</h4>
+      <p class="evidence"><strong>Evidencia por ausencia:</strong> Las búsquedas específicas de "agencia chatbot Santo Domingo" retornaron solo 1 resultado relevante (Botcity, con 3 reseñas en total). No se encontraron reseñas de Google Maps para "inteliard", "buggin.dev", ni "novum solutions". En Reddit, términos como "chatbot" y "automatizacion" no generaron posts relevantes en r/Dominican.</p>
+      <p class="evidence" style="margin-top:8px;"><strong>Implicación:</strong> El mercado de AaaS en RD está en fase muy temprana. La falta de reseñas puede indicar tanto que las empresas no existen/son muy pequeñas, como que sus clientes no evalúan públicamente estos servicios. <span class="badge badge-warning">Solidez: Media (inferencia por ausencia de datos)</span></p>
+    </div>
+
+    <div class="pain-point">
+      <h4>🟡 Pain Point #4: Brechas en gestión y comunicación de empresas de tecnología locales</h4>
+      <p class="evidence"><strong>Evidencia directa:</strong> La única reseña negativa sustantiva de una empresa tech fue: "Has potential, but is very poor in communication and attending to their clients" (A&C Dominicana). Intelcia DR (call center / BPO) tiene 3.5 estrellas con reseñas mixtas. Intelycs Latinoamérica (empresa de software) tiene 3.5 estrellas con solo 2 reseñas.</p>
+      <p class="evidence" style="margin-top:8px;"><strong>Implicación:</strong> Hay espacio para diferenciación por calidad de servicio al cliente — un área donde la automatización (respuesta rápida, disponibilidad 24/7) puede agregar valor visible. <span class="badge badge-warning">Solidez: Media (n pequeña)</span></p>
+    </div>
+
+    <div class="pain-point">
+      <h4>🟡 Pain Point #5: Costo y accesibilidad de tecnología para pequeños negocios</h4>
+      <p class="evidence"><strong>Evidencia indirecta:</strong> En Reddit, una ingeniera dominicano-americana lanzó una app "simple" tipo Uber Eats pero con mayor alcance, señalando la ausencia de estos servicios para el mercado local. Un usuario de Google Maps menciona haber "ahorrado miles de pesos" con tecnología de automatización de consumo eléctrico. Estos casos sugieren demanda latente de soluciones tecnológicas accesibles.</p>
+      <p class="evidence" style="margin-top:8px;"><strong>Implicación:</strong> El precio y la simplicidad son factores decisivos para adopción en PYMEs. <span class="badge badge-warning">Solidez: Baja (inferencia indirecta)</span></p>
+    </div>
+  </div>
+
+  <!-- COMPETIDORES -->
+  <div class="section" id="competidores">
+    <h2>5. Menciones de Competidores</h2>
+    <p style="margin-bottom:20px; color:#4a5568;">Empresas identificadas como relevantes en el espacio de tecnología/chatbots/automatización para negocios en RD, con los datos de reseñas encontrados.</p>
+
+    <div class="competitor-card">
+      <h4>Botcity — Santo Domingo</h4>
+      <p><strong>Categoría Google Maps:</strong> Empresa de software | <strong>Ubicación:</strong> Pyhex Work, Av. John F. Kennedy 7, SD</p>
+      <p><strong>Reseñas en Google Maps:</strong> 3 total | <strong>Calificación:</strong> <span class="stars">★★★★★</span> 5.0</p>
+      <p><strong>Texto de reseñas:</strong> Las 3 reseñas tienen 5 estrellas pero sin texto sustantivo (solo calificaciones). No se pueden extraer insights cualitativos. La empresa tiene presencia confirmada en Santo Domingo.</p>
+      <div class="info-box" style="margin-top:8px;">Botcity es la única empresa de software/chatbot que apareció explícitamente en los resultados de Google Maps para "agencia chatbot Santo Domingo". Su muy reducido número de reseñas (3) sugiere que es una empresa pequeña o de reciente creación, o que sus clientes no dejan reseñas públicas.</div>
+    </div>
+
+    <div class="competitor-card">
+      <h4>Inteliard / Intelycs Latinoamérica — Santo Domingo</h4>
+      <p><strong>Categoría Google Maps:</strong> Empresa de software | <strong>Reseñas:</strong> 2 | <strong>Calificación:</strong> <span class="stars">★★★½</span> 3.5</p>
+      <p><strong>Notas:</strong> La búsqueda de "inteliard Santo Domingo" retornó "Intelycs Latinoamérica" como resultado de software, con 2 reseñas y calificación media. No hay texto de reseñas disponible para análisis. La identidad exacta de la relación entre "Inteliard" e "Intelycs" no fue confirmada con estos datos.</p>
+    </div>
+
+    <div class="competitor-card">
+      <h4>GestionXpress — Santo Domingo</h4>
+      <p><strong>Categoría:</strong> Empresa (categoría no especificada en Maps) | <strong>Reseñas:</strong> 1 | <strong>Calificación:</strong> <span class="stars">★★★★★</span> 5.0</p>
+      <p><strong>Texto de reseña:</strong> <em>"Excelente servicio, con un estilo moderno. Pude optimizar los procesos de mi empresa e implementé nuevos métodos de gestión."</em></p>
+      <div class="info-box" style="margin-top:8px;">Esta reseña es la más directamente relevante al tema del estudio: un usuario confirma haber mejorado procesos de su empresa con ayuda de GestionXpress. Sin embargo, la muestra (1 reseña) no permite conclusiones sólidas.</div>
+    </div>
+
+    <div class="competitor-card">
+      <h4>Integra Dominicana — Santo Domingo</h4>
+      <p><strong>Categoría:</strong> Smart Home / Home Automation | <strong>Reseñas:</strong> 16 | <strong>Calificación:</strong> <span class="stars">★★★★★</span> 4.9</p>
+      <p><strong>Perfil:</strong> Empresa de automatización residencial (luces, cámaras, cerraduras, sonido) controladas desde celular. No es directamente chatbots para PYMEs pero ilustra la demanda por automatización accesible en RD.</p>
+      <p><strong>Muestra de reseña:</strong> <em>"Excelente servicio. Me automatizaron luces, cámaras y cerraduras, todo funcionando desde el celular sin complicaciones. Puntuales, profesionales y se nota que saben lo que hacen."</em></p>
+    </div>
+
+    <div class="no-data" style="margin-top:16px;">
+      <strong>Buggin.dev y Novum Solutions:</strong> Las búsquedas "buggin dev Santo Domingo" y "novum solutions Santo Domingo" no retornaron resultados relevantes en Google Maps. En el caso de "buggin dev", Google Maps mostró resultados de "Semage Motorsports" (tienda de vehículos todo terreno), indicando que no existe un listing verificado de estas empresas en la plataforma.
+    </div>
+  </div>
+
+  <!-- IMPLICACIONES PARA AaaS -->
+  <div class="section" id="implicaciones">
+    <h2>6. Implicaciones para AaaS (Automatización como Servicio)</h2>
+    <div class="warning-box">
+      <strong>Nota de rigor:</strong> Las implicaciones que siguen son <em>hipótesis plausibles</em> generadas a partir de una muestra limitada, no conclusiones respaldadas por evidencia cuantitativa sólida. Deben tratarse como puntos de partida para investigación adicional, no como verdades establecidas.
+    </div>
+
+    <div class="opportunity">
+      <h4>✅ Oportunidad #1: Vacío competitivo en chatbots/IA para PYMEs</h4>
+      <p class="evidence">Los datos muestran que las empresas de chatbot en RD tienen muy poca presencia pública verificable (Botcity: 3 reseñas, sin texto). Esto puede indicar un mercado incipiente con espacio para nuevos actores, o que la comercialización ocurre por canales privados/referidos. En cualquier caso, la presencia digital de competidores parece baja.</p>
+    </div>
+
+    <div class="opportunity">
+      <h4>✅ Oportunidad #2: Demanda de soluciones que resuelvan problemas concretos de negocios</h4>
+      <p class="evidence">La reseña de GestionXpress ("pude optimizar los procesos de mi empresa") y la iniciativa de la app local tipo Uber Eats en Reddit sugieren que hay emprendedores y negocios buscando activamente soluciones. El enfoque en "resultados tangibles" (procesos optimizados, ahorro de dinero) resuena con el contexto local.</p>
+    </div>
+
+    <div class="opportunity">
+      <h4>✅ Oportunidad #3: El modelo de confianza basado en referidos es crucial</h4>
+      <p class="evidence">En Reddit, los comentarios sobre negocios en RD enfatizan la importancia de "contactos" y la desconfianza hacia extraños. Esto sugiere que la estrategia de adquisición de clientes para AaaS debe priorizar el boca a boca, las demostraciones directas y las referencias de clientes satisfechos — más que el marketing digital masivo.</p>
+    </div>
+
+    <div class="opportunity">
+      <h4>✅ Oportunidad #4: Confiabilidad y comunicación como diferenciadores</h4>
+      <p class="evidence">La única queja sustantiva sobre una empresa tech fue sobre mala comunicación ("very poor in communication and attending to their clients"). En un mercado donde la confianza es escasa, una empresa que responda rápido, comunique con claridad y cumpla lo prometido puede diferenciarse significativamente de competidores que no lo hacen.</p>
+    </div>
+
+    <div class="opportunity">
+      <h4>⚠️ Reto: Infraestructura de conectividad</h4>
+      <p class="evidence">Las múltiples quejas sobre internet poco confiable (Altice, Claro) son una señal de riesgo real. Las soluciones de IA que requieren conexión constante pueden enfrentar resistencia o fracasar en contextos donde la conectividad es intermitente. Esto favorece soluciones resilientes offline o que minimicen la dependencia de internet de alta velocidad.</p>
+    </div>
+  </div>
+
+  <!-- LIMITACIONES -->
+  <div class="section" id="limitaciones">
+    <h2>7. Limitaciones del Estudio — Sección de Rigor Académico</h2>
+
+    <div class="limitation">
+      <h4>7.1 Tamaño de muestra insuficiente para conclusiones estadísticas</h4>
+      <p>Se recopilaron 297 reseñas de Google Maps y 50 ítems de Reddit. Ninguna de estas cantidades permite inferencias estadísticas sobre la población de PYMEs dominicanas ni sobre sus actitudes hacia la tecnología. Las frecuencias de palabras o temas observadas no son representativas. Este estudio debe considerarse <strong>exploratorio</strong>, no descriptivo ni explicativo.</p>
+    </div>
+
+    <div class="limitation">
+      <h4>7.2 Sesgo de auto-selección en las fuentes</h4>
+      <p>Solo escriben reseñas en Google Maps quienes tienen motivación fuerte para hacerlo (clientes muy satisfechos o muy insatisfechos). Los usuarios activos en Reddit r/Dominican representan una fracción pequeña, joven y probablemente más urbanizada de la población dominicana. Las opiniones de dueños de negocios pequeños, adultos mayores, o personas con menor acceso a tecnología están sistemáticamente ausentes.</p>
+    </div>
+
+    <div class="limitation">
+      <h4>7.3 Relevancia temática limitada de los datos obtenidos</h4>
+      <p>El tema objetivo del estudio es "automatización e IA para PYMEs en RD". La gran mayoría de las reseñas de Google Maps obtenidas corresponden a automatización <em>industrial</em> (PLC, ascensores, fábricas) o domótica residencial, no a chatbots o IA para negocios de servicios. Los posts de Reddit no mencionaron chatbots ni herramientas de IA en ningún momento. En consecuencia, <strong>la evidencia directa sobre el tema de interés es prácticamente nula</strong>.</p>
+    </div>
+
+    <div class="limitation">
+      <h4>7.4 Plataformas clave no disponibles</h4>
+      <p>Twitter/X fue inaccesible por limitaciones del plan de Apify. Esta plataforma es donde más probable sería encontrar conversaciones sobre tecnología para negocios en español caribeño. Trustpilot no tiene cobertura relevante del mercado dominicano. La ausencia de estos datos es una limitación significativa que no puede compensarse con los datos disponibles.</p>
+    </div>
+
+    <div class="limitation">
+      <h4>7.5 Ausencia de datos sobre grupos de Facebook, WhatsApp y foros locales</h4>
+      <p>En República Dominicana, una gran parte de las conversaciones sobre negocios ocurre en grupos cerrados de Facebook, grupos de WhatsApp y foros locales que no son accesibles mediante scraping público. La exclusión de estos canales significa que las conversaciones más auténticas y frecuentes sobre herramientas para negocios probablemente no están representadas en este estudio.</p>
+    </div>
+
+    <div class="limitation">
+      <h4>7.6 Las inferencias son especulativas sin validación adicional</h4>
+      <p>Varias "implicaciones para AaaS" de la sección 6 son hipótesis razonables pero no están soportadas por datos cuantitativos ni cualitativos sólidos. La frase "el mercado está en fase temprana" se infiere de la <em>ausencia</em> de datos, lo cual es una inferencia débil — podría simplemente indicar que el mercado opera en canales no públicos. Cualquier decisión estratégica basada en este estudio debe validarse con entrevistas directas a PYMEs dominicanas y/o encuestas estructuradas.</p>
+    </div>
+
+    <div class="limitation">
+      <h4>7.7 Posible sesgo de las queries de búsqueda</h4>
+      <p>Las queries usadas en Google Maps ("agencia chatbot", "automatizacion empresas") pueden haber sesgado los resultados hacia automatización industrial en lugar de IA para negocios de servicios. Queries alternativas como "asistente virtual empresa RD", "software atención al cliente dominicana" o "chatbot WhatsApp negocio" podrían haber arrojado resultados más relevantes. Esta limitación no fue descubierta hasta después de ejecutar los scrapers.</p>
+    </div>
+
+    <div class="info-box" style="margin-top:20px;">
+      <strong>Conclusión sobre solidez del estudio:</strong> Este reporte es un <em>punto de partida exploratorio</em>. Los datos recopilados son auténticos y se presentan con fidelidad, pero la cobertura del tema de interés es incompleta. Para investigación más robusta se recomienda: (1) entrevistas directas a 15–20 dueños de PYMEs en Santo Domingo, (2) grupos focales, (3) scraping de grupos de Facebook de emprendedores dominicanos, y (4) análisis de Google Trends con términos locales específicos.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Reporte generado el 27 de abril de 2026 | Datos: Apify (Google Maps Scraper + Reddit Scraper Lite) | Para uso interno — Proyecto Inteligencia de Mercado Foam Creativo
+</footer>
+
+<script>
+// Chart 1: Stars distribution
+new Chart(document.getElementById('starsChart'), {
+  type: 'bar',
+  data: {
+    labels: ['★ 1 estrella', '★★ 2 estrellas', '★★★ 3 estrellas', '★★★★ 4 estrellas', '★★★★★ 5 estrellas'],
+    datasets: [{
+      label: 'Número de reseñas',
+      data: [16, 7, 9, 30, 235],
+      backgroundColor: ['#fc8181','#f6ad55','#f6e05e','#68d391','#48bb78'],
+      borderRadius: 6,
+      borderSkipped: false,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: 'Distribución de calificaciones — Google Maps (n=297)', font: { size: 13 }, color: '#1e3a5f' }
+    },
+    scales: {
+      y: { beginAtZero: true, grid: { color: '#e2e8f0' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// Chart 2: Top keywords in Google Maps reviews
+new Chart(document.getElementById('keywordsChart'), {
+  type: 'bar',
+  data: {
+    labels: ['excelente','servicio','calidad','servicios','empresa','trabajo','atención','mejor','soluciones','equipo','tecnología','automatización','profesional','precios','seguridad'],
+    datasets: [{
+      label: 'Frecuencia',
+      data: [52, 46, 20, 17, 12, 11, 11, 10, 9, 9, 7, 7, 6, 7, 6],
+      backgroundColor: '#2d5282',
+      borderRadius: 4,
+      borderSkipped: false,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: 'Palabras más frecuentes en reseñas Google Maps (n=152 con texto)', font: { size: 13 }, color: '#1e3a5f' }
+    },
+    scales: {
+      x: { beginAtZero: true, grid: { color: '#e2e8f0' } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+// Chart 3: Reddit topics
+new Chart(document.getElementById('redditTopicsChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Emprender en familia / negocios familiares', 'Importación / gris (consolas, tech)', 'App móvil local (Uber Eats-like)', 'Mejor negocio para montar en RD', 'Dropshipping'],
+    datasets: [{
+      data: [9, 21, 25, 23, 9],
+      backgroundColor: ['#1e3a5f','#2d5282','#4299e1','#63b3ed','#bee3f8'],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 12 } },
+      title: { display: true, text: 'Posts de Reddit por tema (% de comentarios)', font: { size: 13 }, color: '#1e3a5f' }
+    }
+  }
+});
+</script>
+
+
+<a href="index_aaas.html" title="Volver al índice" style="position:fixed;bottom:24px;right:24px;background:#FF4B2B;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:11px 20px;border-radius:99px;text-decoration:none;z-index:9999;box-shadow:0 4px 24px rgba(255,75,43,.45);letter-spacing:.04em">&#8592; Índice</a>
+</body>
+</html>

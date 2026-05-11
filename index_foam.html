@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foam Creativo · Inteligencia de Mercado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0A0E27;--navy2:#141A3B;--orange:#FF4B2B;--gold:#D4AF37;--teal:#14B8A6;--text:#E8EAF3;--muted:#9AA0BF;--border:rgba(255,255,255,.08);--card:rgba(255,255,255,.04)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+.hero{background:radial-gradient(ellipse at top right,rgba(255,75,43,.15),transparent 55%),radial-gradient(ellipse at bottom left,rgba(212,175,55,.1),transparent 55%),var(--navy);padding:70px 6vw 50px;border-bottom:1px solid var(--border);text-align:center}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:700;margin-bottom:12px}
+.grad{background:linear-gradient(90deg,var(--orange),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);font-size:17px;max-width:560px;margin:0 auto}
+.hero .meta{margin-top:16px;font-size:13px;color:var(--muted)}
+.hero .meta b{color:var(--gold)}
+.switcher{display:flex;justify-content:center;gap:12px;margin-top:28px}
+.switcher a{font-size:13px;font-weight:600;padding:9px 22px;border-radius:99px;text-decoration:none;letter-spacing:.04em;transition:all .18s}
+.switcher .active{background:var(--orange);color:#fff}
+.switcher .inactive{border:1px solid var(--border);color:var(--muted)}
+.switcher .inactive:hover{border-color:var(--orange);color:var(--text)}
+main{max-width:900px;margin:0 auto;padding:50px 6vw 80px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--orange);margin:0 0 20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+a.card{display:block;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px;text-decoration:none;transition:transform .18s,border-color .18s,background .18s;position:relative;overflow:hidden}
+a.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--orange))}
+a.card:hover{transform:translateY(-3px);border-color:rgba(255,75,43,.4);background:rgba(255,255,255,.07)}
+a.card .num{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.1em;margin-bottom:8px}
+a.card h3{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.3}
+a.card p{font-size:13px;color:var(--muted);line-height:1.5}
+a.card .footer{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+a.card .size{font-size:11px;color:var(--muted)}
+a.card .arrow{font-size:18px;color:var(--accent,var(--orange));font-weight:700;transition:transform .15s}
+a.card:hover .arrow{transform:translateX(4px)}
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;text-transform:uppercase;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--orange);padding:5px 14px;border:1px solid var(--orange);border-radius:99px;margin-bottom:20px">Reportes internos · Abril 2026</div>
+  <h1><span class="grad">Foam Creativo</span><br>Inteligencia de Mercado</h1>
+  <p>Investigación sobre el posicionamiento actual de Foam Creativo: SEO, tendencias de búsqueda y presencia en redes sociales.</p>
+  <div class="meta"><b>3 reportes</b> · ~417 KB · Abril 2026</div>
+  <div class="switcher">
+    <span class="switcher active" style="background:var(--orange);color:#fff;padding:9px 22px;border-radius:99px;font-size:13px;font-weight:600">Foam Creativo</span>
+    <a href="index_aaas.html" class="switcher inactive">AaaS RD →</a>
+  </div>
+</div>
+
+<main>
+  <div class="section-title">Reportes Foam Creativo</div>
+  <div class="grid">
+
+    <a class="card" href="seo_reporte.html" style="--accent:#14B8A6">
+      <div class="num">REPORTE 01</div>
+      <span class="badge" style="background:rgba(20,184,166,.15);color:#14B8A6;border:1px solid rgba(20,184,166,.3)">DataForSEO · SERP RD</span>
+      <h3>SEO — Posicionamiento en Google RD</h3>
+      <p>Análisis SERP de Foam Creativo y competidores en búsquedas dominicanas. Quién domina orgánicamente.</p>
+      <div class="footer"><span class="size">382 KB · Apr 27 12:46</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="trends_reporte.html" style="--accent:#8B5CF6">
+      <div class="num">REPORTE 02</div>
+      <span class="badge" style="background:rgba(139,92,246,.15);color:#8B5CF6;border:1px solid rgba(139,92,246,.3)">Google Trends · RD</span>
+      <h3>Tendencias de búsqueda RD</h3>
+      <p>Interés real de búsqueda en República Dominicana para los productos y servicios de Foam Creativo.</p>
+      <div class="footer"><span class="size">31 KB · Apr 27 13:20</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="social_reporte.html" style="--accent:#E1306C">
+      <div class="num">REPORTE 03</div>
+      <span class="badge" style="background:rgba(225,48,108,.15);color:#E1306C;border:1px solid rgba(225,48,108,.3)">Instagram · TikTok</span>
+      <h3>Presencia en redes sociales</h3>
+      <p>Métricas de los perfiles de Instagram y TikTok de Foam Creativo: seguidores, engagement y comparativa.</p>
+      <div class="footer"><span class="size">4 KB · Apr 27 13:35</span><span class="arrow">→</span></div>
+    </a>
+
+  </div>
+</main>
+
+</body>
+</html>

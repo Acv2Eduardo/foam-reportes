@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Intelligence · AaaS RD · Foam Creativo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--navy:#0A0E27;--navy2:#141A3B;--orange:#FF4B2B;--gold:#D4AF37;--teal:#14B8A6;--purple:#8B5CF6;--red:#EF4444;--green:#10B981;--blue:#3B82F6;--yt:#FF0000;--text:#E8EAF3;--muted:#9AA0BF;--border:rgba(255,255,255,.08);--card:rgba(255,255,255,.04)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* HERO */
+.hero{background:radial-gradient(ellipse at top right,rgba(255,0,0,.12),transparent 55%),radial-gradient(ellipse at bottom left,rgba(212,175,55,.08),transparent 55%),var(--navy);padding:60px 6vw 44px;border-bottom:1px solid var(--border);text-align:center}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--yt);padding:5px 14px;border:1px solid rgba(255,0,0,.4);border-radius:99px;margin-bottom:20px}
+.yt-logo{width:18px;height:13px;background:var(--yt);border-radius:3px;display:inline-flex;align-items:center;justify-content:center}
+.yt-logo::after{content:'';border-left:7px solid #fff;border-top:4px solid transparent;border-bottom:4px solid transparent;margin-left:1px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(26px,3.5vw,48px);font-weight:700;margin-bottom:12px}
+.grad-yt{background:linear-gradient(90deg,var(--yt),#FF6B35);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);font-size:16px;max-width:580px;margin:0 auto}
+.hero .meta{margin-top:14px;font-size:13px;color:var(--muted)}
+.hero .meta b{color:var(--gold)}
+
+/* LAYOUT */
+main{max-width:1100px;margin:0 auto;padding:46px 6vw 80px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--yt);margin:44px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.section-title:first-child{margin-top:0}
+
+/* STAT PILLS */
+.stat-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:32px}
+.stat-pill{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 22px;flex:1;min-width:160px}
+.stat-pill .val{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;line-height:1}
+.stat-pill .lbl{font-size:12px;color:var(--muted);margin-top:5px}
+
+/* CHARTS */
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+@media(max-width:700px){.chart-row{grid-template-columns:1fr}}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px}
+.chart-card h4{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+.chart-card .sub{font-size:12px;color:var(--muted);margin-bottom:18px}
+.chart-wrap{position:relative;height:240px}
+.chart-wrap-tall{position:relative;height:340px}
+
+/* KEYWORD TABLE */
+.kw-table{width:100%;border-collapse:collapse;margin-bottom:32px;font-size:13px}
+.kw-table th{text-align:left;padding:10px 14px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
+.kw-table td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+.kw-table tr:hover td{background:rgba(255,255,255,.03)}
+.kw-table .kw{font-weight:600;color:var(--text)}
+.vol-bar{display:flex;align-items:center;gap:8px}
+.vol-track{height:6px;border-radius:3px;background:rgba(255,255,255,.08);flex:1;max-width:80px}
+.vol-fill{height:6px;border-radius:3px}
+.badge-vol{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px}
+.vol-alto{background:rgba(16,185,129,.15);color:#10B981;border:1px solid rgba(16,185,129,.3)}
+.vol-medio{background:rgba(245,158,11,.15);color:#F59E0B;border:1px solid rgba(245,158,11,.3)}
+.vol-bajo{background:rgba(255,75,43,.15);color:#FF4B2B;border:1px solid rgba(255,75,43,.3)}
+.vol-creciendo{background:rgba(139,92,246,.15);color:#8B5CF6;border:1px solid rgba(139,92,246,.3)}
+.comp-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px}
+.comp-alto{background:rgba(239,68,68,.15);color:#EF4444;border:1px solid rgba(239,68,68,.3)}
+.comp-medio{background:rgba(245,158,11,.15);color:#F59E0B;border:1px solid rgba(245,158,11,.3)}
+.comp-bajo{background:rgba(16,185,129,.15);color:#10B981;border:1px solid rgba(16,185,129,.3)}
+
+/* VIDEO CARDS */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-bottom:32px}
+.video-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden}
+.video-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--yt)}
+.video-card .vc-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;display:inline-block;margin-bottom:8px;background:rgba(255,0,0,.12);color:var(--yt);border:1px solid rgba(255,0,0,.25)}
+.video-card h4{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.3}
+.video-card .vc-meta{font-size:12px;color:var(--muted);margin-top:8px}
+.video-card .vc-intent{font-size:12px;color:var(--teal);margin-top:4px;font-weight:500}
+
+/* CHANNELS TABLE */
+.ch-table{width:100%;border-collapse:collapse;margin-bottom:32px;font-size:13px}
+.ch-table th{text-align:left;padding:10px 14px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
+.ch-table td{padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+.ch-table tr:hover td{background:rgba(255,255,255,.03)}
+.ch-name{font-weight:700;color:#fff}
+.ch-sub{font-size:11px;color:var(--muted)}
+.bar-inline{display:flex;align-items:center;gap:8px}
+.bi-track{height:5px;background:rgba(255,255,255,.08);border-radius:3px;flex:1;max-width:120px}
+.bi-fill{height:5px;border-radius:3px;background:var(--yt)}
+
+/* INSIGHT CARDS */
+.insight-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:32px}
+.insight-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px}
+.insight-card .ico{font-size:28px;margin-bottom:12px}
+.insight-card h4{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:8px}
+.insight-card p{font-size:13px;color:var(--muted);line-height:1.55}
+.insight-card.highlight{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.05)}
+.insight-card.warning{border-color:rgba(255,75,43,.3);background:rgba(255,75,43,.05)}
+.insight-card.gold{border-color:rgba(212,175,55,.3);background:rgba(212,175,55,.05)}
+
+/* GAP TABLE */
+.gap-table{width:100%;border-collapse:collapse;margin-bottom:32px;font-size:13px}
+.gap-table th{text-align:left;padding:10px 14px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
+.gap-table td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+.gap-table tr:hover td{background:rgba(255,255,255,.03)}
+.opp-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px}
+.opp-a{background:rgba(16,185,129,.15);color:#10B981;border:1px solid rgba(16,185,129,.3)}
+.opp-b{background:rgba(245,158,11,.15);color:#F59E0B;border:1px solid rgba(245,158,11,.3)}
+.opp-c{background:rgba(139,92,246,.15);color:#8B5CF6;border:1px solid rgba(139,92,246,.3)}
+
+/* TOOLS */
+.tool-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.tool-pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.tool-pill .tp-name{font-weight:700;font-size:13px}
+.tool-pill .tp-trend{font-size:11px;color:var(--muted)}
+.trend-up{color:var(--green)}
+.trend-hot{color:var(--yt)}
+.trend-stable{color:var(--muted)}
+
+/* BACK BUTTON */
+.back-btn{position:fixed;bottom:28px;right:28px;background:var(--yt);color:#fff;font-size:12px;font-weight:700;padding:11px 20px;border-radius:99px;text-decoration:none;letter-spacing:.04em;box-shadow:0 4px 20px rgba(255,0,0,.3);z-index:100;transition:transform .15s}
+.back-btn:hover{transform:translateY(-2px)}
+
+/* CALLOUT */
+.callout{background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.25);border-radius:12px;padding:18px 22px;margin-bottom:28px}
+.callout h4{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--gold);margin-bottom:6px}
+.callout p{font-size:13px;color:var(--muted);line-height:1.55}
+
+/* RD GAP HIGHLIGHT */
+.rd-gap{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.25);border-radius:12px;padding:18px 22px;margin:24px 0}
+.rd-gap h4{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--teal);margin-bottom:6px}
+.rd-gap p{font-size:13px;color:var(--muted);line-height:1.55}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag"><span class="yt-logo"></span>YouTube Intelligence · AaaS RD</div>
+  <h1>Motor de Búsqueda<br><span class="grad-yt">YouTube en Español</span></h1>
+  <p>Diagnóstico de las búsquedas con mayor volumen en YouTube para chatbot, WhatsApp, agentes IA y automatización en el mercado hispanohablante y RD.</p>
+  <div class="meta"><b>7 clusters de keywords</b> · 40+ videos mapeados · 10 canales top · Abril 2026</div>
+</div>
+
+<main>
+
+<!-- ======== STATS ======== -->
+<div class="stat-row">
+  <div class="stat-pill">
+    <div class="val" style="color:var(--yt)">40+</div>
+    <div class="lbl">Videos analizados</div>
+  </div>
+  <div class="stat-pill">
+    <div class="val" style="color:var(--green)">7</div>
+    <div class="lbl">Clusters de keywords</div>
+  </div>
+  <div class="stat-pill">
+    <div class="val" style="color:var(--gold)">10</div>
+    <div class="lbl">Canales dominantes</div>
+  </div>
+  <div class="stat-pill">
+    <div class="val" style="color:var(--teal)">0</div>
+    <div class="lbl">Creadores dominicanos activos</div>
+  </div>
+  <div class="stat-pill">
+    <div class="val" style="color:var(--purple)">1</div>
+    <div class="lbl">Video "AaaS" en español</div>
+  </div>
+</div>
+
+<!-- ======== CHARTS ======== -->
+<div class="section-title">📊 Demanda por cluster de keywords</div>
+
+<div class="chart-row">
+  <div class="chart-card">
+    <h4>Volumen estimado por keyword cluster</h4>
+    <div class="sub">Basado en densidad de contenido, vistas reportadas y frecuencia de búsqueda en español</div>
+    <div class="chart-wrap">
+      <canvas id="chartVolume"></canvas>
+    </div>
+  </div>
+  <div class="chart-card">
+    <h4>Competencia en YouTube por cluster</h4>
+    <div class="sub">Cantidad de creadores / canales cubriendo activamente ese cluster (español)</div>
+    <div class="chart-wrap">
+      <canvas id="chartCompetition"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ======== KEYWORD TABLE ======== -->
+<div class="section-title">🔑 Los 7 clusters de keywords — análisis completo</div>
+
+<table class="kw-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Cluster / Keyword raíz</th>
+      <th>Variantes más buscadas</th>
+      <th>Volumen</th>
+      <th>Competencia YT</th>
+      <th>Intención</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="color:var(--muted);font-weight:700">01</td>
+      <td>
+        <div class="kw">Chatbot WhatsApp</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">Keyword ancla del mercado</div>
+      </td>
+      <td style="color:var(--muted)">
+        "chatbot whatsapp gratis"<br>
+        "chatbot whatsapp sin programar"<br>
+        "cómo hacer chatbot whatsapp"<br>
+        "mejor chatbot whatsapp 2026"
+      </td>
+      <td>
+        <div class="vol-bar">
+          <div class="vol-track"><div class="vol-fill" style="width:100%;background:var(--green)"></div></div>
+          <span class="badge-vol vol-alto">Muy alto</span>
+        </div>
+      </td>
+      <td><span class="comp-badge comp-alto">Alta</span></td>
+      <td style="color:var(--muted)">Tutorial / Comparativa</td>
+    </tr>
+    <tr>
+      <td style="color:var(--muted);font-weight:700">02</td>
+      <td>
+        <div class="kw">Automatizar WhatsApp</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">Negocios + vendedores</div>
+      </td>
+      <td style="color:var(--muted)">
+        "automatizar whatsapp con ia"<br>
+        "automatizar mensajes whatsapp business"<br>
+        "automatizar ventas whatsapp"<br>
+        "automatizar whatsapp gratis"
+      </td>
+      <td>
+        <div class="vol-bar">
+          <div class="vol-track"><div class="vol-fill" style="width:88%;background:var(--green)"></div></div>
+          <span class="badge-vol vol-alto">Alto</span>
+        </div>
+      </td>
+      <td><span class="comp-badge comp-medio">Media</span></td>
+      <td style="color:var(--muted)">How-to / Solución</td>
+    </tr>
+    <tr>
+      <td style="color:var(--muted);font-weight:700">03</td>
+      <td>
+        <div class="kw">Agentes de IA</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">Creciendo rápido 2025–2026</div>
+      </td>
+      <td style="color:var(--muted)">
+        "cómo crear agentes de ia"<br>
+        "agentes ia n8n"<br>
+        "agente de ventas ia whatsapp"<br>
+        "agentes ia para negocios"
+      </td>
+      <td>
+        <div class="vol-bar">
+          <div class="vol-track"><div class="vol-fill" style="width:72%;background:var(--purple)"></div></div>
+          <span class="badge-vol vol-creciendo">↑ Creciendo</span>
+        </div>
+      </td>
+      <td><span class="comp-badge comp-medio">Media</span></td>
+      <td style="color:var(--muted)">Tutorial / Educación</td>
+    </tr>
+    <tr>
+      <td style="color:var(--muted);font-weight:700">04</td>
+      <td>
+        <div class="kw">Agencia de IA</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">AaaS / AIAA explodiendo</div>
+      </td>
+      <td style="color:var(--muted)">
+        "cómo empezar una agencia de ia"<br>
+        "agencia de ia paso a paso"<br>
+        "agencia ia rentable 2026"<br>
+        "cómo crear agencia ia desde cero"
+      </td>
+      <td>
+        <div class="vol-bar">
+          <div class="vol-track"><div class="vol-fill" style="width:68%;background:var(--purple)"></div></div>
+          <span class="badge-vol vol-creciendo">↑ Creciendo</span>
+        </div>
+      </td>
+      <td><span class="comp-badge comp-medio">Media</span></td>
+      <td style="color:var(--muted)">Negocio / Make money</td>
+    </tr>
+    <tr>
+      <td style="color:var(--muted);font-weight:700">05</td>
+      <td>
+        <div class="kw">n8n + WhatsApp</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">Tool trending #1 en español</div>
+      </td>
+      <td style="color:var(--muted)">
+        "n8n whatsapp chatbot"<br>
+        "n8n whatsapp api meta"<br>
+        "conectar agente ia n8n whatsapp"<br>
+        "n8n vs make vs zapier 2026"
+      </td>
+      <td>
+        <div class="vol-bar">
+          <div class="vol-track"><div class="vol-fill" style="width:78%;background:var(--green)"></div></div>
+          <span class="badge-vol vol-alto">Alto</span>
+        </div>
+      </td>
+      <td><span class="comp-badge comp-medio">Media</span></td>
+      <td style="color:var(--muted)">Tutorial técnico</td>
+    </tr>
+    <tr>
+      <td style="color:var(--muted);font-weight:700">06</td>
+      <td>
+        <div class="kw">Automatización negocios IA</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">Empresarios / PYMEs</div>
+      </td>
+      <td style="color:var(--muted)">
+        "automatizar negocios con ia"<br>
+        "automatizar procesos empresa"<br>
+        "inteligencia artificial pymes"<br>
+        "ia para mi negocio"
+      </td>
+      <td>
+        <div class="vol-bar">
+          <div class="vol-track"><div class="vol-fill" style="width:55%;background:#F59E0B)"></div></div>
+          <span class="badge-vol vol-medio">Medio</span>
+        </div>
+      </td>
+      <td><span class="comp-badge comp-bajo">Baja</span></td>
+      <td style="color:var(--muted)">Educación / Convencer</td>
+    </tr>
+    <tr>
+      <td style="color:var(--muted);font-weight:700">07</td>
+      <td>
+        <div class="kw">WhatsApp Business IA</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">Canal masivo nivel básico</div>
+      </td>
+      <td style="color:var(--muted)">
+        "whatsapp business mensajes automáticos"<br>
+        "whatsapp business ia 2026"<br>
+        "meta ia whatsapp"<br>
+        "novedades whatsapp 2026"
+      </td>
+      <td>
+        <div class="vol-bar">
+          <div class="vol-track"><div class="vol-fill" style="width:82%;background:var(--green)"></div></div>
+          <span class="badge-vol vol-alto">Alto</span>
+        </div>
+      </td>
+      <td><span class="comp-badge comp-alto">Alta</span></td>
+      <td style="color:var(--muted)">Actualización / Noticias</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ======== TOOLS TRENDING ======== -->
+<div class="section-title">🛠️ Herramientas más buscadas junto a "chatbot / automatización"</div>
+
+<div class="tool-row">
+  <div class="tool-pill">
+    <span style="font-size:20px">⚡</span>
+    <div>
+      <div class="tp-name">n8n</div>
+      <div class="tp-trend trend-hot">🔥 Trending #1 en español 2025</div>
+    </div>
+  </div>
+  <div class="tool-pill">
+    <span style="font-size:20px">💬</span>
+    <div>
+      <div class="tp-name">ManyChat</div>
+      <div class="tp-trend trend-up">↑ Alto volumen, estable</div>
+    </div>
+  </div>
+  <div class="tool-pill">
+    <span style="font-size:20px">⚙️</span>
+    <div>
+      <div class="tp-name">Make (Integromat)</div>
+      <div class="tp-trend trend-up">↑ Creciendo vs Zapier</div>
+    </div>
+  </div>
+  <div class="tool-pill">
+    <span style="font-size:20px">🔗</span>
+    <div>
+      <div class="tp-name">Zapier</div>
+      <div class="tp-trend trend-stable">→ Estable, compite con Make</div>
+    </div>
+  </div>
+  <div class="tool-pill">
+    <span style="font-size:20px">🤖</span>
+    <div>
+      <div class="tp-name">Chatfuel</div>
+      <div class="tp-trend trend-up">↑ Fuely AI (agente ventas)</div>
+    </div>
+  </div>
+  <div class="tool-pill">
+    <span style="font-size:20px">🌊</span>
+    <div>
+      <div class="tp-name">Flowise</div>
+      <div class="tp-trend trend-up">↑ Open source, técnico</div>
+    </div>
+  </div>
+  <div class="tool-pill">
+    <span style="font-size:20px">📞</span>
+    <div>
+      <div class="tp-name">VAPI</div>
+      <div class="tp-trend trend-hot">🔥 Call centers IA</div>
+    </div>
+  </div>
+  <div class="tool-pill">
+    <span style="font-size:20px">💼</span>
+    <div>
+      <div class="tp-name">KOMMO CRM</div>
+      <div class="tp-trend trend-up">↑ "Agente ventas WhatsApp"</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== TOP VIDEOS ======== -->
+<div class="section-title">🎬 Videos de mayor tracción por cluster (español)</div>
+
+<div class="video-grid">
+  <div class="video-card">
+    <div class="vc-tag">Chatbot WhatsApp</div>
+    <h4>Cómo hacer un CHATBOT para WhatsApp GRATIS en 5 minutos</h4>
+    <div class="vc-meta">ManyChat · 2025 · Tutorial sin código</div>
+    <div class="vc-intent">🎯 "GRATIS + sin programar" = combo ganador</div>
+  </div>
+  <div class="video-card">
+    <div class="vc-tag">Chatbot WhatsApp</div>
+    <h4>Mejores Chatbots para WhatsApp — 2026 (Callbell)</h4>
+    <div class="vc-meta">Comparativa plataformas · Dic 2025</div>
+    <div class="vc-intent">🎯 Usuarios buscando solución, listo para comprar</div>
+  </div>
+  <div class="video-card">
+    <div class="vc-tag">Automatizar WhatsApp</div>
+    <h4>Automatiza WhatsApp con IA y crea tu agente de ventas</h4>
+    <div class="vc-meta">KOMMO CRM · Jul 2025 · Tutorial</div>
+    <div class="vc-intent">🎯 Emprendedores buscando automatizar ventas</div>
+  </div>
+  <div class="video-card">
+    <div class="vc-tag">Automatizar WhatsApp</div>
+    <h4>Cómo Automatizar WhatsApp con IA [SIN perder tu número]</h4>
+    <div class="vc-meta">Chatfuel · Mar 2025 · Pain point directo</div>
+    <div class="vc-intent">🎯 Miedo a perder número = búsqueda frecuente</div>
+  </div>
+  <div class="video-card">
+    <div class="vc-tag">n8n + WhatsApp</div>
+    <h4>Tutorial N8N: Construir Chatbot en WhatsApp (Método fácil)</h4>
+    <div class="vc-meta">n8n · Mar 2025 · Técnico-fácil</div>
+    <div class="vc-intent">🎯 Desarrolladores y automatizadores</div>
+  </div>
+  <div class="video-card">
+    <div class="vc-tag">n8n + WhatsApp</div>
+    <h4>Cómo Crear un Chatbot de WhatsApp con IA GRATIS (N8N Sin Programar)</h4>
+    <div class="vc-meta">Ene 2026 · Técnico + no-code</div>
+    <div class="vc-intent">🎯 Combina "gratis + n8n + sin programar"</div>
+  </div>
+  <div class="video-card">
+    <div class="vc-tag">Agentes de IA</div>
+    <h4>Cómo Crear Agentes de IA: Guía Definitiva para Principiantes</h4>
+    <div class="vc-meta">Ago 2025 · Educativo · Beginners</div>
+    <div class="vc-intent">🎯 Mercado aprendiendo qué son los agentes</div>
+  </div>
+  <div class="video-card">
+    <div class="vc-tag">Agentes de IA</div>
+    <h4>Como Cree un AGENTE de IA AUTONOMO VENDEDOR En WhatsApp</h4>
+    <div class="vc-meta">Ene 2025 · Caso real de negocio</div>
+    <div class="vc-intent">🎯 Combo agente + ventas + WhatsApp = poder</div>
+  </div>
+  <div class="video-card">
+    <div class="vc-tag">Agencia de IA</div>
+    <h4>Cómo He Construido mi Primer AaaS (Agent as a Service)</h4>
+    <div class="vc-meta">Feb 2025 · ⚠️ ÚNICO video AaaS en español</div>
+    <div class="vc-intent">🎯 ÚNICO video usando el término AaaS en español</div>
+  </div>
+  <div class="video-card">
+    <div class="vc-tag">Agencia de IA</div>
+    <h4>Cómo Empezar Una AGENCIA De IA +6H (Paso a Paso y sin humo)</h4>
+    <div class="vc-meta">Jun 2025 · Mega-tutorial · Curso gratuito</div>
+    <div class="vc-intent">🎯 Emprendedores queriendo monetizar IA</div>
+  </div>
+  <div class="video-card">
+    <div class="vc-tag">WA Business IA</div>
+    <h4>NUEVO WhatsApp 2026 🚨 Llega la IA en WhatsApp</h4>
+    <div class="vc-meta">Feb 2026 · Novedades Meta IA</div>
+    <div class="vc-intent">🎯 Audiencia masiva: usuarios WA generales</div>
+  </div>
+  <div class="video-card">
+    <div class="vc-tag">Automatización</div>
+    <h4>N8N vs Make vs Zapier: Cuál Elegir para Automatizar en 2026</h4>
+    <div class="vc-meta">Feb 2026 · Comparativa · Alto intento de compra</div>
+    <div class="vc-intent">🎯 Usuario listo para elegir herramienta</div>
+  </div>
+</div>
+
+<!-- ======== CHANNELS ======== -->
+<div class="section-title">📺 Canales dominantes en español (IA + Automatización)</div>
+
+<table class="ch-table">
+  <thead>
+    <tr>
+      <th>Canal</th>
+      <th>Suscriptores (est.)</th>
+      <th>Enfoque</th>
+      <th>Relevancia AaaS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <div class="ch-name">DotCSV (Carlos Santana)</div>
+        <div class="ch-sub">España · @dotcsv</div>
+      </td>
+      <td>
+        <div class="bar-inline">
+          <div class="bi-track"><div class="bi-fill" style="width:100%"></div></div>
+          <span style="font-weight:700;color:var(--text)">650K+</span>
+        </div>
+      </td>
+      <td style="color:var(--muted)">IA educativa, ética, modelos generativos</td>
+      <td><span class="comp-badge comp-medio">Media — educativo puro</span></td>
+    </tr>
+    <tr>
+      <td>
+        <div class="ch-name">Juan Pe Navarro</div>
+        <div class="ch-sub">LATAM · IA y Automatización</div>
+      </td>
+      <td>
+        <div class="bar-inline">
+          <div class="bi-track"><div class="bi-fill" style="width:35%"></div></div>
+          <span style="font-weight:700;color:var(--text)">~80–120K</span>
+        </div>
+      </td>
+      <td style="color:var(--muted)">Agencias IA, automatización, monetización</td>
+      <td><span class="comp-badge comp-alto">Alta — competidor directo</span></td>
+    </tr>
+    <tr>
+      <td>
+        <div class="ch-name">Divisual Project</div>
+        <div class="ch-sub">España · Agencia real enseña AIA</div>
+      </td>
+      <td>
+        <div class="bar-inline">
+          <div class="bi-track"><div class="bi-fill" style="width:25%"></div></div>
+          <span style="font-weight:700;color:var(--text)">~50–80K</span>
+        </div>
+      </td>
+      <td style="color:var(--muted)">Único canal de agencia real + marketing digital IA</td>
+      <td><span class="comp-badge comp-alto">Alta — modelo a replicar en RD</span></td>
+    </tr>
+    <tr>
+      <td>
+        <div class="ch-name">Xavier Mitjana</div>
+        <div class="ch-sub">España · @XavierMitjana</div>
+      </td>
+      <td>
+        <div class="bar-inline">
+          <div class="bi-track"><div class="bi-fill" style="width:20%"></div></div>
+          <span style="font-weight:700;color:var(--text)">~120K</span>
+        </div>
+      </td>
+      <td style="color:var(--muted)">LLMs, ética IA, modelos de lenguaje</td>
+      <td><span class="comp-badge comp-bajo">Baja — técnico avanzado</span></td>
+    </tr>
+    <tr>
+      <td>
+        <div class="ch-name">Fernando Herrera (Fernando_Her85)</div>
+        <div class="ch-sub">España/LATAM · @Fernando_Her85</div>
+      </td>
+      <td>
+        <div class="bar-inline">
+          <div class="bi-track"><div class="bi-fill" style="width:30%"></div></div>
+          <span style="font-weight:700;color:var(--text)">~80K+</span>
+        </div>
+      </td>
+      <td style="color:var(--muted)">n8n, automatización, chatbots WhatsApp tutoriales</td>
+      <td><span class="comp-badge comp-alto">Alta — keywords directas</span></td>
+    </tr>
+    <tr>
+      <td>
+        <div class="ch-name">Plancton AI</div>
+        <div class="ch-sub">LATAM · Automatización negocios</div>
+      </td>
+      <td>
+        <div class="bar-inline">
+          <div class="bi-track"><div class="bi-fill" style="width:15%"></div></div>
+          <span style="font-weight:700;color:var(--text)">~20–40K</span>
+        </div>
+      </td>
+      <td style="color:var(--muted)">WhatsApp + IA + negocios latinoamérica</td>
+      <td><span class="comp-badge comp-alto">Alta — mismo ICP</span></td>
+    </tr>
+    <tr>
+      <td>
+        <div class="ch-name">Canales de plataformas (ManyChat, Chatfuel, etc.)</div>
+        <div class="ch-sub">Marketing propio</div>
+      </td>
+      <td>
+        <div class="bar-inline">
+          <div class="bi-track"><div class="bi-fill" style="width:40%"></div></div>
+          <span style="font-weight:700;color:var(--text)">50K–200K c/u</span>
+        </div>
+      </td>
+      <td style="color:var(--muted)">Tutoriales de sus propias herramientas</td>
+      <td><span class="comp-badge comp-medio">Media — venden software, no servicio</span></td>
+    </tr>
+    <tr>
+      <td>
+        <div class="ch-name" style="color:var(--yt)">🇩🇴 Creadores de RD</div>
+        <div class="ch-sub">República Dominicana</div>
+      </td>
+      <td>
+        <div class="bar-inline">
+          <div class="bi-track"><div class="bi-fill" style="width:0%;background:var(--red)"></div></div>
+          <span style="font-weight:700;color:var(--red)">0</span>
+        </div>
+      </td>
+      <td style="color:var(--red)">⚠️ Ningún canal dominicano activo en IA/chatbot/automatización</td>
+      <td><span style="color:var(--green);font-weight:700">✅ VACÍO TOTAL — Oportunidad #1</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ======== RD CONTENT GAP ======== -->
+<div class="section-title">🇩🇴 Contenido RD en YouTube — diagnóstico</div>
+
+<div class="rd-gap">
+  <h4>✅ Lo que SÍ existe en YouTube sobre RD + IA</h4>
+  <p>Todo el contenido de "República Dominicana + inteligencia artificial" en YouTube es <strong>gubernamental o noticioso</strong>: videos de la ENIA (Estrategia Nacional de IA), la alianza RD-NVIDIA, el chatbot MICmi del gobierno, discursos de la Presidencia y el MIC. Son videos institucionales, no tutoriales de negocio.</p>
+</div>
+
+<div class="callout">
+  <h4>⚠️ Lo que NO existe (vacío estratégico)</h4>
+  <p>No existe <strong>ningún canal dominicano</strong> enseñando a PYMEs dominicanas a implementar chatbots, automatizar WhatsApp, o usar agentes de IA. La búsqueda "chatbot whatsapp RD", "automatizar negocio dominicano IA" o "agente ia república dominicana" devuelve <strong>cero resultados de creadores locales</strong>. El que llegue primero a este nicho en YouTube tendrá la primera posición por defecto.</p>
+</div>
+
+<!-- ======== OPORTUNIDADES GAP ======== -->
+<div class="section-title">🚀 Gap de oportunidad — keywords sin competencia en RD</div>
+
+<table class="gap-table">
+  <thead>
+    <tr>
+      <th>Keyword / Contenido</th>
+      <th>Volumen global (español)</th>
+      <th>Competencia RD</th>
+      <th>Oportunidad</th>
+      <th>Acción recomendada</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="font-weight:700;color:#fff">"Automatizar WhatsApp República Dominicana"</td>
+      <td style="color:var(--muted)">Alto (global) · Nulo (RD)</td>
+      <td style="color:var(--green);font-weight:700">0 creadores</td>
+      <td><span class="opp-badge opp-a">A · Urgente</span></td>
+      <td style="color:var(--muted)">1er video en RD = top automático</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:#fff">"Agente IA para PYME dominicana"</td>
+      <td style="color:var(--muted)">Creciendo (global) · Nulo (RD)</td>
+      <td style="color:var(--green);font-weight:700">0 creadores</td>
+      <td><span class="opp-badge opp-a">A · Urgente</span></td>
+      <td style="color:var(--muted)">Caso Fomi = demo perfecto</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:#fff">"Chatbot WhatsApp gratis para negocio en RD"</td>
+      <td style="color:var(--muted)">Alto (global) · Nulo (RD)</td>
+      <td style="color:var(--green);font-weight:700">0 creadores</td>
+      <td><span class="opp-badge opp-a">A · Urgente</span></td>
+      <td style="color:var(--muted)">Tutorial básico con Fomi</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:#fff">"AaaS en español" / "Agencia IA RD"</td>
+      <td style="color:var(--muted)">Bajo pero creciendo fast</td>
+      <td style="color:var(--green);font-weight:700">1 video global</td>
+      <td><span class="opp-badge opp-b">B · Pronto</span></td>
+      <td style="color:var(--muted)">Primer canal AaaS hispanohablante en RD</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:#fff">"n8n WhatsApp en español para PYMEs"</td>
+      <td style="color:var(--muted)">Alto (LATAM) · Nulo (RD)</td>
+      <td style="color:var(--muted)">España domina</td>
+      <td><span class="opp-badge opp-b">B · Pronto</span></td>
+      <td style="color:var(--muted)">Tutorial con acento caribeño / casos RD</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:#fff">"Inteligencia artificial para PYMEs RD 2026"</td>
+      <td style="color:var(--muted)">Medio (global) · Nulo (RD)</td>
+      <td style="color:var(--green);font-weight:700">0 creadores</td>
+      <td><span class="opp-badge opp-c">C · Estratégico</span></td>
+      <td style="color:var(--muted)">Video educativo, construye autoridad</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:#fff">"ENIA + oportunidades para negocios RD"</td>
+      <td style="color:var(--muted)">Bajo pero nicho clave</td>
+      <td style="color:var(--muted)">Solo institucional</td>
+      <td><span class="opp-badge opp-c">C · Estratégico</span></td>
+      <td style="color:var(--muted)">Conectar política pública con negocios</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ======== CHART DEMAND vs SUPPLY ======== -->
+<div class="section-title">📉 Demanda vs Oferta de contenido — español vs RD</div>
+
+<div style="max-width:700px;margin:0 auto 32px">
+  <div class="chart-card">
+    <h4>Contenido disponible vs demanda de búsqueda por mercado</h4>
+    <div class="sub">Español global tiene oferta alta; RD tiene demanda latente con oferta = 0</div>
+    <div class="chart-wrap-tall">
+      <canvas id="chartGap"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ======== INSIGHTS ======== -->
+<div class="section-title">💡 Hallazgos clave — implicaciones para AaaS RD</div>
+
+<div class="insight-grid">
+  <div class="insight-card highlight">
+    <div class="ico">🏆</div>
+    <h4>n8n = herramienta dominante en español</h4>
+    <p>N8N superó a Zapier y Make como el tool de automatización más buscado en español en 2025. Docenas de tutoriales "n8n + WhatsApp" disponibles. La AaaS RD debería dominar esta keyword antes que nadie local.</p>
+  </div>
+  <div class="insight-card highlight">
+    <div class="ico">📈</div>
+    <h4>"Agencia de IA" está explotando</h4>
+    <p>Más de 10 videos nuevos sobre "cómo crear una agencia de IA" aparecieron entre 2025 y 2026 en español. El mercado quiere aprender a monetizar la IA. Eduardo podría posicionarse como el referente en RD.</p>
+  </div>
+  <div class="insight-card gold">
+    <div class="ico">💎</div>
+    <h4>Solo 1 video AaaS en español en el mundo</h4>
+    <p>"Cómo He Construido mi Primer AaaS (Agent as a Service)" — Feb 2025. Es el único video en español usando este término. Territorio completamente virgen para convertirse en el canal AaaS #1 hispanohablante.</p>
+  </div>
+  <div class="insight-card warning">
+    <div class="ico">⚠️</div>
+    <h4>Contenido RD = 100% gubernamental</h4>
+    <p>Todos los resultados YouTube para "República Dominicana + IA" son institucionales (ENIA, NVIDIA deal, Presidencia). Cero creadores privados. El primer canal de negocios dominicano en IA no tiene competencia.</p>
+  </div>
+  <div class="insight-card highlight">
+    <div class="ico">🎯</div>
+    <h4>Fomi = demo perfecto para YouTube</h4>
+    <p>Un video mostrando cómo Foam Creativo automatizó sus cotizaciones con Fomi (antes y después, métricas reales) sería el caso de uso más concreto y creíble del mercado RD. Tutorial + caso real + resultados.</p>
+  </div>
+  <div class="insight-card">
+    <div class="ico">🌍</div>
+    <h4>La competencia está en España, no en LATAM</h4>
+    <p>Los canales dominantes (DotCSV, Divisual Project, Fernando Herrera) son españoles. El mercado latinoamericano tiene una brecha enorme, y el dominicano más aún. Primero en llegar, primero en crecer.</p>
+  </div>
+</div>
+
+<!-- ======== PLAN DE CONTENIDO ======== -->
+<div class="section-title">📋 Plan de contenido YouTube recomendado — primeros 5 videos</div>
+
+<table class="gap-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Título sugerido</th>
+      <th>Keyword target</th>
+      <th>Tipo</th>
+      <th>Por qué funciona</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="font-weight:700;color:var(--yt)">01</td>
+      <td style="font-weight:600;color:#fff">Cómo automaticé las cotizaciones de mi negocio con IA (caso real RD)</td>
+      <td style="color:var(--muted)">"automatizar negocio ia"<br>"caso real IA pyme dominicana"</td>
+      <td><span class="opp-badge opp-a">Caso real</span></td>
+      <td style="color:var(--muted)">Fomi como protagonista. Resultados reales = credibilidad máxima</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:var(--yt)">02</td>
+      <td style="font-weight:600;color:#fff">Cómo hacer un chatbot para WhatsApp GRATIS en República Dominicana</td>
+      <td style="color:var(--muted)">"chatbot whatsapp gratis"<br>"whatsapp RD automatizar"</td>
+      <td><span class="opp-badge opp-b">Tutorial</span></td>
+      <td style="color:var(--muted)">Alta demanda global + 0 versión local = posición #1 garantizada en RD</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:var(--yt)">03</td>
+      <td style="font-weight:600;color:#fff">Qué son los Agentes de IA y cómo pueden ayudar a tu PYME en RD</td>
+      <td style="color:var(--muted)">"agentes ia para negocios"<br>"inteligencia artificial pyme RD"</td>
+      <td><span class="opp-badge opp-c">Educativo</span></td>
+      <td style="color:var(--muted)">Construye audiencia educada + posiciona como experto local</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:var(--yt)">04</td>
+      <td style="font-weight:600;color:#fff">Agente de ventas IA en WhatsApp — responde 24/7 por ti (demo)</td>
+      <td style="color:var(--muted)">"agente ventas ia whatsapp"<br>"agente ia autonomo vendedor"</td>
+      <td><span class="opp-badge opp-a">Demo</span></td>
+      <td style="color:var(--muted)">Keyword trending + demo en vivo = lead magnet natural para AaaS</td>
+    </tr>
+    <tr>
+      <td style="font-weight:700;color:var(--yt)">05</td>
+      <td style="font-weight:600;color:#fff">Cómo empezar una Agencia de IA en República Dominicana (AaaS)</td>
+      <td style="color:var(--muted)">"agencia de ia"<br>"aaas español"<br>"agencia ia RD"</td>
+      <td><span class="opp-badge opp-c">Negocio</span></td>
+      <td style="color:var(--muted)">El único video AaaS en español + RD. Posicionamiento de marca único</td>
+    </tr>
+  </tbody>
+</table>
+
+  <!-- Ver datos reales RD en Reporte 11 -->
+  <div style="background:rgba(20,184,166,.06);border:1px solid rgba(20,184,166,.25);border-radius:12px;padding:16px 22px;margin-top:40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:gap">
+    <div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:var(--teal);margin-bottom:4px">🇩🇴 ¿Cuánto se buscan estos términos en República Dominicana?</div>
+      <div style="font-size:13px;color:var(--muted)">Ver el Reporte 11 con datos reales de Google Trends filtrados a RD — lo que el mercado dominicano realmente busca.</div>
+    </div>
+    <a href="google_trends_rd_report.html" style="background:var(--teal);color:#fff;font-size:12px;font-weight:700;padding:10px 20px;border-radius:99px;text-decoration:none;white-space:nowrap;margin-left:16px">Ver Reporte 11 →</a>
+  </div>
+
+</main>
+
+
+<!-- ======== CHARTS JS ======== -->
+<script>
+const font = "'Inter', sans-serif";
+Chart.defaults.color = '#9AA0BF';
+Chart.defaults.font.family = font;
+
+// Chart 1: Volume by cluster
+const ctx1 = document.getElementById('chartVolume').getContext('2d');
+new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: ['Chatbot\nWhatsApp','Automatizar\nWhatsApp','WA Business\nIA','n8n +\nWhatsApp','Agentes\nde IA','Agencia\nde IA','Autom.\nNegocios'],
+    datasets: [{
+      label: 'Volumen relativo (búsquedas español)',
+      data: [100, 88, 82, 78, 72, 68, 55],
+      backgroundColor: [
+        'rgba(255,0,0,.7)',
+        'rgba(255,0,0,.6)',
+        'rgba(255,75,43,.55)',
+        'rgba(16,185,129,.65)',
+        'rgba(139,92,246,.65)',
+        'rgba(139,92,246,.55)',
+        'rgba(245,158,11,.55)'
+      ],
+      borderRadius: 6,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: {
+        grid: { color: 'rgba(255,255,255,.06)' },
+        ticks: { font: { size: 11 } }
+      },
+      x: {
+        grid: { display: false },
+        ticks: { font: { size: 10 } }
+      }
+    }
+  }
+});
+
+// Chart 2: Competition by cluster
+const ctx2 = document.getElementById('chartCompetition').getContext('2d');
+new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: ['Chatbot\nWhatsApp','WA Business\nIA','n8n +\nWhatsApp','Automatizar\nWhatsApp','Agentes\nde IA','Agencia\nde IA','Autom.\nNegocios'],
+    datasets: [{
+      label: 'Canales activos cubriendo este cluster (español)',
+      data: [45, 40, 32, 30, 22, 18, 12],
+      backgroundColor: 'rgba(59,130,246,.6)',
+      borderRadius: 6,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: {
+        grid: { color: 'rgba(255,255,255,.06)' },
+        ticks: { font: { size: 11 } }
+      },
+      x: {
+        grid: { display: false },
+        ticks: { font: { size: 10 } }
+      }
+    }
+  }
+});
+
+// Chart 3: Demand vs Supply gap (horizontal)
+const ctx3 = document.getElementById('chartGap').getContext('2d');
+new Chart(ctx3, {
+  type: 'bar',
+  data: {
+    labels: [
+      'Chatbot WA',
+      'Automatizar WA',
+      'Agentes IA',
+      'Agencia IA',
+      'n8n WA',
+      'IA PYMEs RD'
+    ],
+    datasets: [
+      {
+        label: 'Demanda de búsqueda',
+        data: [100, 88, 72, 68, 78, 65],
+        backgroundColor: 'rgba(16,185,129,.65)',
+        borderRadius: 4
+      },
+      {
+        label: 'Contenido disponible (español global)',
+        data: [90, 75, 60, 55, 65, 30],
+        backgroundColor: 'rgba(59,130,246,.5)',
+        borderRadius: 4
+      },
+      {
+        label: 'Contenido disponible (RD específico)',
+        data: [0, 0, 0, 0, 0, 0],
+        backgroundColor: 'rgba(255,0,0,.6)',
+        borderRadius: 4
+      }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { font: { size: 11 }, boxWidth: 12, padding: 14 }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: 'rgba(255,255,255,.06)' },
+        stacked: false,
+        ticks: { font: { size: 11 } }
+      },
+      y: {
+        grid: { display: false },
+        ticks: { font: { size: 12 } }
+      }
+    }
+  }
+});
+</script>
+
+<a href="index_aaas.html" class="back-btn">&#8592; Índice AaaS</a>
+
+</body>
+</html>

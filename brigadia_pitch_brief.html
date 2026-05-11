@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrigadIA — Pitch Brief · Abril 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ─────────────────────────────────────────
+   VARIABLES & RESET
+───────────────────────────────────────── */
+:root {
+  --navy: #0A0E27;
+  --navy2: #141A3B;
+  --orange: #FF4B2B;
+  --gold: #D4AF37;
+  --teal: #14B8A6;
+  --purple: #8B5CF6;
+  --green: #22C55E;
+  --red: #EF4444;
+  --text: #E8EAF3;
+  --muted: #9AA0BF;
+  --border: rgba(255,255,255,.09);
+  --card: rgba(255,255,255,.04);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.65;
+}
+
+/* ─────────────────────────────────────────
+   PDF BUTTON (screen only)
+───────────────────────────────────────── */
+.pdf-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 999;
+  background: rgba(10,14,39,.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  padding: 10px 6vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pdf-bar .bar-brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--gold);
+  letter-spacing: .03em;
+}
+.pdf-bar .bar-hint {
+  font-size: 12px;
+  color: var(--muted);
+  display: none;
+}
+@media(min-width:600px){ .pdf-bar .bar-hint { display: block; } }
+.btn-pdf {
+  background: linear-gradient(135deg, var(--orange), #ff7040);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 22px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  letter-spacing: .04em;
+  transition: opacity .15s;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+.btn-pdf:hover { opacity: .88; }
+.btn-pdf svg { width: 16px; height: 16px; }
+
+/* ─────────────────────────────────────────
+   COVER
+───────────────────────────────────────── */
+.cover {
+  background:
+    radial-gradient(ellipse at top right, rgba(255,75,43,.18), transparent 55%),
+    radial-gradient(ellipse at bottom left, rgba(212,175,55,.12), transparent 55%),
+    var(--navy);
+  padding: 96px 8vw 60px;
+  border-bottom: 1px solid var(--border);
+}
+.cover .eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--orange);
+  padding: 5px 14px;
+  border: 1px solid var(--orange);
+  border-radius: 99px;
+  display: inline-block;
+  margin-bottom: 26px;
+}
+.cover h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(36px, 6vw, 70px);
+  font-weight: 700;
+  line-height: 1.05;
+  margin-bottom: 18px;
+}
+.grad { background: linear-gradient(90deg, var(--orange), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.cover .tagline {
+  font-size: 19px;
+  color: var(--muted);
+  max-width: 640px;
+  margin-bottom: 12px;
+}
+.cover .pitch-line {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 32px;
+}
+.kpis { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+.kpi {
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 22px;
+  flex: 1; min-width: 140px;
+}
+.kpi .val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.kpi .lbl { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .08em; }
+
+/* ─────────────────────────────────────────
+   LAYOUT
+───────────────────────────────────────── */
+main { max-width: 980px; margin: 0 auto; padding: 60px 8vw 100px; }
+.section { margin-bottom: 58px; padding-bottom: 58px; border-bottom: 1px solid var(--border); }
+.section:last-child { border-bottom: none; }
+.s-number { font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+
+/* ─────────────────────────────────────────
+   TYPOGRAPHY
+───────────────────────────────────────── */
+h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(22px, 3vw, 34px); font-weight: 700; margin-bottom: 22px; line-height: 1.2; }
+h3 { font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700; color: var(--gold); margin: 30px 0 12px; }
+h4 { font-size: 15px; font-weight: 700; color: #fff; margin: 20px 0 8px; }
+p { color: var(--muted); margin-bottom: 14px; font-size: 15px; }
+ul, ol { color: var(--muted); padding-left: 20px; margin-bottom: 14px; font-size: 15px; }
+li { margin-bottom: 7px; }
+strong { color: var(--text); }
+
+/* ─────────────────────────────────────────
+   COMPONENTS
+───────────────────────────────────────── */
+.highlight {
+  background: rgba(255,75,43,.09);
+  border-left: 3px solid var(--orange);
+  padding: 14px 20px;
+  border-radius: 0 10px 10px 0;
+  margin: 18px 0;
+}
+.highlight p { margin: 0; color: var(--text); }
+
+.callout {
+  background: rgba(212,175,55,.07);
+  border: 1px solid rgba(212,175,55,.22);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin: 18px 0;
+}
+.callout p { margin: 0; }
+.callout strong { color: var(--gold); }
+
+.pill-box {
+  background: rgba(139,92,246,.07);
+  border: 1px solid rgba(139,92,246,.2);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin: 18px 0;
+}
+.pill-box strong { color: var(--purple); }
+
+.data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin: 16px 0; }
+.data-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.data-card .metric {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+}
+.data-card .metric-lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+.tier {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 14px;
+}
+.tier.featured { border-color: rgba(212,175,55,.4); background: rgba(212,175,55,.04); }
+.tier .tier-name { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+.tier .tier-price { font-size: 22px; font-weight: 800; color: var(--gold); margin-bottom: 12px; }
+.tier ul { margin: 0; }
+
+.comp-layer {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 12px;
+}
+.comp-layer .layer-title { font-weight: 700; color: #fff; margin-bottom: 10px; font-size: 14px; letter-spacing: .03em; }
+
+.gap-box {
+  background: rgba(20,184,166,.06);
+  border: 1px solid rgba(20,184,166,.2);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 10px;
+}
+.gap-box .gap-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--teal); margin-bottom: 6px;
+}
+.gap-box p { margin: 0; font-size: 14px; }
+
+table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14px; }
+th {
+  text-align: left; padding: 10px 14px;
+  background: rgba(255,255,255,.06);
+  color: var(--text); font-weight: 700;
+  border-bottom: 2px solid var(--border);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--muted); }
+tr:last-child td { border-bottom: none; }
+td strong { color: var(--text); }
+
+.roadmap-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+  align-items: start;
+}
+.roadmap-phase {
+  background: var(--orange);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.4;
+}
+.roadmap-content .phase-title { font-weight: 700; color: #fff; margin-bottom: 6px; font-size: 14px; }
+
+.moat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.moat-icon { font-size: 24px; line-height: 1; margin-top: 2px; flex-shrink: 0; }
+.moat-body h4 { margin: 0 0 6px; }
+.moat-body p { margin: 0; font-size: 14px; }
+
+.expense-row {
+  display: grid;
+  grid-template-columns: 1fr repeat(6, 70px);
+  gap: 0;
+  font-size: 13px;
+}
+.expense-row.header {
+  background: rgba(255,255,255,.06);
+  font-weight: 700;
+  color: var(--text);
+  border-radius: 8px 8px 0 0;
+}
+.expense-row.total-row {
+  background: rgba(212,175,55,.08);
+  border-top: 2px solid rgba(212,175,55,.3);
+  font-weight: 700;
+  color: var(--gold);
+}
+.expense-row .cell {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+}
+.expense-row.header .cell { color: var(--text); }
+.expense-row .cell:first-child { color: var(--text); font-weight: 500; }
+.expense-row.total-row .cell { color: var(--gold); border-bottom: none; }
+.expense-table { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 18px 0; }
+
+.toc {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 52px;
+}
+.toc h3 { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin: 0 0 14px; }
+.toc ol { color: var(--muted); font-size: 14px; }
+.toc li { margin-bottom: 6px; }
+.toc a { color: var(--muted); text-decoration: none; transition: color .15s; }
+.toc a:hover { color: var(--orange); }
+
+/* ─────────────────────────────────────────
+   PRINT / PDF STYLES
+───────────────────────────────────────── */
+@media print {
+  /* General reset for print */
+  :root {
+    --navy: #ffffff;
+    --navy2: #f5f5f8;
+    --text: #0d1030;
+    --muted: #444466;
+    --border: #d8dae8;
+    --card: #f0f1f8;
+  }
+
+  html, body { background: #fff !important; color: #0d1030 !important; }
+
+  .pdf-bar { display: none !important; }
+
+  .cover {
+    background: #fff !important;
+    border-bottom: 2px solid #e0e4f0 !important;
+    padding: 40px 0 32px !important;
+    page-break-after: always;
+  }
+
+  .cover h1 { font-size: 42px !important; }
+  .grad { background: none !important; -webkit-text-fill-color: #cc3300 !important; }
+  .cover .tagline { color: #444 !important; }
+  .cover .pitch-line { color: #b8860b !important; }
+  .cover .eyebrow { color: #cc3300 !important; border-color: #cc3300 !important; }
+
+  .kpi { background: #f0f1f8 !important; border-color: #d8dae8 !important; }
+  .kpi .val { color: #b8860b !important; }
+  .kpi .lbl { color: #666 !important; }
+
+  main { padding: 40px 0 60px !important; max-width: 100% !important; }
+
+  .section {
+    border-bottom: 1px solid #e0e4f0 !important;
+    padding-bottom: 32px !important;
+    margin-bottom: 32px !important;
+    page-break-inside: avoid;
+  }
+
+  h2 { color: #0d1030 !important; page-break-after: avoid; }
+  h3 { color: #996600 !important; page-break-after: avoid; }
+  h4 { color: #0d1030 !important; }
+  p, li { color: #333355 !important; }
+  strong { color: #0d1030 !important; }
+
+  .s-number { color: #cc3300 !important; }
+
+  .highlight {
+    background: #fff3f0 !important;
+    border-left-color: #cc3300 !important;
+  }
+  .highlight p { color: #0d1030 !important; }
+
+  .callout {
+    background: #fffbf0 !important;
+    border-color: #c8a820 !important;
+  }
+  .callout strong { color: #996600 !important; }
+
+  .pill-box {
+    background: #f3f0ff !important;
+    border-color: #a080e0 !important;
+  }
+  .pill-box strong { color: #5b30c0 !important; }
+
+  .data-card {
+    background: #f0f1f8 !important;
+    border-color: #d8dae8 !important;
+  }
+  .data-card .metric-lbl { color: #555 !important; }
+
+  .tier {
+    background: #f5f6fc !important;
+    border-color: #d8dae8 !important;
+  }
+  .tier .tier-name { color: #0d1030 !important; }
+  .tier .tier-price { color: #996600 !important; }
+  .tier.featured { border-color: #c8a820 !important; background: #fffdf0 !important; }
+
+  .comp-layer {
+    background: #f5f6fc !important;
+    border-color: #d8dae8 !important;
+  }
+  .comp-layer .layer-title { color: #0d1030 !important; }
+
+  .gap-box {
+    background: #f0fbf9 !important;
+    border-color: #a0d4cc !important;
+  }
+  .gap-box .gap-label { color: #007c70 !important; }
+  .gap-box p { color: #0d1030 !important; }
+
+  table { border: 1px solid #d8dae8 !important; }
+  th { background: #f0f1f8 !important; color: #0d1030 !important; border-bottom: 2px solid #d8dae8 !important; }
+  td { color: #333355 !important; border-bottom: 1px solid #e8eaf4 !important; }
+  td strong { color: #0d1030 !important; }
+
+  .roadmap-phase { background: #cc3300 !important; color: #fff !important; }
+
+  .moat {
+    background: #f0f1f8 !important;
+    border-color: #d8dae8 !important;
+  }
+  .moat-body p { color: #333355 !important; }
+
+  .expense-row .cell { border-bottom-color: #e8eaf4 !important; }
+  .expense-row .cell:first-child { color: #0d1030 !important; }
+  .expense-row.header { background: #f0f1f8 !important; }
+  .expense-row.header .cell { color: #0d1030 !important; }
+  .expense-row.total-row { background: #fffbf0 !important; border-top-color: #c8a820 !important; }
+  .expense-row.total-row .cell { color: #996600 !important; }
+  .expense-table { border-color: #d8dae8 !important; }
+
+  .toc { background: #f5f6fc !important; border-color: #d8dae8 !important; }
+  .toc h3 { color: #888 !important; }
+  .toc a { color: #333 !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── PDF BAR (screen only) ─── -->
+<div class="pdf-bar no-print">
+  <span class="bar-brand">BrigadIA — Pitch Brief 2026</span>
+  <span class="bar-hint">Para guardar como PDF: Chrome → Imprimir → Guardar como PDF · Escala 80% · Sin márgenes</span>
+  <button class="btn-pdf" onclick="window.print()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>
+    </svg>
+    Descargar PDF
+  </button>
+</div>
+
+<!-- ─── PORTADA ─── -->
+<div class="cover">
+  <div class="eyebrow">Agents as a Service · República Dominicana · Abril 2026</div>
+  <h1><span class="grad">BrigadIA</span></h1>
+  <p class="tagline">Agencia de agentes de inteligencia artificial para PYMEs dominicanas — Agents as a Service.</p>
+  <p class="pitch-line">Contrata tu propio personal a bajo costo.</p>
+  <div class="kpis">
+    <div class="kpi"><div class="val">$215M</div><div class="lbl">TAM República Dominicana</div></div>
+    <div class="kpi"><div class="val">10,800</div><div class="lbl">PYMEs objetivo en RD</div></div>
+    <div class="kpi"><div class="val">44–46%</div><div class="lbl">CAGR global AaaS</div></div>
+    <div class="kpi"><div class="val">0</div><div class="lbl">Competidores locales consolidados</div></div>
+    <div class="kpi"><div class="val">$150 USD</div><div class="lbl">Facturación promedio esperada / cliente</div></div>
+  </div>
+</div>
+
+<main>
+
+<!-- TABLA DE CONTENIDOS -->
+<div class="toc">
+  <h3>Índice</h3>
+  <ol>
+    <li><a href="#s1">El Problema — Dolor real de las PYMEs en RD</a></li>
+    <li><a href="#s2">La Solución — BrigadIA y el Mall de Agentes</a></li>
+    <li><a href="#s3">Prueba de Concepto — Fomi (Foam Creativo)</a></li>
+    <li><a href="#s4">Tamaño de Mercado — TAM / SAM / SOM</a></li>
+    <li><a href="#s5">Benchmark — Consenso de 6 Modelos de IA</a></li>
+    <li><a href="#s6">Competencia — 3 capas + gaps estratégicos</a></li>
+    <li><a href="#s7">Modelo de Negocio — Estructura, pricing y fuentes de ingreso</a></li>
+    <li><a href="#s8">ICP — 6 verticales priorizados</a></li>
+    <li><a href="#s9">Ventajas Competitivas</a></li>
+    <li><a href="#s10">Canales Digitales — Google Trends, YouTube, Meta Ads, Instagram</a></li>
+    <li><a href="#s11">Roadmap — Fase de Lanzamiento</a></li>
+    <li><a href="#s12">Estimación de Gastos Mensuales — Primeros 6 Meses</a></li>
+  </ol>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 1 — EL PROBLEMA
+═══════════════════════════════════════════ -->
+<div class="section" id="s1">
+  <div class="s-number">Sección 01</div>
+  <h2>El Problema: Las PYMEs en RD No Pueden Competir Sin IA</h2>
+
+  <div class="highlight">
+    <p><strong>Dolor #1 identificado en campo:</strong> Mensajes de WhatsApp sin respuesta. Las PYMEs pierden ventas mientras duermen, viajan o están en reuniones. No tienen personal para cubrir atención 24/7 — y contratarlo es inaccesible para la mayoría.</p>
+  </div>
+
+  <h3>Los 5 dolores críticos de las PYMEs dominicanas</h3>
+  <ol>
+    <li><strong>Atención fragmentada:</strong> 1–3 personas manejan ventas, WhatsApp, Instagram y operaciones simultáneamente. La respuesta tarda horas o no llega.</li>
+    <li><strong>Cotizaciones y procesos manuales:</strong> Cada cotización se prepara a mano en Excel o WhatsApp. Sin historial, sin trazabilidad, sin seguimiento automático.</li>
+    <li><strong>Marketing sin estrategia ni datos:</strong> Publicaciones sin plan, sin métricas de desempeño. El 82.3% de PYMEs menciona tecnología pero sin estructura.</li>
+    <li><strong>Campañas de Meta Ads sin optimización:</strong> Gasto en anuncios sin saber qué funciona. No hay agencia local especializada accesible para ellos.</li>
+    <li><strong>Ausencia de automatización:</strong> Procesos repetitivos — confirmaciones, recordatorios, seguimiento de pedidos — se ejecutan a mano. El tiempo del dueño cuesta caro.</li>
+  </ol>
+
+  <h3>El contexto digital en RD (Datos reales, Abril 2026)</h3>
+  <ul>
+    <li><strong>ChatGPT = tendencia dominante en RD:</strong> Google Trends reporta índice 75–100 (máximo) en República Dominicana. La demanda de IA existe y está creciendo.</li>
+    <li><strong>"chatbot whatsapp" = índice 0 en RD:</strong> A pesar del volumen global, en RD este término no tiene masa crítica — ventana temprana para posicionarse antes que llegue competencia.</li>
+    <li><strong>Dola AI creció +91,250% en tendencias:</strong> Las apps de IA en español explotan. El usuario dominicano ya adopta IA en su vida personal.</li>
+    <li><strong>Acuerdo NVIDIA-RD (ENIA):</strong> El gobierno firmó alianza oficial. El ecosistema institucional respalda la adopción. El momento político es favorable.</li>
+    <li><strong>82.3% de PYMEs menciona tecnología en Instagram:</strong> Hay conciencia, pero sin soluciones locales concretas accesibles. El mercado está listo para ser capturado.</li>
+  </ul>
+
+  <div class="callout">
+    <p><strong>La brecha real:</strong> Hay demanda de IA en RD, voluntad de adoptar tecnología y un gobierno empujando el ecosistema — pero <strong>no existe ninguna agencia dominicana que ofrezca agentes de IA empaquetados y asequibles para PYMEs.</strong> Eso es lo que BrigadIA resuelve.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 2 — LA SOLUCIÓN
+═══════════════════════════════════════════ -->
+<div class="section" id="s2">
+  <div class="s-number">Sección 02</div>
+  <h2>La Solución: BrigadIA — Mall de Agentes a la Carta</h2>
+
+  <div class="callout">
+    <p><strong>El pitch central:</strong> <em>"Contrata tu propio personal a bajo costo."</em> Cada agente tiene personalidad propia y representación visual — pero cuando entra a trabajar para una empresa, se pone el <strong>uniforme de esa empresa.</strong> Es tu empleado, con tu marca.</p>
+  </div>
+
+  <h3>¿Qué es BrigadIA?</h3>
+  <p>BrigadIA es una <strong>Agents Agency</strong> — una agencia que diseña, despliega y gestiona agentes de inteligencia artificial para PYMEs dominicanas. El modelo opera como un <strong>ecosistema de agentes a la carta</strong>: el cliente elige qué agentes necesita, los activa por módulo y paga solo por lo que usa.</p>
+  <p>No es un chatbot de preguntas y respuestas. Un agente de BrigadIA <strong>razona, toma decisiones, usa herramientas y ejecuta tareas</strong> — como un empleado virtual especializado que trabaja 24/7 sin vacaciones, sin errores por cansancio y sin costo de nómina tradicional.</p>
+
+  <h3>El concepto: Mall de Agentes</h3>
+  <div class="pill-box">
+    <p><strong>Imagina un mall de agentes digitales.</strong> En lugar de ir a una tienda única, el cliente navega por un catálogo de agentes especializados — cada uno con su personalidad, nombre y área de expertise. Selecciona los que necesita, los "contrata", y ellos se integran a su negocio con los colores, tono y datos de la empresa. Como franquicias de talento digital.</p>
+  </div>
+  <ul>
+    <li>Agente de ventas y cotizaciones</li>
+    <li>Agente de community management</li>
+    <li>Agente de campañas Meta Ads</li>
+    <li>Agente de atención al cliente (chatbot avanzado)</li>
+    <li>Agente tipo Dola (asistente IA de productividad)</li>
+    <li>Agente de contabilidad y finanzas</li>
+    <li>Agente de operaciones y logística</li>
+    <li>Agente de llamadas IA</li>
+    <li>Agente de facturación electrónica</li>
+    <li>Agente de inventario</li>
+  </ul>
+
+  <h3>Propuesta de valor central</h3>
+  <div class="data-grid">
+    <div class="data-card"><div class="metric" style="color:var(--orange)">24/7</div><div class="metric-lbl">Atención sin pausas, sin fines de semana, sin vacaciones.</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--gold)">-80%</div><div class="metric-lbl">Reducción de tiempo en tareas repetitivas: cotizaciones, respuestas, seguimientos.</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--teal)">3–5x</div><div class="metric-lbl">Velocidad de respuesta vs. competidores manuales. El primer respondedor gana la venta.</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--green)">ROI</div><div class="metric-lbl">Claro y medible: leads respondidos, cotizaciones enviadas, pedidos procesados.</div></div>
+  </div>
+
+  <h3>Comparativa vs. alternativas</h3>
+  <table>
+    <tr><th>Característica</th><th>Chatbot básico</th><th>Software genérico</th><th>BrigadIA</th></tr>
+    <tr><td>Razonamiento contextual</td><td>No</td><td>No</td><td><strong>Sí</strong></td></tr>
+    <tr><td>Personalización por sector</td><td>Limitada</td><td>No</td><td><strong>Completa</strong></td></tr>
+    <tr><td>Español dominicano</td><td>No</td><td>No</td><td><strong>Nativo</strong></td></tr>
+    <tr><td>WhatsApp Cloud API</td><td>Sí</td><td>Indirecto</td><td><strong>Sí, directo</strong></td></tr>
+    <tr><td>Agente que ejecuta tareas</td><td>No</td><td>Parcial</td><td><strong>Sí — cotiza, registra, notifica</strong></td></tr>
+    <tr><td>Onboarding + soporte local</td><td>No</td><td>No</td><td><strong>Sí — equipo en RD</strong></td></tr>
+    <tr><td>Personalidad + branding propio</td><td>No</td><td>No</td><td><strong>Sí — identidad visual del agente</strong></td></tr>
+    <tr><td>Costo mensual PYME</td><td>$90–140 solo software</td><td>$29–299</td><td><strong>$70–500 todo incluido</strong></td></tr>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 3 — PRUEBA DE CONCEPTO
+═══════════════════════════════════════════ -->
+<div class="section" id="s3">
+  <div class="s-number">Sección 03</div>
+  <h2>Prueba de Concepto: Fomi — Agente de Foam Creativo</h2>
+
+  <div class="callout">
+    <p><strong>Fomi no es un plan. Es un producto funcionando.</strong> El agente lleva meses operando en producción real, procesando cotizaciones, respondiendo clientes en WhatsApp y gestionando expedientes — sin intervención humana en la mayoría de interacciones. Es el primer caso de uso AaaS en sector manufacturero-creativo en RD.</p>
+  </div>
+
+  <h3>Lo que Fomi hace hoy (en producción)</h3>
+  <ul>
+    <li><strong>Cotizaciones automáticas:</strong> Recibe solicitud por WhatsApp → consulta base de datos de productos → genera PDF de cotización → envía al cliente. En segundos.</li>
+    <li><strong>Atención 24/7:</strong> Responde consultas sobre precios, disponibilidad y tiempos de entrega fuera del horario laboral.</li>
+    <li><strong>Gestión de expedientes:</strong> Etiqueta conversaciones por etapa del proceso (cotización pendiente, pedido en proceso, terminado, envío pendiente, cobro).</li>
+    <li><strong>Dashboard de monitoreo:</strong> El dueño ve en tiempo real todos los expedientes activos, conversaciones y estado del agente.</li>
+    <li><strong>Resumen diario automático:</strong> Cada día envía al dueño un reporte completo del estado de todos los clientes por etapa.</li>
+    <li><strong>Notificación inteligente al agente humano:</strong> Cuando un cliente requiere atención especial, Fomi notifica al dueño con resumen + link al expediente.</li>
+    <li><strong>Visión:</strong> Analiza imágenes enviadas por clientes (diseños, referencias, medidas en fotos).</li>
+    <li><strong>Generación de archivos de corte:</strong> Crea archivos vectoriales personalizados según las especificaciones del cliente.</li>
+  </ul>
+
+  <div class="highlight">
+    <p><strong>Ventaja clave:</strong> Foam Creativo ES el laboratorio vivo. Cada mejora del agente se prueba en producción real antes de venderse a otros clientes. Los datos de conversión, satisfacción y eficiencia son reales — no proyecciones.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 4 — TAMAÑO DE MERCADO
+═══════════════════════════════════════════ -->
+<div class="section" id="s4">
+  <div class="s-number">Sección 04</div>
+  <h2>Tamaño de Mercado</h2>
+
+  <h3>Global: el mercado AaaS está en despegue</h3>
+  <div class="data-grid">
+    <div class="data-card"><div class="metric" style="color:var(--orange)">$5.1B</div><div class="metric-lbl">Mercado global AaaS 2024</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--gold)">$47B</div><div class="metric-lbl">Proyección global 2030</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--teal)">44–46%</div><div class="metric-lbl">CAGR anual (6 modelos IA promediados)</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--green)">2024–2026</div><div class="metric-lbl">Ventana de entrada óptima</div></div>
+  </div>
+
+  <h3>República Dominicana: TAM / SAM / SOM</h3>
+  <table>
+    <tr><th>Nivel</th><th>Definición</th><th>Estimación</th><th>Base del cálculo</th></tr>
+    <tr><td><strong>TAM</strong></td><td>PYMEs formales en RD con potencial de digitalización</td><td><strong>$215M anuales</strong></td><td>~215,000 PYMEs × $1,000 USD/año gasto tech</td></tr>
+    <tr><td><strong>SAM</strong></td><td>PYMEs en sectores prioritarios con presupuesto tech</td><td><strong>$65–195M</strong></td><td>~10,800 empresas × $500–1,500 USD/año</td></tr>
+    <tr><td><strong>SOM Año 1</strong></td><td>Objetivo realista primer año</td><td><strong>$108K–$216K</strong></td><td>60–120 clientes × <strong>$150 USD/mes</strong> promedio</td></tr>
+    <tr><td><strong>SOM Año 2</strong></td><td>Con canales digitales activos</td><td><strong>$270K–$540K</strong></td><td>150–300 clientes × <strong>$150 USD/mes</strong> promedio</td></tr>
+  </table>
+
+  <div class="callout">
+    <p><strong>Facturación promedio esperada por cliente: $150 USD/mes.</strong> Con 60 clientes activos a $150/mes se alcanzan $9,000 MRR — suficiente para cubrir costos operativos y comenzar a escalar. Este hito es alcanzable a los 8–10 meses de operación.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 5 — BENCHMARK 6 MODELOS IA
+═══════════════════════════════════════════ -->
+<div class="section" id="s5">
+  <div class="s-number">Sección 05</div>
+  <h2>Benchmark: Consenso de 6 Modelos de IA</h2>
+
+  <p>El plan de negocio BrigadIA fue evaluado de forma independiente por 6 modelos de inteligencia artificial de frontera: GPT-4o, Claude Opus 4.6, Gemini 1.5 Pro, Grok 2, Perplexity AI y Mistral Large. A continuación el consenso de sus evaluaciones.</p>
+
+  <h3>Validaciones unánimes (6/6 modelos de acuerdo)</h3>
+  <ul>
+    <li><strong>Viabilidad del mercado:</strong> RD está en el "sweet spot" de adopción — suficiente masa crítica de PYMEs digitalizadas, sin competencia local estructurada y con demanda demostrable.</li>
+    <li><strong>Modelo de suscripción mensual por módulo</strong> como estructura de pricing óptima — predecible, escalable y alineado con el poder de compra PYME en RD.</li>
+    <li><strong>WhatsApp como canal principal:</strong> Penetración 95%+ en RD convierte WA en el canal de mayor palanca para el producto.</li>
+    <li><strong>Fomi como prueba de concepto válida:</strong> Tener un caso real funcionando elimina el riesgo percibido ante potenciales clientes. Credibilidad inmediata.</li>
+    <li><strong>Ventana temporal urgente:</strong> 2024–2026 es el período de entrada antes de que lleguen competidores regionales capitalizados.</li>
+  </ul>
+
+  <h3>Riesgos identificados por consenso</h3>
+  <ul>
+    <li><strong>Riesgo de ejecución:</strong> El fundador no puede ser vendedor + operador + técnico simultáneamente. La primera contratación debe ser un perfil comercial.</li>
+    <li><strong>Dependencia de APIs de terceros:</strong> Cambios en precios de APIs impactan márgenes. Necesario usar mix de APIs + buffer de costo en contratos.</li>
+    <li><strong>Churn si no hay ROI visible en 30 días:</strong> La PYME dominicana tiene baja tolerancia a resultados tardíos. El onboarding debe mostrar valor en la primera semana.</li>
+    <li><strong>Competidores regionales capitalizados:</strong> Whaticket, BotConversa, Leadsales pueden entrar en RD en cualquier momento con presupuesto de marketing.</li>
+  </ul>
+
+  <h3>Score de viabilidad (promedio 6 modelos)</h3>
+  <div class="data-grid">
+    <div class="data-card"><div class="metric" style="color:var(--green)">8.4/10</div><div class="metric-lbl">Viabilidad de mercado RD</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--gold)">7.9/10</div><div class="metric-lbl">Solidez del modelo de negocio</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--teal)">8.1/10</div><div class="metric-lbl">Timing de entrada al mercado</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--orange)">7.6/10</div><div class="metric-lbl">Capacidad de ejecución del equipo</div></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 6 — COMPETENCIA
+═══════════════════════════════════════════ -->
+<div class="section" id="s6">
+  <div class="s-number">Sección 06</div>
+  <h2>Mapa de Competencia: 3 Capas + Gaps Estratégicos</h2>
+
+  <p>La investigación mapeó más de 50 competidores en tres capas. El hallazgo principal: <strong>ninguna empresa ocupa el segmento de AaaS empaquetado y accesible para PYMEs dominicanas.</strong></p>
+
+  <h3>Capa 1 — Frontera Global</h3>
+  <div class="comp-layer">
+    <div class="layer-title">Salesforce Einstein · Microsoft Copilot · Intercom · HubSpot AI</div>
+    <ul>
+      <li><strong>Precio:</strong> $300–$1,500/mes por usuario — inaccesible para PYME dominicana</li>
+      <li><strong>Idioma:</strong> Sin soporte real para español dominicano ni contexto cultural local</li>
+      <li><strong>Onboarding:</strong> 6–18 meses de implementación. Las PYMEs necesitan resultados en semanas.</li>
+      <li><strong>Amenaza:</strong> Baja. Compiten en enterprise, no en PYME.</li>
+    </ul>
+  </div>
+
+  <h3>Capa 2 — Boutiques Regionales LATAM</h3>
+  <div class="comp-layer">
+    <div class="layer-title">Whaticket · BotConversa · Leadsales · ManyChat · WhatChimp · Bot City</div>
+    <ul>
+      <li><strong>Whaticket:</strong> Competidor regional más visible en Meta Ads RD. Bandeja compartida WhatsApp, no AaaS. $29–$99/mes. Sin agentes IA reales.</li>
+      <li><strong>WhatChimp:</strong> Domina en Meta Ads (mass messaging), no es competidor directo de agentes IA.</li>
+      <li><strong>ManyChat:</strong> Planes desde $29/mes + add-on IA $29. Para PYME: $90–140 solo software. Sin customización local ni agente real.</li>
+      <li><strong>BotConversa / Leadsales:</strong> Bots de flujo sin reasoning. Presencia mínima en RD.</li>
+      <li><strong>Bot City:</strong> Plataforma de automatización de bots, enfocada en flujos. Sin presencia significativa en RD ni oferta de agentes IA adaptativos.</li>
+      <li><strong>Amenaza:</strong> Media. Pueden entrar con marketing agresivo. Ventaja BrigadIA: personalización + español dominicano + equipo local.</li>
+    </ul>
+  </div>
+
+  <h3>Capa 3 — Micro-agencias Locales RD</h3>
+  <div class="comp-layer">
+    <div class="layer-title">18 perfiles Instagram mapeados · 6 sitios web auditados · Identificados en LinkedIn</div>
+    <ul>
+      <li><strong>BotPro RD:</strong> ~2,000 seguidores en LinkedIn. Chatbots básicos. Sin producto empaquetado visible.</li>
+      <li><strong>Automaxia:</strong> Presente en Instagram. Automatización genérica, sin casos de uso demostrados públicamente.</li>
+      <li><strong>Vex Soluciones:</strong> #1 en Google RD para "agencia IA". Enfoque enterprise. Precios no publicados.</li>
+      <li><strong>SENDIU GROUP:</strong> El más sofisticado localmente. IA + marketing integrado. Principal competidor a monitorear.</li>
+      <li><strong>Tabuga SRL:</strong> Único competidor activo en X (Twitter). Alianza con CENIA Chile. Tecnología robusta pero sin tracción comercial PYME visible.</li>
+      <li><strong>Intelia RD:</strong> Agencia de automatización e inteligencia artificial orientada al mercado dominicano. Presencia creciente. Oferta sin diferenciación clara hacia PYMEs.</li>
+      <li><strong>Novum Solutions:</strong> Soluciones tecnológicas y digitales. Servicio de consultoría tech. Sin producto empaquetado de agentes IA para PYME.</li>
+      <li><strong>NEXA-AI:</strong> Especializado en llamadas IA (nicho diferente). Sin competencia directa en chatbot/agentes WhatsApp.</li>
+      <li><strong>Amenaza:</strong> Media-baja. Todos generalistas, sin producto empaquetado ni caso de uso demostrado públicamente en PYME.</li>
+    </ul>
+  </div>
+
+  <h3>Gaps estratégicos confirmados</h3>
+  <div class="gap-box">
+    <div class="gap-label">Gap #1 — El vacío más grande</div>
+    <p><strong>0 agencias dominicanas anunciando AaaS en Meta Ads Library.</strong> Con ~4,800 anuncios activos en RD sobre IA, todos son de software global o infoproductos hispanos. Ninguna agencia local aparece.</p>
+  </div>
+  <div class="gap-box">
+    <div class="gap-label">Gap #2 — Liderazgo personal</div>
+    <p><strong>No existe ningún líder personal dominicano posicionado en IA para PYMEs.</strong> En LinkedIn, Twitter, YouTube e Instagram: 0 creadores locales con audiencia en automatización/chatbots/agentes IA.</p>
+  </div>
+  <div class="gap-box">
+    <div class="gap-label">Gap #3 — YouTube completamente vacío</div>
+    <p><strong>Todo el contenido dominicano en YouTube sobre IA es gubernamental</strong> (ENIA, NVIDIA, Presidencia RD). 0 creadores locales. El mercado busca en YouTube y no encuentra nada local ni accesible.</p>
+  </div>
+  <div class="gap-box">
+    <div class="gap-label">Gap #4 — ManyChat Partners</div>
+    <p><strong>0 ManyChat Experts dominicanos visibles en SEO o Instagram.</strong> La certificación genera posicionamiento automático y credibilidad. Ventana de 3–6 meses antes de que otro la tome.</p>
+  </div>
+  <div class="gap-box">
+    <div class="gap-label">Gap #5 — Contenido educativo AaaS en español</div>
+    <p><strong>Solo 1 video en todo YouTube en español sobre cómo construir un AaaS</strong> (Feb 2025). El mercado educativo hispano en este tema está completamente virgen.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 7 — MODELO DE NEGOCIO
+═══════════════════════════════════════════ -->
+<div class="section" id="s7">
+  <div class="s-number">Sección 07</div>
+  <h2>Modelo de Negocio</h2>
+
+  <h3>Estructura del modelo</h3>
+  <div class="data-grid">
+    <div class="data-card"><div class="metric" style="color:var(--orange)">Agents Agency</div><div class="metric-lbl">Agencia especializada en diseñar, desplegar y gestionar agentes de IA para PYMEs</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--gold)">Mall de Agentes</div><div class="metric-lbl">Ecosistema a la carta: el cliente selecciona y activa solo los agentes que necesita</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--teal)">Asset Light</div><div class="metric-lbl">Estructura operativa ligera: sin inventario, sin local propio, sin hardware. Escalable desde el primer día.</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--purple)">Suscripción</div><div class="metric-lbl">Ingreso recurrente mensual. Asegura pago y evita gestión manual de cobros.</div></div>
+  </div>
+
+  <h3>Barreras de defensa del negocio</h3>
+  <div class="highlight">
+    <p><strong>La barrera técnica en AaaS es sumamente baja.</strong> Cualquiera puede armar un agente. Lo que defiende a BrigadIA es: (1) <strong>branding fuerte con identidad propia de cada agente</strong>, (2) <strong>gestión cercana con el cliente</strong> que genera fidelidad y upselling, y (3) <strong>velocidad de ejecución como first mover.</strong></p>
+  </div>
+  <ul>
+    <li><strong>Branding como moat principal:</strong> Cada agente tiene nombre, personalidad, tono y representación visual propia. Cuando trabaja para un cliente, adopta el uniforme de esa empresa. Esto crea un vínculo emocional difícil de reemplazar.</li>
+    <li><strong>Gestión cercana = fidelidad y upselling:</strong> En un mercado de oferta abundante y precios competitivos, la calidad de la relación cliente-agencia es la diferencia entre churn y lealtad de largo plazo.</li>
+  </ul>
+
+  <h3>Estrategia de reducción de costos</h3>
+  <p>BrigadIA opera con una <strong>infraestructura de mix inteligente</strong> que minimiza el costo marginal por cliente:</p>
+  <ul>
+    <li><strong>Mix de APIs bajo costo:</strong> Combinar Claude Opus para casos complejos + Claude Sonnet/Haiku para tareas simples. Reducción de 60–80% en costo de API por cliente estándar.</li>
+    <li><strong>Aprovechar suscripciones de socios:</strong> Usar accesos y licencias que socios ya tienen activas (Google Workspace, Meta Business Suite, herramientas de marketing) para bajar costo fijo.</li>
+    <li><strong>Infraestructura de socios ya montada:</strong> Servidores, bases de datos y plataformas que socios estratégicos ya operan. Sin necesidad de construir infraestructura desde cero.</li>
+    <li><strong>Mix de servidores eficiente:</strong> Render para entornos de producción ligeros ($25/mes por instancia), Supabase para base de datos (tier gratuito hasta escalar), Cloudflare para seguridad y distribución.</li>
+  </ul>
+
+  <h3>Fuentes de ingreso</h3>
+
+  <h4>1. Suscripción mensual por agente (core del negocio)</h4>
+  <div class="tier featured">
+    <div class="tier-name">🏆 Premium — Todo incluido</div>
+    <div class="tier-price">$500 / mes</div>
+    <ul>
+      <li>Todos los módulos activos: atención, ventas, marketing, operaciones</li>
+      <li>Onboarding personalizado + soporte prioritario</li>
+      <li>Análisis de clientes, objeciones, FAQ y jerga incluido</li>
+      <li>Target: PYME mediana con operaciones activas y volumen alto</li>
+    </ul>
+  </div>
+  <div class="tier">
+    <div class="tier-name">Standard</div>
+    <div class="tier-price">$275 / mes</div>
+    <ul>
+      <li>2–3 módulos activos a elección</li>
+      <li>Onboarding base (1 semana)</li>
+      <li>Soporte por WhatsApp y email</li>
+      <li>Target: PYME con uno o dos dolores específicos a resolver</li>
+    </ul>
+  </div>
+  <div class="tier">
+    <div class="tier-name">Básico</div>
+    <div class="tier-price">$70 / mes</div>
+    <ul>
+      <li>1 módulo activo (típicamente: atención al cliente / chatbot)</li>
+      <li>Setup guiado por plantilla</li>
+      <li>Soporte por email</li>
+      <li>Target: microempresa o negocio que quiere dar su primer paso con IA</li>
+    </ul>
+  </div>
+
+  <h4>Módulos individuales disponibles a la carta</h4>
+  <table>
+    <tr><th>Módulo / Agente</th><th>Función</th><th>Precio referencial</th></tr>
+    <tr><td><strong>Creación de contenido</strong></td><td>Plan semanal de posts, captions, imágenes IA</td><td>$50 USD/mes</td></tr>
+    <tr><td><strong>Community management</strong></td><td>Respuesta automática a DMs, comentarios, seguimiento</td><td>Incluido en plan</td></tr>
+    <tr><td><strong>Campañas Meta Ads</strong></td><td>Gestión de anuncios, optimización, reportes</td><td>Incluido + comisión ads</td></tr>
+    <tr><td><strong>Chatbot / Atención</strong></td><td>WhatsApp 24/7, preguntas frecuentes, derivación</td><td>Incluido en plan</td></tr>
+    <tr><td><strong>Dola</strong></td><td>Asistente de productividad IA (éxito demostrado: +91,250% en tendencias)</td><td>Incluido en plan</td></tr>
+    <tr><td><strong>Contabilidad</strong></td><td>Registro de ingresos/gastos, reportes automáticos</td><td>Add-on en fases futuras</td></tr>
+    <tr><td><strong>Operaciones</strong></td><td>Seguimiento de pedidos, notificaciones internas</td><td>Add-on en fases futuras</td></tr>
+    <tr><td><strong>Llamadas IA</strong></td><td>Llamadas automáticas de seguimiento y cobro</td><td>Add-on en fases futuras</td></tr>
+    <tr><td><strong>Facturación electrónica</strong></td><td>Pre-emptivo a regulación DGII</td><td>Add-on en fases futuras</td></tr>
+    <tr><td><strong>Inventario</strong></td><td>Control de stock, alertas automáticas</td><td>Add-on en fases futuras</td></tr>
+  </table>
+
+  <h4>2. Cobro único — Análisis inicial de negocio</h4>
+  <p><strong>$15–45 USD (pago único).</strong> Análisis de tipos de clientes, objeciones frecuentes, preguntas más comunes (FAQ) y jerga específica del negocio. Este análisis alimenta al agente y lo hace más efectivo desde el día 1. Es una barrera de entrada valiosa: cada negocio es diferente y este análisis es irrepetible.</p>
+
+  <h4>3. Comisión sobre Meta Ads</h4>
+  <p>10–15% sobre el gasto publicitario gestionado por el agente. Cliente gasta $1,000/mes en Meta Ads → BrigadIA cobra $100–150 adicionales. Ingreso que escala con el gasto del cliente.</p>
+
+  <h4>4. Consultoría de negocios + IA</h4>
+  <p>Proyectos one-time: diagnóstico digital, implementación de stack IA, capacitación de equipos. Ticket: $500–$3,000. Bajo volumen, alto margen.</p>
+
+  <h4>5. Creación y mantenimiento de sitio web</h4>
+  <p>Web landing + integración con agente de WhatsApp. Creación: $800–$2,500. Mantenimiento: $50–$150/mes. Alta conversión desde clientes de agentes existentes.</p>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 8 — ICP
+═══════════════════════════════════════════ -->
+<div class="section" id="s8">
+  <div class="s-number">Sección 08</div>
+  <h2>ICP — Perfil del Cliente Ideal</h2>
+
+  <p>6 verticales priorizados por mayor probabilidad de conversión, menor costo de adquisición y fit directo con los módulos disponibles:</p>
+
+  <h3>1. Fabricantes y distribuidores</h3>
+  <ul>
+    <li><strong>Pain:</strong> Cotizaciones manuales, seguimiento manual, clientes esperando respuesta</li>
+    <li><strong>Fit:</strong> Agente de cotizaciones automatiza su proceso más doloroso. ROI inmediato y medible.</li>
+    <li><strong>Ejemplos:</strong> Muebles, materiales construcción, uniformes, impresión, foam, plásticos</li>
+  </ul>
+
+  <h3>2. Salud y estética (clínicas, spas, consultorios)</h3>
+  <ul>
+    <li><strong>Pain:</strong> Agendar citas, recordatorios, responder consultas de precios y disponibilidad</li>
+    <li><strong>Fit:</strong> Agente de atención + integración a calendario. Reduce no-shows 30–40%.</li>
+  </ul>
+
+  <h3>3. Servicios profesionales (contadores, abogados, consultores)</h3>
+  <ul>
+    <li><strong>Pain:</strong> Calificación de leads, agendamiento, envío de propuestas</li>
+    <li><strong>Fit:</strong> Agente calificador de leads + cotizador. Libera tiempo del profesional.</li>
+  </ul>
+
+  <h3>4. Retail y comercio (tiendas, ferreterías, distribuidoras)</h3>
+  <ul>
+    <li><strong>Pain:</strong> Consultas de disponibilidad, precios y pedidos por WhatsApp sin sistema</li>
+    <li><strong>Fit:</strong> Catálogo IA + respuesta automática + gestión de pedidos</li>
+  </ul>
+
+  <h3>5. Restaurantes y food service</h3>
+  <ul>
+    <li><strong>Pain:</strong> Pedidos por WhatsApp desorganizados, reservas manuales, menú no actualizado</li>
+    <li><strong>Fit:</strong> Agente de pedidos + reservas + menú dinámico. Alta frecuencia de uso.</li>
+  </ul>
+
+  <h3>6. Constructoras y bienes raíces</h3>
+  <ul>
+    <li><strong>Pain:</strong> Leads sin calificación, propuestas de proyectos complejas y lentas</li>
+    <li><strong>Fit:</strong> Agente calificador + generador de propuestas. Sector con alto ticket de cliente.</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 9 — VENTAJAS COMPETITIVAS
+═══════════════════════════════════════════ -->
+<div class="section" id="s9">
+  <div class="s-number">Sección 09</div>
+  <h2>Ventajas Competitivas (Moats)</h2>
+
+  <div class="moat">
+    <div class="moat-icon">⚙️</div>
+    <div class="moat-body">
+      <h4>Know how técnico de software, IA, agentes y automatización</h4>
+      <p>El equipo fundador tiene experiencia directa en construcción de agentes con Claude, APIs de Meta, automatización de procesos y backend. No es teoría — es producto funcionando en producción real.</p>
+    </div>
+  </div>
+
+  <div class="moat">
+    <div class="moat-icon">📣</div>
+    <div class="moat-body">
+      <h4>Know how de marketing, branding y gestión de comunidad</h4>
+      <p>Comprensión profunda del marketing digital dominicano: cómo se posiciona una marca, qué funciona en Meta Ads en RD, cómo se construye comunidad en Instagram. Esto es crítico para ayudar a los clientes a adoptar los agentes con su audiencia.</p>
+    </div>
+  </div>
+
+  <div class="moat">
+    <div class="moat-icon">📊</div>
+    <div class="moat-body">
+      <h4>Construcción de data relevante a bajo costo en un entorno con poca data</h4>
+      <p>96,461 mensajes de WhatsApp analizados. 550 posts de Instagram mapeados. 18 competidores perfilados. Google Trends filtrado a RD. BrigadIA tiene una base de inteligencia de mercado que ningún competidor local tiene — y sigue creciendo.</p>
+    </div>
+  </div>
+
+  <div class="moat">
+    <div class="moat-icon">🎯</div>
+    <div class="moat-body">
+      <h4>Conocimiento de vacíos en el entorno digital dominicano</h4>
+      <p><strong>Poco uso de Meta Ads</strong> por parte de competidores locales — ventana para posicionarse con bajo CPL. <strong>Poca autoridad en SEO</strong> de competidores — oportunidad para posicionar contenido educativo sin inversión publicitaria alta. Estos vacíos son temporales y BrigadIA los conoce antes que nadie.</p>
+    </div>
+  </div>
+
+  <div class="moat">
+    <div class="moat-icon">🤝</div>
+    <div class="moat-body">
+      <h4>Infraestructura de socios ya montada y funcionando</h4>
+      <p>Servidores, herramientas, licencias y relaciones comerciales que socios estratégicos ya tienen activas. Esto permite operar con estructura de costos más baja que un competidor que arranca desde cero.</p>
+    </div>
+  </div>
+
+  <div class="moat">
+    <div class="moat-icon">🎓</div>
+    <div class="moat-body">
+      <h4>Visión estratégica global de negocios (MBA)</h4>
+      <p>El equipo fundador combina visión global de negocios con contexto local profundo. Sabe cómo construir un modelo escalable, estructurar una ronda de inversión y posicionar la empresa para crecimiento regional.</p>
+    </div>
+  </div>
+
+  <div class="moat">
+    <div class="moat-icon">🚀</div>
+    <div class="moat-body">
+      <h4>Usar el éxito de Dola para replicar en el Mall de Agentes</h4>
+      <p>Dola AI creció +91,250% en tendencias — el comportamiento del usuario latinoamericano hacia asistentes IA personales ya está validado. BrigadIA puede replicar esta funcionalidad como uno de sus agentes estrella, con una propuesta similar pero enfocada al uso comercial PYME.</p>
+    </div>
+  </div>
+
+  <div class="moat">
+    <div class="moat-icon">🧪</div>
+    <div class="moat-body">
+      <h4>Producto en producción — Fomi como laboratorio vivo</h4>
+      <p>Fomi lleva meses operando en Foam Creativo con clientes reales, conversaciones reales y transacciones reales. Este laboratorio vivo permite iterar rápido, probar mejoras antes de venderlas y mostrar un caso de uso concreto a potenciales clientes.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 10 — CANALES DIGITALES
+═══════════════════════════════════════════ -->
+<div class="section" id="s10">
+  <div class="s-number">Sección 10</div>
+  <h2>Inteligencia de Canales Digitales</h2>
+  <p>Datos reales de investigación primaria — no supuestos de mercado.</p>
+
+  <h3>Google Trends RD (API real, Abril 2026)</h3>
+  <div class="data-grid">
+    <div class="data-card"><div class="metric" style="color:var(--orange)">75–100</div><div class="metric-lbl">"ChatGPT" en RD — máximo interés posible</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--red)">0</div><div class="metric-lbl">"chatbot whatsapp" en RD — sin masa crítica aún</div></div>
+    <div class="data-card"><div class="metric" style="color:var(--green)">+91,250%</div><div class="metric-lbl">Dola AI — apps IA en español explotando</div></div>
+  </div>
+  <p><strong>Implicación:</strong> No usar "chatbot whatsapp" como keyword en ads. Usar "automatizar negocio", "atención automática whatsapp", "agente IA" + nombre de sector específico.</p>
+
+  <h3>YouTube (Abril 2026)</h3>
+  <ul>
+    <li><strong>Keyword #1 buscada:</strong> "chatbot whatsapp" + variantes "gratis", "sin programar"</li>
+    <li><strong>Herramienta #1 en español:</strong> n8n superó a Make y Zapier en tutoriales 2025</li>
+    <li><strong>Solo 1 video sobre AaaS en español</strong> en todo YouTube (Feb 2025). Vacío editorial masivo.</li>
+    <li><strong>0 creadores dominicanos</strong> en chatbot/automatización/agentes IA. Oportunidad de thought leadership puro.</li>
+    <li><strong>Canales dominantes LATAM:</strong> DotCSV (650K subs), Juan Pe Navarro, Fernando Herrera — posibles colaboraciones.</li>
+  </ul>
+
+  <h3>Meta Ads Library RD (Abril 2026)</h3>
+  <ul>
+    <li><strong>~4,800 anuncios activos</strong> en RD sobre IA/chatbot/automatización</li>
+    <li><strong>0 agencias dominicanas</strong> anunciando AaaS — vacío total de competencia local en ads</li>
+    <li><strong>Mejores keywords sin competencia local:</strong> "automatización whatsapp" (87 anuncios) y "automatizar negocio" (120 anuncios) — ambos sin actores locales</li>
+    <li><strong>Infoproductos hispanos</strong> roban impresiones pero no son competidores directos de servicio</li>
+  </ul>
+
+  <h3>Instagram (550 posts · 198 PYMEs analizadas)</h3>
+  <ul>
+    <li><strong>82.3% de PYMEs</strong> menciona tecnología en sus posts — alta receptividad al mensaje</li>
+    <li><strong>Engagement bajo de competidores IA en RD</strong> (1–3%) — no generan comunidad real</li>
+    <li><strong>Oportunidad de contenido:</strong> casos de uso concretos ("antes y después de automatizar") en video corto superan a posts genéricos sobre IA</li>
+  </ul>
+
+  <h3>LinkedIn RD</h3>
+  <ul>
+    <li><strong>Vacío de liderazgo:</strong> No existe ningún líder personal dominicano en IA para PYMEs</li>
+    <li><strong>Competidores identificados:</strong> BotPro RD, NEXA-AI, Vex Soluciones, Tabuga SRL, Automaxia, Intelia RD, Novum Solutions</li>
+    <li><strong>Plan:</strong> 12 semanas · 3 posts/semana: 1 caso real (Fomi) + 1 educativo + 1 de opinión IA/negocios</li>
+    <li><strong>Hashtags:</strong> #InteligenciaArtificial #AIagents #PYMEs #Automatización #RepúblicaDominicana</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 11 — ROADMAP (FASE 1)
+═══════════════════════════════════════════ -->
+<div class="section" id="s11">
+  <div class="s-number">Sección 11</div>
+  <h2>Roadmap — Fase de Lanzamiento</h2>
+
+  <div class="roadmap-row">
+    <div class="roadmap-phase">Fase 1<br>Meses 1–6<br>Fundación</div>
+    <div class="roadmap-content">
+      <div class="phase-title">Lanzamiento y primeros 10 clientes pagos</div>
+      <ul>
+        <li>Constitución legal de BrigadIA</li>
+        <li>Definir branding: nombre, logo, personalidades de los primeros agentes</li>
+        <li>Contratar primer perfil comercial / vendedor</li>
+        <li>Adaptar stack Fomi para segundo cliente (vertical fabricación o salud)</li>
+        <li>Lanzar sitio web + landing + CTA claro</li>
+        <li>Iniciar plan LinkedIn (3 posts/semana)</li>
+        <li>Primer ciclo Meta Ads ($30/día)</li>
+        <li>Implementar infraestructura de pagos recurrentes (suscripción)</li>
+        <li>Ejecutar análisis inicial para primeros 10 clientes ($15–45 cobro único)</li>
+        <li><strong>Objetivo mes 6:</strong> 10 clientes activos × $150 USD/mes = <strong>$1,500 MRR</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Facturación promedio esperada por cliente: $150 USD/mes.</strong> Este número refleja una mezcla de planes Básico ($70) y Standard ($275), con la mayoría de clientes iniciales en Básico durante el período de adopción temprana. El objetivo no es maximizar ARPU al inicio — es maximizar número de casos de uso reales y testimonios verificables.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 12 — GASTOS MENSUALES (6 MESES)
+═══════════════════════════════════════════ -->
+<div class="section" id="s12">
+  <div class="s-number">Sección 12</div>
+  <h2>Estimación de Gastos Mensuales — Primeros 6 Meses</h2>
+
+  <p>Proyección conservadora de estructura de costos operativos mensuales para BrigadIA durante la Fase 1, asumiendo operación lean sin nómina fija del fundador y con el primer perfil comercial incorporado desde el mes 2–3.</p>
+
+  <div class="expense-table">
+    <div class="expense-row header">
+      <div class="cell">Ítem de gasto</div>
+      <div class="cell">Mes 1</div>
+      <div class="cell">Mes 2</div>
+      <div class="cell">Mes 3</div>
+      <div class="cell">Mes 4</div>
+      <div class="cell">Mes 5</div>
+      <div class="cell">Mes 6</div>
+    </div>
+
+    <!-- TECNOLOGÍA -->
+    <div class="expense-row">
+      <div class="cell"><strong>APIs de IA (Claude, ChatGPT)</strong><br><span style="font-size:11px;color:var(--muted)">Mix Opus + Sonnet + GPT-4o mini</span></div>
+      <div class="cell">$40</div>
+      <div class="cell">$60</div>
+      <div class="cell">$100</div>
+      <div class="cell">$150</div>
+      <div class="cell">$200</div>
+      <div class="cell">$250</div>
+    </div>
+    <div class="expense-row">
+      <div class="cell"><strong>Base de datos (Supabase)</strong><br><span style="font-size:11px;color:var(--muted)">Free tier hasta escalar, luego Pro $25/mes</span></div>
+      <div class="cell">$0</div>
+      <div class="cell">$0</div>
+      <div class="cell">$25</div>
+      <div class="cell">$25</div>
+      <div class="cell">$25</div>
+      <div class="cell">$25</div>
+    </div>
+    <div class="expense-row">
+      <div class="cell"><strong>Hosting / Servidores (Render)</strong><br><span style="font-size:11px;color:var(--muted)">1–2 instancias de producción</span></div>
+      <div class="cell">$25</div>
+      <div class="cell">$25</div>
+      <div class="cell">$50</div>
+      <div class="cell">$50</div>
+      <div class="cell">$50</div>
+      <div class="cell">$75</div>
+    </div>
+    <div class="expense-row">
+      <div class="cell"><strong>Meta / WhatsApp Cloud API</strong><br><span style="font-size:11px;color:var(--muted)">Costo por mensaje (primeras 1,000 gratuitas/mes)</span></div>
+      <div class="cell">$0</div>
+      <div class="cell">$10</div>
+      <div class="cell">$20</div>
+      <div class="cell">$30</div>
+      <div class="cell">$40</div>
+      <div class="cell">$50</div>
+    </div>
+    <div class="expense-row">
+      <div class="cell"><strong>Infraestructura de pago (Stripe / PayPal)</strong><br><span style="font-size:11px;color:var(--muted)">~2.9% + $0.30 por transacción (variable)</span></div>
+      <div class="cell">$0</div>
+      <div class="cell">$15</div>
+      <div class="cell">$25</div>
+      <div class="cell">$30</div>
+      <div class="cell">$35</div>
+      <div class="cell">$40</div>
+    </div>
+    <div class="expense-row">
+      <div class="cell"><strong>Herramientas SaaS</strong><br><span style="font-size:11px;color:var(--muted)">Canva Pro, Claude Code, dominio, email, etc.</span></div>
+      <div class="cell">$60</div>
+      <div class="cell">$60</div>
+      <div class="cell">$60</div>
+      <div class="cell">$60</div>
+      <div class="cell">$60</div>
+      <div class="cell">$60</div>
+    </div>
+    <div class="expense-row">
+      <div class="cell"><strong>Ciberseguridad</strong><br><span style="font-size:11px;color:var(--muted)">Cloudflare, SSL, backup, 2FA tools</span></div>
+      <div class="cell">$20</div>
+      <div class="cell">$20</div>
+      <div class="cell">$20</div>
+      <div class="cell">$30</div>
+      <div class="cell">$30</div>
+      <div class="cell">$30</div>
+    </div>
+
+    <!-- MARKETING -->
+    <div class="expense-row">
+      <div class="cell"><strong>Marketing — Meta Ads</strong><br><span style="font-size:11px;color:var(--muted)">Campaña de generación de leads PYMEs en RD</span></div>
+      <div class="cell">$0</div>
+      <div class="cell">$300</div>
+      <div class="cell">$500</div>
+      <div class="cell">$600</div>
+      <div class="cell">$700</div>
+      <div class="cell">$800</div>
+    </div>
+    <div class="expense-row">
+      <div class="cell"><strong>Marketing — Diseño y contenido</strong><br><span style="font-size:11px;color:var(--muted)">Producción de posts, videos cortos, materiales</span></div>
+      <div class="cell">$100</div>
+      <div class="cell">$100</div>
+      <div class="cell">$150</div>
+      <div class="cell">$150</div>
+      <div class="cell">$150</div>
+      <div class="cell">$150</div>
+    </div>
+
+    <!-- OPERACIONES -->
+    <div class="expense-row">
+      <div class="cell"><strong>Legal y contabilidad</strong><br><span style="font-size:11px;color:var(--muted)">Constitución empresa (mes 1 one-time) + contador mensual</span></div>
+      <div class="cell">$500</div>
+      <div class="cell">$100</div>
+      <div class="cell">$100</div>
+      <div class="cell">$100</div>
+      <div class="cell">$100</div>
+      <div class="cell">$100</div>
+    </div>
+    <div class="expense-row">
+      <div class="cell"><strong>Perfil comercial / Vendedor</strong><br><span style="font-size:11px;color:var(--muted)">Comisión o sueldo parcial desde mes 2–3</span></div>
+      <div class="cell">$0</div>
+      <div class="cell">$300</div>
+      <div class="cell">$500</div>
+      <div class="cell">$500</div>
+      <div class="cell">$600</div>
+      <div class="cell">$700</div>
+    </div>
+    <div class="expense-row">
+      <div class="cell"><strong>Misceláneos / imprevistos</strong><br><span style="font-size:11px;color:var(--muted)">10% buffer operativo</span></div>
+      <div class="cell">$75</div>
+      <div class="cell">$100</div>
+      <div class="cell">$155</div>
+      <div class="cell">$173</div>
+      <div class="cell">$199</div>
+      <div class="cell">$228</div>
+    </div>
+
+    <!-- TOTAL -->
+    <div class="expense-row total-row">
+      <div class="cell"><strong>TOTAL MENSUAL ESTIMADO</strong></div>
+      <div class="cell"><strong>~$820</strong></div>
+      <div class="cell"><strong>~$1,090</strong></div>
+      <div class="cell"><strong>~$1,705</strong></div>
+      <div class="cell"><strong>~$1,898</strong></div>
+      <div class="cell"><strong>~$2,189</strong></div>
+      <div class="cell"><strong>~$2,508</strong></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><strong>Total estimado 6 meses: ~$10,210 USD.</strong> Este presupuesto no incluye salario del fundador. Si el fundador toma sueldo desde el inicio, agregar $800–1,500/mes. El mes 1 incluye gasto único de constitución legal (~$500). A partir del mes 4, los ingresos proyectados (~$600 MRR con 4 clientes) comienzan a cubrir parte de los costos variables.</p>
+  </div>
+
+  <h3>Estructura de costos — resumen por categoría</h3>
+  <table>
+    <tr><th>Categoría</th><th>Mes 1</th><th>Mes 6</th><th>Proporción (Mes 6)</th></tr>
+    <tr><td><strong>Tecnología e infraestructura</strong><br><span style="font-size:12px">APIs, hosting, base de datos, seguridad, herramientas</span></td><td>$145</td><td>$490</td><td>~20%</td></tr>
+    <tr><td><strong>Marketing</strong><br><span style="font-size:12px">Meta Ads + diseño y producción de contenido</span></td><td>$100</td><td>$950</td><td>~38%</td></tr>
+    <tr><td><strong>Equipo comercial</strong><br><span style="font-size:12px">Vendedor/comisionista desde mes 2</span></td><td>$0</td><td>$700</td><td>~28%</td></tr>
+    <tr><td><strong>Operaciones</strong><br><span style="font-size:12px">Legal, contabilidad, pagos, imprevistos</span></td><td>$575</td><td>$368</td><td>~15%</td></tr>
+    <tr><td><strong>TOTAL</strong></td><td><strong>~$820</strong></td><td><strong>~$2,508</strong></td><td>100%</td></tr>
+  </table>
+
+  <div class="highlight">
+    <p><strong>Punto de inflexión:</strong> Con 17–18 clientes activos a $150 USD/mes de promedio, BrigadIA alcanza break-even operativo mensual (~$2,600). Este hito es realista entre el mes 8 y 12, asumiendo una tasa de adquisición de 2–3 clientes nuevos por mes a partir del mes 3.</p>
+  </div>
+</div>
+
+<!-- FIN DEL DOCUMENTO -->
+<div style="text-align:center;padding:40px 0;color:var(--muted);font-size:13px;border-top:1px solid var(--border)">
+  <p><strong style="color:var(--gold)">BrigadIA</strong> · Agents as a Service · República Dominicana</p>
+  <p style="margin-top:6px">Pitch Brief Consolidado · Abril 2026 · Basado en 11 estudios de mercado originales</p>
+</div>
+
+</main>
+
+</body>
+</html>

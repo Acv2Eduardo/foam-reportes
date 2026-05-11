@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte de Validacion de Hashtags — AaaS RD</title>
+<style>
+  :root {
+    --green: #22c55e; --yellow: #f59e0b; --red: #ef4444;
+    --bg: #0f172a; --card: #1e293b; --text: #e2e8f0;
+    --muted: #94a3b8; --border: #334155;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 2rem; }
+  h1 { font-size: 1.8rem; margin-bottom: 0.25rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; }
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .meta-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; }
+  .meta-card .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .meta-card .value { font-size: 1.6rem; font-weight: 700; margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { background: var(--card); color: var(--muted); text-align: left; padding: 0.75rem 1rem; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: .05em; border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 10; }
+  td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:hover td { background: rgba(255,255,255,0.03); }
+  .badge { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; flex-shrink:0; }
+  .badge-green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .badge-yellow { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
+  .badge-red { background: var(--red); }
+  .rank { font-weight: 700; color: var(--muted); min-width: 28px; }
+  .hashtag-cell { display: flex; align-items: center; gap: 4px; }
+  .hashtag-link { color: #818cf8; text-decoration: none; font-weight: 600; }
+  .hashtag-link:hover { text-decoration: underline; }
+  .deep-tag { font-size: 0.65rem; background: rgba(129,140,248,0.15); color: #818cf8; border: 1px solid rgba(129,140,248,0.3); border-radius: 4px; padding: 1px 5px; margin-left: 4px; white-space: nowrap; }
+  .score-wrap { display: flex; align-items: center; gap: 8px; }
+  .score-bar-bg { background: var(--border); border-radius: 4px; height: 6px; width: 70px; flex-shrink: 0; }
+  .score-bar { height: 6px; border-radius: 4px; }
+  .vol { color: #38bdf8; }
+  .rd-pct { }
+  .examples { font-size: 0.78rem; color: var(--muted); margin-top: 4px; max-width: 380px; }
+  .examples span { display: block; margin-top: 3px; padding: 3px 7px; background: rgba(255,255,255,0.05); border-radius: 4px; border-left: 2px solid var(--border); line-height: 1.4; }
+  .section-title { font-size: 1.2rem; font-weight: 700; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  .legend { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; font-size: 0.85rem; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .methodology { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-top: 2rem; font-size: 0.85rem; line-height: 1.7; color: var(--muted); }
+  .methodology h3 { color: var(--text); margin-bottom: 0.75rem; font-size: 1rem; }
+  .methodology ul { padding-left: 1.5rem; margin-top: 0.5rem; }
+  .methodology li { margin-bottom: 0.5rem; }
+  .warning-box { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 1rem 1.25rem; margin-top: 1rem; }
+  .warning-box strong { color: #f59e0b; }
+  .no-data { font-size: 0.75rem; color: var(--muted); font-style: italic; }
+  .ts { color: var(--muted); font-size: 0.78rem; }
+  footer { margin-top: 3rem; text-align: center; color: var(--muted); font-size: 0.8rem; }
+  .autocomplete-note { background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.2); border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.82rem; color: #7dd3fc; }
+</style>
+</head>
+<body>
+
+<h1>Validacion de Hashtags — AaaS Republica Dominicana</h1>
+<p class="subtitle">Analisis de 39 hashtags candidatos &middot; Generado el 2026-04-27 14:56</p>
+
+<div class="autocomplete-note"><strong>Nota:</strong> El endpoint publico de Instagram (autocomplete) requirio login y no devolvio media_count. El volumen fue estimado a partir de la muestra de Apify. Los scores son validos pero el componente de volumen es una aproximacion debil.</div>
+
+<div class="meta-grid">
+  <div class="meta-card">
+    <div class="label">Total hashtags</div>
+    <div class="value">39</div>
+  </div>
+  <div class="meta-card">
+    <div class="label">Con media_count (IG)</div>
+    <div class="value">0</div>
+  </div>
+  <div class="meta-card">
+    <div class="label">Sondeo Apify (5 posts)</div>
+    <div class="value">39</div>
+  </div>
+  <div class="meta-card">
+    <div class="label">Validacion profunda (15p)</div>
+    <div class="value">15</div>
+  </div>
+  <div class="meta-card">
+    <div class="label" style="color:var(--green)">Alto score</div>
+    <div class="value" style="color:var(--green)">34</div>
+  </div>
+  <div class="meta-card">
+    <div class="label" style="color:var(--yellow)">Medio score</div>
+    <div class="value" style="color:var(--yellow)">4</div>
+  </div>
+  <div class="meta-card">
+    <div class="label" style="color:var(--red)">Bajo score</div>
+    <div class="value" style="color:var(--red)">1</div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="badge badge-green"></span> Alto (score &ge; 0.60) — recomendar para scraping profundo</div>
+  <div class="legend-item"><span class="badge badge-yellow"></span> Medio (0.30&ndash;0.59) — usar con cautela</div>
+  <div class="legend-item"><span class="badge badge-red"></span> Bajo (&lt; 0.30) — descartar</div>
+</div>
+
+<table>
+<thead>
+<tr>
+  <th>#</th>
+  <th>Hashtag</th>
+  <th>Vol. total (IG)</th>
+  <th>% Contenido RD</th>
+  <th>Ultimo post</th>
+  <th>Score</th>
+  <th>Ejemplos de captions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td class="rank">1</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/emprendedoresrd/" target="_blank" rel="noopener">#emprendedoresrd</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(15/15p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>1.000</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:100%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:1.00 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>Todo negocio necesita orden, control y profesionalismo… y ahí es donde entra un sello gomígrafo 🔖  ✔️ Agiliza procesos ✔...</span><span>Haz realidad tu negocio de forma legal y segura 💼 Constituye tu empresa con nosotros y obtén todo lo necesario para inic...</span><span>Quieres ser proveedor del estado para desayuno escolar?  Pero no sabes cómo empezar… El programa de desayuno escolar mue...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">2</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/pymesrd/" target="_blank" rel="noopener">#pymesrd</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(15/15p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>1.000</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:100%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:1.00 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>El 15 de mayo de 2026 es la fecha límite para implementar la facturación electrónica en República Dominicana.  Si aún no...</span><span>La rotación de personal y las vacantes abiertas por meses no son solo un problema de Recursos Humanos... son una fuga de...</span><span>En Payano Saldaña y Asociados, el derecho no es solo nuestra profesión, es nuestro compromiso con cada cliente.  Ofrecem...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">3</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/negociosrd/" target="_blank" rel="noopener">#negociosrd</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(15/15p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>1.000</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:100%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:1.00 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>Los lácteos no pueden faltar… pero comprarlos caro le está quitando ganancia a tu negocio 💸  En Mercado San Miguel compr...</span><span>¿Cuánto te ha costado quedarte sin materia prima en temporada alta? 💸  Nosotros garantizamos suministro constante de Bic...</span><span>💻⚡ i7 confiable y económico… listo para tu día a día:  ✅ Marca y modelo: HP EliteBook 850 G2 ✅ Procesador: Intel ® Core ...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">4</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/emprendimientord/" target="_blank" rel="noopener">#emprendimientord</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(15/15p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>1.000</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:100%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:1.00 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>✨ Tus metas merecen algo GRANDE ✨   No es solo una alcancía… es tu plan para lograrlo 💰💫   📦 Alcancía personalizada 10x1...</span><span>✨ Pequeñas cajitas, GRANDES sueños ✨   Empieza hoy a construir lo que tanto deseas 💭💰   📦 Cajitas de ahorro 6x6  💵 Preci...</span><span>👩‍⚕️👨‍⚕️ ¡Lleva tus estudios de anatomía al siguiente nivel o dale prestigio a tu consultorio! 💀✨  Es la herramienta def...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">5</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/pymesdominicanas/" target="_blank" rel="noopener">#pymesdominicanas</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(15/15p)</span></td>
+  <td class="ts">2026-04-26<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>1.000</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:100%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:1.00 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>🚨 ¡Atención PYMES!  La fecha límite para implementar la facturación electrónica se acerca y dejarlo para después puede c...</span><span>Hay una pregunta que le hago a casi todos los negocios con los que trabajo al inicio: ¿Estás tomando decisiones basado e...</span><span>Pregunta honesta para los que tienen un negocio en RD 👇  ¿Cuantos mensajes de WhatsApp te llegaron este fin de semana qu...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">6</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/techrd/" target="_blank" rel="noopener">#techrd</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(15/15p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>1.000</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:100%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:1.00 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>¿Buscas potencia y rendimiento al mejor precio? La Lenovo Flex 5 con procesador Ryzen, SSD y pantalla de 14” está lista ...</span><span>🚨 NOTICIA TECH056🚨  Europa acaba de aprobar una ley que obligará a que los celulares tengan baterías reemplazables 🔋  Es...</span><span>El futuro se construye aquí 💻  5to de Informática presenta una experiencia donde la tecnología deja de ser solo teoría y...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">7</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/softwarerd/" target="_blank" rel="noopener">#softwarerd</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(15/15p)</span></td>
+  <td class="ts">2026-04-26<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>1.000</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:100%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:1.00 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>⚠️ La facturación electrónica en RD ya no es opcional.  Si tu negocio no está preparado: ❌ Puedes recibir multas ❌ Puede...</span><span>🚨 LA DGII PUEDE CERRAR TU NEGOCIO.  No es una amenaza. Es la Ley 32-23 de Facturación Electrónica — y ya entró en vigor ...</span><span>La tecnología de su negocio merece el respaldo de expertos. 💻✨  En Sistemas HD1, no solo entregamos software; entregamos...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">8</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/reposteriard/" target="_blank" rel="noopener">#reposteriard</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(15/15p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>1.000</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:100%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:1.00 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>🚀 Nuestros juegos de cilindros son la opción ideal para emprendedores que buscan destacar su negocio con una presentació...</span><span>🎂✨ ¡Endulza tus momentos con nosotros! ✨🎂  En Repostería Welington preparamos postres deliciosos y personalizados para c...</span><span>Amamos estar presentes en cada instante dulce de tu vida 💛 Desde los más simples hasta los más especiales… siempre hay e...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">9</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/beautyrd/" target="_blank" rel="noopener">#beautyrd</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(15/15p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>1.000</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:100%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:1.00 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>Simple• Real• Funciona•  Una marca creada para chicas reales que no quieren complicarse.  Solo lo que funciona. Solo lo ...</span><span>🥥✨ Aroma irresistible disponible ✨🥥  Dale a tu piel un cuidado especial con este dúo de **Tulipán Negro – Coco Pure Whit...</span><span>✨ ¡Disponible en Glow by Loren! ✨  Lleva tu rutina de cuidado personal a otro nivel con este set de “Dove x Crumbl” 💖 Un...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">10</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/foodrd/" target="_blank" rel="noopener">#foodrd</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">93.3% <span class='no-data'>(14/15p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.973</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:97%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:1.00 R:0.93 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>Las 3 películas de terror que más nos asustan, ¿Cuál otra se te ocurre?  📍Av. Enriquillo #22, Los Cacicazgos  #SushiYaRD...</span><span>El antojo no tiene horario… 😋   Y cuando llega, sabes que siempre hay   Una Shampiñon para cada momento.   Ven y disfrut...</span><span>Mi realidad 😭 Digo que estoy bien… pero es hambre disfrazada 😶 Cielito Lindo = solución inmediata 🔥 📲 Pide el tuyo: 809-...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">11</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/empresariosrd/" target="_blank" rel="noopener">#empresariosrd</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(12/12p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.970</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:97%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.93 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>🚨 ¿Tu negocio ya está listo para la Facturación Electrónica?  La facturación electrónica (e-CF) ya es una realidad en Re...</span><span>💻⚡ Potencia PRO + Touch… lista para todo.  Laptop Lenovo ThinkPad T495s AMD Ryzen 7 Pro. (4ta Gen) |16 Ram|512 SSD|2GB D...</span><span>♥️Gracias por brindarme un año mas de este amor bonito🙏 . 👉Pedidos y asesorías por whatsapp 829-301-9351 . #FloristeriaS...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">12</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/digitalizacionrd/" target="_blank" rel="noopener">#digitalizacionrd</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(12/12p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.970</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:97%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.93 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>San Francisco de Macorís se posiciona como pionera en el Cibao al habilitar su oficina para la captura del pasaporte ele...</span><span>Tu negocio merece orden, claridad y crecimiento. 📈  Dejar atrás el “caos del papel” es más simple de lo que imaginas. En...</span><span>Pregunta honesta para los que tienen un negocio en RD 👇  ¿Cuantos mensajes de WhatsApp te llegaron este fin de semana qu...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">13</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/emprendedoresdominicanos/" target="_blank" rel="noopener">#emprendedoresdominicanos</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(9/9p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.932</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:93%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.83 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>🚀 Nuestros juegos de cilindros son la opción ideal para emprendedores que buscan destacar su negocio con una presentació...</span><span>✨ Nuevas inscripciones al Diplomado de Elaboración de Productos Capilares ✨  💰 Inscripción: RD$4,000 💳 Cuota mensual: RD...</span><span>"Muchos dicen que en RD 'ser legal es quebrarse', pero ¿es eso cierto o solo una falta de estrategia? 🇩🇴🤔 Hablemos claro...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">14</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/tecnologiard/" target="_blank" rel="noopener">#tecnologiard</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(9/9p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.932</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:93%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.83 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>¿Vas a instalar un GPS?  No te dejes llevar solo por el precio.  Una empresa formal te ofrece: ✔ Garantía real  ✔ Factur...</span><span>💻⚡ i7 confiable y económico… listo para tu día a día:  ✅ Marca y modelo: HP EliteBook 850 G2 ✅ Procesador: Intel ® Core ...</span><span>No somos una empresa. Somos muchas.  Novarax nació en RD con una misión:  seguir el futuro a donde vaya.  Tech. Ropa. Co...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">15</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/eCFrd/" target="_blank" rel="noopener">#eCFrd</a>
+      <span class="deep-tag">validacion profunda</span>
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(7/7p)</span></td>
+  <td class="ts">2026-04-26<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.900</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:90%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.75 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>⚠️ La facturación electrónica en RD ya no es opcional.  Si tu negocio no está preparado: ❌ Puedes recibir multas ❌ Puede...</span><span>3 ERRORES que están cometiendo muchas PYMES antes del plazo de la DGII… (y que pueden salirte caros)  Desliza porque est...</span><span>💬 ¿Tienes dudas sobre facturación electrónica (e-CF)?  Tranquilo… no eres el único 😅 La mayoría de negocios en RD todaví...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">16</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/contabilidadrd/" target="_blank" rel="noopener">#contabilidadrd</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(5/5p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.859</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:85%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:1.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>Evita errores, multas y dolores de cabeza 🚫 Nos encargamos de tus declaraciones fiscales de forma correcta, eficiente y ...</span><span>¿Tu contabilidad te quita tiempo y te genera estrés? 📉 Nosotros la organizamos, optimizamos y llevamos al siguiente nive...</span><span>🚨 ¿Tu negocio ya está listo para la Facturación Electrónica?  La facturación electrónica (e-CF) ya es una realidad en Re...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">17</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/startuprd/" target="_blank" rel="noopener">#startuprd</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(5/5p)</span></td>
+  <td class="ts">2026-04-26<br><span class='no-data'>1 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.852</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:85%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:1.00 Rec:0.97
+    </div>
+  </td>
+  <td><div class="examples"><span>No vendemos huevos. Construimos el sistema más avanzado de entrega de huevos de pastoreo libre en República Dominicana. ...</span><span>Descubrí una nueva forma de encontrar servicios en República Dominicana 🇩🇴  Presentamos PasayMira, el lugar donde todo c...</span><span>El mercado que NADIE está atacando 🎯  📊 $6.8 billones en servicios on-demand 📈 LATAM crece 17.65% anual 🏝️ El Caribe tie...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">18</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/innovacionrd/" target="_blank" rel="noopener">#innovacionrd</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(5/5p)</span></td>
+  <td class="ts">2026-04-24<br><span class='no-data'>2 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.845</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:84%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:1.00 Rec:0.93
+    </div>
+  </td>
+  <td><div class="examples"><span>¿Sabías que un sistema POS puede transformar la gestión de tu restaurante? 📊  La industria de la restauración en RD enfr...</span><span>🚨 LA DGII PUEDE CERRAR TU NEGOCIO.  No es una amenaza. Es la Ley 32-23 de Facturación Electrónica — y ya entró en vigor ...</span><span>TODO PASA CERCA DE VOS  En cada calle, en cada negocio, en cada persona… hay algo que mueve a República Dominicana.  💛 E...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">19</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/restauranterd/" target="_blank" rel="noopener">#restauranterd</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(5/5p)</span></td>
+  <td class="ts">2026-04-25<br><span class='no-data'>2 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.845</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:84%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:1.00 Rec:0.93
+    </div>
+  </td>
+  <td><div class="examples"><span>🚨 ¡SE PARTE DE NUESTRO EQUIPO! 🚨  Estamos buscando talento para unirse a nuestra familia en 📍 Santiago de los Caballeros...</span><span>La reina indiscutible del "pintxo", la Gilda!!! 👑  Aviso: una nunca es suficiente😋😋  #restaurantelasterrenas #cocinacase...</span><span>Brillante, jugoso y lleno de sabor. 🍊 El balance perfecto de nuestro pollo agridulce es simplemente irresistible. Cada b...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">20</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/negociossantiago/" target="_blank" rel="noopener">#negociossantiago</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(5/5p)</span></td>
+  <td class="ts">2026-04-24<br><span class='no-data'>3 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.839</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:83%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:1.00 Rec:0.90
+    </div>
+  </td>
+  <td><div class="examples"><span>🛑 ¡NO DEJES LA LOGÍSTICA DE TU NEGOCIO A LA SUERTE! 🎲📉 ¿Por qué conformarte con un servicio básico cuando puedes tener e...</span><span>La presencia digital es la nueva carta de presentación para el sector industrial. ⚡  Recientemente finalicé el desarroll...</span><span>🚀 ¡Tu negocio listo para operar hoy mismo en El Dorado! 📍  Si eres profesional independiente y quieres ofrecerle a tus c...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">21</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/facturacionrd/" target="_blank" rel="noopener">#facturacionrd</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(5/5p)</span></td>
+  <td class="ts">2026-04-24<br><span class='no-data'>3 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.839</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:83%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:1.00 Rec:0.90
+    </div>
+  </td>
+  <td><div class="examples"><span>🔥 ¡LA OFERTA QUE ESPERABAS PARA TU NEGOCIO! 🔥  En Sistemas HD1 sabemos que cada peso cuenta. Por eso, bajamos el precio ...</span><span>¡EMPIEZA A FACTURAR YA CON EL COMBO MÁS COMPLETO! 🚀  ¿Abriendo un nuevo negocio o quieres modernizar el que ya tienes? E...</span><span>¿Listo para el siguiente paso?  Implementamos tu sistema de facturación electrónica para que te enfoques en lo que realm...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">22</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/transformaciondigitalrd/" target="_blank" rel="noopener">#transformaciondigitalrd</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(5/5p)</span></td>
+  <td class="ts">2026-04-21<br><span class='no-data'>6 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.819</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:81%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:1.00 Rec:0.80
+    </div>
+  </td>
+  <td><div class="examples"><span>En Adcontech y Arexdata avanzamos hacia un DSPM más inteligente, abordando retos como la Shadow AI y la automatización d...</span><span>Muchas empresas están postergando la implementación porque creen que aún “hay tiempo”. 💻  La realidad es que integrar si...</span><span>Cambiar de sistema suele implicar tiempo, costos ocultos y fricción operativa.  Si tu empresa ya tiene un ERP funcionand...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">23</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/emprendedorlatino/" target="_blank" rel="noopener">#emprendedorlatino</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">80.0% <span class='no-data'>(4/5p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.778</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:77%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:0.80 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>☕ Este café cambió mi dia… y mi cuerpo.  No es un café normal. Es Sculpt Black con Reishi, Garcinia Cambogia, Té Verde y...</span><span>Tu sueño no es una fantasía, es tu primer paso hacia la realidad. 🙌  Hace años creía que soñar era lujo de personas con ...</span><span>¿Odias los lunes? Este carrusel va a cambiar tu perspectiva. 👊 Desliza para ver las 5 razones por las que el lunes es el...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">24</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/dgii/" target="_blank" rel="noopener">#dgii</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">80.0% <span class='no-data'>(4/5p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.778</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:77%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:0.80 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>¡Es momento de revisar tu calendario tributario! ✅⚠️  •Si tu empresa tiene cierre fiscal al 31 de diciembre, recuerda qu...</span><span>Evita errores, multas y dolores de cabeza 🚫 Nos encargamos de tus declaraciones fiscales de forma correcta, eficiente y ...</span><span>Emite e-CF válidos ante la DGII… 📊   #facturaciónelectrónica #dgii #control #gestionempresarial</span></div></td>
+</tr>
+<tr>
+  <td class="rank">25</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/automatizacionrd/" target="_blank" rel="noopener">#automatizacionrd</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">80.0% <span class='no-data'>(4/5p)</span></td>
+  <td class="ts">2026-04-22<br><span class='no-data'>4 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.752</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:75%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:0.80 Rec:0.87
+    </div>
+  </td>
+  <td><div class="examples"><span>Fluke 87V: Precisión extrema y garantía de por vida ♾️🇩🇴  Si buscas el multímetro más confiable del mundo, el Fluke 87V ...</span><span>Pregunta honesta para los que tienen un negocio en RD 👇  ¿Cuantos mensajes de WhatsApp te llegaron este fin de semana qu...</span><span>🚨 Tu seguridad no se improvisa… se planifica con expertos.  En SECURICAM, protegemos tu hogar y negocio con soluciones t...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">26</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/inteligenciaartificialrd/" target="_blank" rel="noopener">#inteligenciaartificialrd</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(5/5p)</span></td>
+  <td class="ts">2026-04-11<br><span class='no-data'>16 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.752</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:75%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:1.00 Rec:0.47
+    </div>
+  </td>
+  <td><div class="examples"><span>¿Tu negocio está operando en el 2026? 🤖🚀  Deja de perder tiempo en tareas repetitivas. Con AnswerPro IA Suite de AuraTre...</span><span>El 78% de los clientes le compra al negocio que responde primero. Tu competidor ya está automatizado con IA. ¿Y tú?  Si ...</span><span>¿Tu negocio crece o solo te quita el sueño? 😫📱 Si tu negocio depende 100% de tu respuesta manual, tienes un auto-empleo,...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">27</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/negociossantodomingo/" target="_blank" rel="noopener">#negociossantodomingo</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">80.0% <span class='no-data'>(4/5p)</span></td>
+  <td class="ts">2026-04-17<br><span class='no-data'>10 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.712</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:71%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:0.80 Rec:0.67
+    </div>
+  </td>
+  <td><div class="examples"><span>¡Variedad de opciones para cada necesidad! 📐 Disponemos de 27 locales comerciales con tamaños de hasta $25m^2$, ideales ...</span><span>GRACIAS POR SU CONFIANZA 🏍️✨  Nada de esto sería posible sin ustedes. Cada moto que entregamos representa un sueño, un e...</span><span>✨ Damos la bienvenida a J Soto Closet a la familia de En Balance  Nos alegra acompañar a este emprendimiento en su proce...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">28</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/facturacionelectronica/" target="_blank" rel="noopener">#facturacionelectronica</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">60.0% <span class='no-data'>(3/5p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.699</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:69%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:0.60 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>⚠️ Si aún no tienes facturación electrónica… estás perdiendo tiempo y dinero.  Cada día sin sistema = errores, multas y ...</span><span>Controla todos tus CFDIs en segundos 📊⚡ Disponible en tu panel.  💻 Visita nuestro sitio web www.facturacorp.com  #Factur...</span><span>Un banco, un proveedor, un socio — cualquiera puede pedirte información de tu negocio en cualquier momento. ¿Estás prepa...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">29</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/problemasdeemprendedor/" target="_blank" rel="noopener">#problemasdeemprendedor</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">60.0% <span class='no-data'>(3/5p)</span></td>
+  <td class="ts">2026-04-22<br><span class='no-data'>5 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.665</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:66%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:0.60 Rec:0.83
+    </div>
+  </td>
+  <td><div class="examples"><span>¿Tu negocio crece pero sientes que cada día es más caótico? La agenda en WhatsApp. Los ingresos en un cuaderno. La nómin...</span><span>¿Todavía agendas por WhatsApp? 📱😩  Mensajes perdidos. Doble agendamiento. Clientes que no llegan. Horas gastadas respond...</span><span>📰 Breaking news! Brian Rodriguez is demanding 💰 from the rightful owner for "repairs" to his intended side-hustle. 😮 #Mo...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">30</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/microempresasrd/" target="_blank" rel="noopener">#microempresasrd</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(5/5p)</span></td>
+  <td class="ts">2026-03-11<br><span class='no-data'>47 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.658</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:65%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:1.00 Rec:0.00
+    </div>
+  </td>
+  <td><div class="examples"><span>⚠️ Atención Micro y Pequeños Contribuyentes  La fecha límite para la implementación de la facturación electrónica se ace...</span><span>📊🤝 TALLER DE GESTIÓN FINANCIERA PARA MICROEMPRESAS  Fortalecer tu microempresa empieza por una buena gestión financiera....</span><span>🔴Actualidad | Pedro Osvaldo Rodríguez Yins asume la presidencia de BANCOMUNA   El empresario Pedro Osvaldo Rodríguez Yin...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">31</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/chatbotrd/" target="_blank" rel="noopener">#chatbotrd</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(5/5p)</span></td>
+  <td class="ts">2025-12-11<br><span class='no-data'>137 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.658</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:65%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:1.00 Rec:0.00
+    </div>
+  </td>
+  <td><div class="examples"><span>Los negocios hoy no fallan por falta de clientes… fallan porque no responden a tiempo.  Mensajes sin contestar, clientes...</span><span>🚀 Dale un upgrade a tu negocio con un ChatBot inteligente que atiende a tus clientes 24/7 🤖 En ChatFlowAI creamos asiste...</span><span>IA + CRM + 24/7 ⚡ La herramienta 20X más rápida y eficiente que los humanos ⚡  🚀 ¡Dale superpoderes a tu WhatsApp con Pr...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">32</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/reposterard/" target="_blank" rel="noopener">#reposterard</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(5/5p)</span></td>
+  <td class="ts">2026-01-22<br><span class='no-data'>95 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.658</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:65%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:1.00 Rec:0.00
+    </div>
+  </td>
+  <td><div class="examples"><span>✨ Pasteles personalizados con amor y detalle ✨ Creamos pasteles únicos para tus momentos más especiales 🎂💖 Cumpleaños, a...</span><span>Un diseño elegante para un día especial 💙✨ Bizcocho blanco con detalles en azul, perfecto para celebrar los 15 de un jov...</span><span>Rico pastel masa super suave relleno de fresas decorado en suspiro #al_gusto_de_tu_paladar  #suspirodominicano #suspiror...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">33</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/consultoriord/" target="_blank" rel="noopener">#consultoriord</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">100.0% <span class='no-data'>(5/5p)</span></td>
+  <td class="ts">2025-10-01<br><span class='no-data'>208 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.658</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:65%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:1.00 Rec:0.00
+    </div>
+  </td>
+  <td><div class="examples"><span>🦷✨ Octubre es el mes de la salud bucal, el momento perfecto para recordar que una sonrisa sana es una sonrisa feliz. ¡Ag...</span><span>Feliz inicio de semana para todos.💝  🦷 Clínica Dental & Estética 📞 809 681-7030 | 809 916-5439  📩dralissettevargas@hotma...</span><span>Nuestro horario de este miércoles festivo día de las Mercedes. ¡Te esperamos, en orden de llegada!  🦷 Clínica Dental & E...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">34</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-green"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/whatsappbusiness/" target="_blank" rel="noopener">#whatsappbusiness</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">40.0% <span class='no-data'>(2/5p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.619</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:61%;background:#22c55e"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:0.40 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>Você já usa automação, IA, chatbot… mas as vendas continuam travadas?  O problema quase nunca está na ferramenta. Está n...</span><span>Tu negocio de belleza merece funcionar como en 2026, no como en 2010. Presentamos SkinGlow: la plataforma que digitaliza...</span><span>Ho pensato il servizio per essere semplice anche per chi non ha competenze tecniche. Mi scrivi su WhatsApp, mi dici che ...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">35</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-yellow"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/gestiondeempresas/" target="_blank" rel="noopener">#gestiondeempresas</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">20.0% <span class='no-data'>(1/5p)</span></td>
+  <td class="ts">2026-04-24<br><span class='no-data'>3 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.518</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:51%;background:#f59e0b"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:0.20 Rec:0.90
+    </div>
+  </td>
+  <td><div class="examples"><span>Frases que inspiran.  #pymes #consultoría #gestiondeempresas #éxito</span><span>¿Queres saber que ofrece Edenred empresarial? Todo esto en una sola tarjeta 💳  #empresarialedenred #gestiondeempresas #s...</span><span>El futuro de la gestión hoy se hace realidad. 💼  Esta tarde es un día clave en Madrid Hospitality School. Nuestros alumn...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">36</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-yellow"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/medicosd/" target="_blank" rel="noopener">#medicosd</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">60.0% <span class='no-data'>(3/5p)</span></td>
+  <td class="ts">2025-01-13<br><span class='no-data'>468 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.498</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:49%;background:#f59e0b"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:0.60 Rec:0.00
+    </div>
+  </td>
+  <td><div class="examples"><span>🎯 Por que uma mentoria personalizada faz tanta diferença?  Se você já tentou estudar sozinho, seguiu cronogramas prontos...</span><span>▪︎Saiba mais: (61) 9 8300-3636 JUNIO ☆ Consulte a disponibilidade e valores!   #imovelasanorte #imoveisasanorte  #golfeb...</span><span>▪︎Viver em um Bairro Nobre e Novo é sinônimo de experiências extraordinárias!  ▪︎Entre o concreto e o verde do Parque Bu...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">37</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-yellow"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/consejosparaemprendedores/" target="_blank" rel="noopener">#consejosparaemprendedores</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">0.0% <span class='no-data'>(0/5p)</span></td>
+  <td class="ts">2026-04-24<br><span class='no-data'>3 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.439</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:43%;background:#f59e0b"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.65 R:0.00 Rec:0.90
+    </div>
+  </td>
+  <td><div class="examples"><span>Uno de los errores más comunes es pensar que si no hay interacción, no hay interés.  Spoiler: sí lo hay. Muchos miran en...</span><span>Tu bio es lo primero que lee alguien cuando te visita.  Tenés 3 segundos para convencerlo de que se quede.  ¿La tuya est...</span><span>🫨Entendi algo clave!! no alcanza con ser buena… también tenés que parecerlo.  Porque la gente decide en segundos si conf...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">38</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-yellow"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/atencionalcliente/" target="_blank" rel="noopener">#atencionalcliente</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">0.0% <span class='no-data'>(0/3p)</span></td>
+  <td class="ts">2026-04-27<br><span class='no-data'>0 dia(s)</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.400</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:40%;background:#f59e0b"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.50 R:0.00 Rec:1.00
+    </div>
+  </td>
+  <td><div class="examples"><span>🚨✨ ¡ÚNETE A NUESTRO EQUIPO DE VENTAS! ✨🚨  Buscamos una persona proactiva, ágil y con excelente trato al cliente para sum...</span><span>🚨‼ SEARS TE ESTÁ BUSCANDO ‼🚨 👩‍🦰 VENDEDORA DE PISO ⚡ CONTRATACIÓN INMEDIATA ⚡ 💰 SUELDO SEMANAL + COMISIONES ✨ SIN SEMANA...</span><span>🍦✨ ¡Estamos buscando nuevo talento! ✨🍦  Si eres amable, responsable y te gusta atender clientes con buena actitud 😄🙌 ¡Qu...</span></div></td>
+</tr>
+<tr>
+  <td class="rank">39</td>
+  <td>
+    <div class="hashtag-cell">
+      <span class="badge badge-red"></span>
+      <a class="hashtag-link" href="https://www.instagram.com/explore/tags/salondebellepard/" target="_blank" rel="noopener">#salondebellepard</a>
+      
+    </div>
+  </td>
+  <td class="vol"><span class='no-data'>N/A</span></td>
+  <td class="rd-pct">0.0% <span class='no-data'>(0/1p)</span></td>
+  <td class="ts"><span class='no-data'>N/A</span></td>
+  <td>
+    <div class="score-wrap">
+      <strong>0.200</strong>
+      <span class="score-bar-bg"><span class="score-bar" style="width:20%;background:#ef4444"></span></span>
+    </div>
+    <div style="font-size:0.7rem;color:var(--muted);margin-top:2px">
+      V:0.25 R:0.00 Rec:0.50
+    </div>
+  </td>
+  <td><span class='no-data'>—</span></td>
+</tr>
+</tbody>
+</table>
+
+<div class="section-title">Metodologia y Limitaciones</div>
+<div class="methodology">
+  <h3>Fuentes de datos</h3>
+  <ul>
+    <li><strong>Volumen (Instagram autocomplete):</strong> Endpoint
+    <code>https://www.instagram.com/web/search/topsearch/?query=%23[hashtag]&amp;context=hashtag</code>.
+    Devuelve <code>media_count</code> (total acumulado de posts). No requiere autenticacion en teoria,
+    pero Instagram puede exigir login, devolver datos cacheados, o bloquear la peticion sin aviso.
+    En esta ejecucion: 0/39 hashtags con datos.</li>
+
+    <li><strong>Sondeo inicial (Apify, 5 posts):</strong> Actor
+    <code>apify~instagram-hashtag-scraper</code> con 5 posts por hashtag &mdash; todos los hashtags.
+    Sirve para confirmar que el hashtag tiene actividad reciente y detectar señal RD preliminar.</li>
+
+    <li><strong>Validacion profunda (Apify, 15 posts):</strong> Misma fuente con
+    15 posts, solo para el top 15 por ranking de sondeo.
+    Relevancia RD: % de captions que contienen al menos una de estas palabras clave:
+    <em>dominicana/o, rd, santo domingo, santiago, republica dominicana, quisqueya, criolla/criollo, dr, sto. domingo</em>.
+    Esta deteccion es aproximada &mdash; no distingue contextos ni variantes ortograficas.</li>
+
+    <li><strong>Recencia:</strong> Fecha del post mas reciente en la muestra. Sin datos Apify: valor neutro 0.5.</li>
+  </ul>
+
+  <h3 style="margin-top:1rem">Formula de score compuesto</h3>
+  <ul>
+    <li><strong>40% Volumen</strong> &mdash; log(1 + media_count) normalizado al maximo del conjunto.
+    Si no hay media_count, se usa post_count como proxy debil (penalizado al 50%).</li>
+    <li><strong>40% Relevancia RD</strong> &mdash; % de posts con contenido RD / 100.</li>
+    <li><strong>20% Recencia</strong> &mdash; escala 0 (&ge;30 dias) a 1 (hoy).</li>
+  </ul>
+
+  <div class="warning-box">
+    <strong>Limitaciones criticas para uso academico / investigativo:</strong>
+    <ul style="margin-top:0.5rem">
+      <li>El endpoint de autocomplete de Instagram no es una API oficial. Puede cambiar su estructura,
+      devolver datos en cache, o bloquear peticiones en cualquier momento sin aviso. Los <code>media_count</code>
+      son aproximaciones historicas acumuladas, no conteos de actividad reciente.</li>
+      <li>La muestra de Apify (5 o 15 posts) es una fraccion minima del total.
+      Para hashtags con millones de posts, la muestra puede no ser representativa del universo real.</li>
+      <li>El scraper de Apify no entrega posts aleatoriamente: prioriza posts recientes y populares
+      segun el algoritmo de Instagram, introduciendo sesgo de popularidad y sesgo temporal.</li>
+      <li>La deteccion de "contenido RD" se basa en palabras clave simples. Hay falsos positivos
+      (e.g., "RD" como abreviatura de otra cosa, "dr." como titulo) y falsos negativos (contenido
+      dominicano sin palabras clave detectadas).</li>
+      <li>El scraping de Instagram puede violar los Terminos de Servicio de Meta/Instagram.
+      Los datos no deben redistribuirse ni usarse con fines comerciales sin evaluar implicaciones legales.</li>
+      <li>Los pesos del score compuesto (40/40/20) son arbitrarios. Cambiar los pesos modifica el
+      ranking. No existe un set optimo de pesos con fundamento teorico para este caso de uso.</li>
+      <li>Un hashtag con alto volumen historico puede estar inactivo hoy. Un hashtag nuevo puede tener
+      alta actividad reciente pero bajo volumen acumulado. Ambos casos pueden distorsionar el ranking.</li>
+      <li>El costo en Apify credits de esta ejecucion es real. Cada run consume compute units
+      proporcionales al numero de posts scrapeados.</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  Generado por hashtag_validator.py &middot; Proyecto AaaS RD &middot; 2026-04-27 14:56
+</footer>
+
+<a href="index_aaas.html" title="Volver al índice" style="position:fixed;bottom:24px;right:24px;background:#FF4B2B;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:11px 20px;border-radius:99px;text-decoration:none;z-index:9999;box-shadow:0 4px 24px rgba(255,75,43,.45);letter-spacing:.04em">&#8592; Índice</a>
+</body>
+</html>

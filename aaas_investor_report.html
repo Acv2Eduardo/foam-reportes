@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AaaS República Dominicana — Reporte para Socios | 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0A0E27;
+    --ink-soft: #1A1F3A;
+    --paper: #FAFAF7;
+    --accent: #FF4B2B;
+    --accent-2: #FF7A45;
+    --gold: #D4AF37;
+    --teal: #0F766E;
+    --sky: #0EA5E9;
+    --green: #16A34A;
+    --rose: #E11D48;
+    --gray: #6B7280;
+    --line: #E5E7EB;
+  }
+  html, body { background: var(--paper); color: var(--ink); font-family: 'Inter', -apple-system, sans-serif; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .display { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  .container-narrow { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+
+  /* HERO */
+  .hero {
+    background: radial-gradient(ellipse at top right, #1A1F3A 0%, #0A0E27 60%);
+    color: #fff;
+    padding: 80px 0 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,75,43,0.18) 0%, transparent 70%);
+  }
+  .hero::after {
+    content: ""; position: absolute; bottom: -150px; left: -150px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%);
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,75,43,0.15); color: #FFB89E;
+    border: 1px solid rgba(255,75,43,0.4);
+    padding: 6px 16px; border-radius: 100px; font-size: 12px;
+    font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(40px, 6vw, 76px);
+    font-weight: 700; line-height: 1.05; margin: 24px 0 16px;
+    letter-spacing: -0.04em;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, #FF4B2B 0%, #D4AF37 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero .lead {
+    font-size: 19px; color: #C5CAE5; max-width: 700px;
+    margin-top: 16px; line-height: 1.6;
+  }
+  .hero-meta {
+    display: flex; gap: 32px; margin-top: 48px;
+    padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1);
+    flex-wrap: wrap;
+  }
+  .hero-meta-item { color: #8892B0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .hero-meta-item strong { display: block; color: #fff; font-size: 18px; margin-top: 4px; text-transform: none; letter-spacing: 0; }
+
+  /* KPI CARDS */
+  .kpi-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-top: 56px; position: relative; z-index: 2;
+  }
+  .kpi {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px); padding: 24px; border-radius: 16px;
+  }
+  .kpi-label { font-size: 11px; color: #8892B0; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+  .kpi-value { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; color: #fff; margin: 8px 0 4px; letter-spacing: -0.02em; }
+  .kpi-sub { font-size: 12px; color: #C5CAE5; }
+
+  /* SECTIONS */
+  section { padding: 96px 0; }
+  section.alt { background: #fff; }
+  .section-tag {
+    display: inline-block; font-size: 12px; font-weight: 700;
+    color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(32px, 4.5vw, 52px); font-weight: 700;
+    line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 16px;
+    color: var(--ink);
+  }
+  .section-lead {
+    font-size: 18px; color: var(--gray); max-width: 720px; line-height: 1.65;
+    margin-bottom: 56px;
+  }
+
+  /* CARDS */
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: 16px;
+    padding: 32px; box-shadow: 0 1px 3px rgba(10,14,39,0.04);
+  }
+  section.alt .card { background: var(--paper); border-color: #EEEAE0; }
+  .card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px; font-weight: 600; margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .card p { color: #4B5563; font-size: 15px; line-height: 1.65; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  /* MODELS GRID */
+  .model-card {
+    background: #fff; border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .model-card:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(10,14,39,0.08); }
+  .model-name {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--accent); margin-bottom: 8px;
+  }
+  .model-headline { font-size: 15px; font-weight: 600; line-height: 1.4; margin-bottom: 8px; }
+  .model-body { font-size: 13px; color: var(--gray); line-height: 1.55; }
+
+  /* INSIGHT BOX */
+  .insight {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEFD5 100%);
+    border-left: 4px solid var(--accent); border-radius: 10px;
+    padding: 20px 24px; margin: 24px 0;
+  }
+  .insight-label { font-weight: 700; color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; }
+  .insight p { margin-top: 6px; color: var(--ink-soft); font-size: 15px; }
+
+  /* DATA POINT */
+  .datapoint {
+    border-top: 3px solid var(--accent);
+    padding: 24px 20px; background: #fff; border-radius: 0 0 12px 12px;
+    border-left: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .datapoint-num { font-family: 'Space Grotesk', sans-serif; font-size: 38px; font-weight: 700; line-height: 1; letter-spacing: -0.03em; color: var(--ink); }
+  .datapoint-label { font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-top: 8px; }
+  .datapoint-source { font-size: 11px; color: #9CA3AF; margin-top: 6px; }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  th { background: var(--ink); color: #fff; padding: 12px 14px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+  td { padding: 14px; border-bottom: 1px solid var(--line); font-size: 14px; }
+  tr:hover td { background: #FAFAF7; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+  .pill-ok { background: #DCFCE7; color: #166534; }
+  .pill-warn { background: #FEF3C7; color: #92400E; }
+  .pill-no { background: #FEE2E2; color: #991B1B; }
+  .pill-info { background: #DBEAFE; color: #1E40AF; }
+
+  /* CHART CONTAINER */
+  .chart-wrap { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+  .chart-wrap h4 { font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 600; margin-bottom: 16px; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 32px; margin-top: 32px; }
+  .timeline::before { content: ""; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--accent), var(--gold)); }
+  .timeline-item { position: relative; padding-bottom: 32px; }
+  .timeline-item::before {
+    content: ""; position: absolute; left: -29px; top: 6px; width: 14px; height: 14px;
+    border-radius: 50%; background: #fff; border: 3px solid var(--accent);
+  }
+  .timeline-phase { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; }
+  .timeline-title { font-weight: 600; font-size: 17px; margin: 4px 0 6px; }
+  .timeline-body { color: var(--gray); font-size: 14px; line-height: 1.6; }
+
+  /* PRICING */
+  .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+  .price-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 28px 24px; position: relative; }
+  .price-card.featured { background: linear-gradient(160deg, #0A0E27 0%, #1A1F3A 100%); color: #fff; border: none; transform: scale(1.03); box-shadow: 0 24px 48px rgba(10,14,39,0.18); }
+  .price-card.featured .price-tier-name { color: var(--gold); }
+  .price-card.featured .price-amount { color: #fff; }
+  .price-card.featured .price-detail { color: #C5CAE5; }
+  .price-card.featured ul li { color: #C5CAE5; }
+  .price-tier-name { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+  .price-amount { font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700; margin: 12px 0 4px; letter-spacing: -0.02em; }
+  .price-detail { font-size: 13px; color: var(--gray); margin-bottom: 20px; }
+  .price-card ul { list-style: none; }
+  .price-card ul li { padding: 8px 0; border-top: 1px solid rgba(0,0,0,0.06); font-size: 13px; color: #4B5563; }
+  .price-card.featured ul li { border-color: rgba(255,255,255,0.08); }
+  .featured-tag { position: absolute; top: -12px; right: 24px; background: var(--gold); color: #0A0E27; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* QUOTE */
+  blockquote {
+    border-left: 4px solid var(--gold);
+    background: #fff;
+    padding: 24px 28px; margin: 24px 0;
+    border-radius: 0 12px 12px 0; font-size: 17px; line-height: 1.6;
+    color: var(--ink-soft); font-style: italic;
+  }
+  blockquote cite { display: block; margin-top: 12px; font-style: normal; font-size: 13px; color: var(--gray); }
+
+  /* VS GRID */
+  .vs-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: stretch; margin-top: 32px; }
+  .vs-side { background: #fff; border-radius: 14px; padding: 24px; border: 1px solid var(--line); }
+  .vs-side.left { border-top: 4px solid var(--rose); }
+  .vs-side.right { border-top: 4px solid var(--green); }
+  .vs-divider { display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--gold); font-size: 24px; }
+  .vs-side h4 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
+  .vs-side ul { list-style: none; padding: 0; }
+  .vs-side ul li { padding: 8px 0; font-size: 14px; color: #374151; line-height: 1.5; }
+
+  /* COMPETITOR CARD */
+  .competitor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .comp-card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  .comp-card h4 { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .comp-card .url { font-size: 12px; color: var(--sky); margin-bottom: 10px; word-break: break-all; }
+  .comp-card .desc { font-size: 13px; color: #4B5563; line-height: 1.5; min-height: 60px; }
+  .comp-card .tags { margin-top: 10px; display: flex; gap: 4px; flex-wrap: wrap; }
+  .comp-card .tags span { background: #EEF2FF; color: #3730A3; padding: 2px 8px; border-radius: 6px; font-size: 11px; }
+
+  /* FOOTER */
+  footer { background: var(--ink); color: #C5CAE5; padding: 56px 0; text-align: center; }
+  footer h3 { font-family: 'Space Grotesk', sans-serif; color: #fff; font-size: 24px; margin-bottom: 8px; }
+  footer p { font-size: 14px; }
+
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-4, .pricing-grid, .competitor-grid, .vs-grid, .kpi-row { grid-template-columns: 1fr; }
+    .vs-divider { display: none; }
+    .price-card.featured { transform: none; }
+    section { padding: 64px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ HERO ═══════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="container hero-content">
+    <span class="badge"><span class="dot"></span>Reporte de Inteligencia de Mercado · Confidencial</span>
+    <h1 class="display">
+      La oportunidad de <em>Agents&nbsp;as&nbsp;a&nbsp;Service</em><br>en República Dominicana
+    </h1>
+    <p class="lead">
+      Síntesis de 6 modelos frontera de IA (Claude, GPT-5, Gemini, Qwen, Llama, DeepSeek)
+      cruzada con investigación de campo propietaria: 18 perfiles de competencia analizados,
+      6 sitios web auditados, 550 publicaciones de Instagram en RD,
+      77 resultados SERP de DataForSEO y data de Google Trends.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">Fecha<strong>27 de abril de 2026</strong></div>
+      <div class="hero-meta-item">Audiencia<strong>Posibles socios</strong></div>
+      <div class="hero-meta-item">Caso piloto validado<strong>Fomi · Foam Creativo</strong></div>
+      <div class="hero-meta-item">Mercado objetivo<strong>PYMEs en República Dominicana</strong></div>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-label">Mercado AaaS Global</div>
+        <div class="kpi-value">$5.1B → $47B</div>
+        <div class="kpi-sub">CAGR 44–46% al 2030 (consenso 6 modelos)</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">PYMEs RD objetivo</div>
+        <div class="kpi-value">~10,800</div>
+        <div class="kpi-sub">Empresas formales mediano-altas</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Penetración WhatsApp comercial</div>
+        <div class="kpi-value">24.1%</div>
+        <div class="kpi-sub">RD vs 3% promedio LATAM</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Ventana competitiva</div>
+        <div class="kpi-value">18–36 meses</div>
+        <div class="kpi-sub">Antes que entren players globales</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════ EXECUTIVE SUMMARY ═══════════════════════════════════════════════ -->
+<section>
+  <div class="container-narrow">
+    <span class="section-tag">Resumen ejecutivo</span>
+    <h2 class="section-title">Por qué ahora, por qué aquí, por qué nosotros.</h2>
+    <p class="section-lead">
+      El mercado de Agents-as-a-Service (AaaS) está pasando de SaaS tradicional —donde el cliente paga por <em>software</em>—
+      a un modelo donde paga por <em>resultados</em>. Cada modelo de IA frontera consultado coincide en cuatro hechos:
+    </p>
+
+    <div class="grid-2" style="gap: 20px;">
+      <div class="card">
+        <h3>1 · El mercado ya despegó</h3>
+        <p>El TAM global pasa de USD 5.1B (2024) a USD 47–74B (2030). Salesforce Agentforce alcanzó <strong>$2.9B ARR con +200% YoY</strong>. Sierra AI cobra por resolución, no por suscripción. El modelo está validado a escala.</p>
+      </div>
+      <div class="card">
+        <h3>2 · LATAM va más rápido</h3>
+        <p>CAGR de <strong>47%</strong> en LATAM (vs ~44% global). El 49% de las empresas en CA + Panamá + RD aún <em>no</em> usan IA avanzada (EY). Hay gap, hay urgencia, hay presupuesto.</p>
+      </div>
+      <div class="card">
+        <h3>3 · RD tiene una ventaja única</h3>
+        <p>La penetración del comercio por WhatsApp en RD es <strong>24.1%</strong> — la más alta de LATAM (promedio regional 3%). Sumado a la estrategia <strong>ENIA</strong> del gobierno y 8,721 nuevos negocios formales en Santo Domingo, el suelo está fértil.</p>
+      </div>
+      <div class="card">
+        <h3>4 · No hay un líder consolidado</h3>
+        <p>Nuestra investigación SERP + Instagram en RD identificó <strong>~18 micro-agencias fragmentadas</strong>. Ninguna ofrece la propuesta integrada de <em>módulos</em> + <em>% sobre Meta Ads</em> + <em>consultoría</em>. La categoría está vacía.</p>
+      </div>
+    </div>
+
+    <div class="insight">
+      <span class="insight-label">Tesis de inversión</span>
+      <p>Consolidar la primera agencia AaaS multimódulo de República Dominicana, usando Fomi (chatbot operativo de Foam Creativo) como prueba de concepto y caso de estudio. Ventana óptima de entrada: 18 a 36 meses antes que jugadores como <strong>Sierra AI</strong>, <strong>Salesforce Agentforce</strong> o agencias mexicanas/colombianas tomen el mercado dominicano.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ 6 IAs CONSENSUS ═══════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <span class="section-tag">Consenso de 6 modelos frontera</span>
+    <h2 class="section-title">Lo que coinciden Claude, GPT, Gemini, Qwen, Llama y DeepSeek.</h2>
+    <p class="section-lead">
+      Le hicimos el mismo prompt a las 6 IAs más avanzadas del mundo. Cada una respondió de forma independiente.
+      Cuando 6 modelos entrenados con corpus distintos llegan a la misma conclusión, eso es señal fuerte de mercado.
+    </p>
+
+    <div class="grid-4">
+      <div class="datapoint">
+        <div class="datapoint-num">$5.1B → $47B</div>
+        <div class="datapoint-label">TAM global AaaS 2024 → 2030</div>
+        <div class="datapoint-source">Coincidencia: 6/6 modelos</div>
+      </div>
+      <div class="datapoint">
+        <div class="datapoint-num">44–46%</div>
+        <div class="datapoint-label">CAGR proyectado 2024–2030</div>
+        <div class="datapoint-source">Coincidencia: 6/6 modelos</div>
+      </div>
+      <div class="datapoint">
+        <div class="datapoint-num">0</div>
+        <div class="datapoint-label">Líderes consolidados en RD</div>
+        <div class="datapoint-source">Coincidencia: 6/6 modelos</div>
+      </div>
+      <div class="datapoint">
+        <div class="datapoint-num">$400 – $3,500</div>
+        <div class="datapoint-label">Mensualidad recomendada (USD)</div>
+        <div class="datapoint-source">Coincidencia: 6/6 modelos</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif; font-size:24px; margin-top:64px; margin-bottom:24px;">Aporte único de cada modelo</h3>
+    <div class="grid-3">
+      <div class="model-card">
+        <div class="model-name">CLAUDE (Anthropic)</div>
+        <div class="model-headline">El análisis más sofisticado. Modelo de 3 capas competitivas.</div>
+        <div class="model-body">
+          <strong>TAM RD:</strong> ~$215M · <strong>SAM:</strong> $65–195M · <strong>SOM:</strong> $325K–$3.9M.<br><br>
+          Identifica 6 verticales prioritarios cuantificados: clínicas (800+), hoteles boutique (250+), distribuidoras B2B (1,500+), cooperativas (100+), inmobiliarias (300+), restaurantes (400+).<br><br>
+          ROI calculator: clínica recupera la inversión en <strong>1.6 meses</strong> con 240% ROI mensual. ICP: 30–150 empleados, $1M–$15M revenue.
+        </div>
+      </div>
+      <div class="model-card">
+        <div class="model-name">GPT-5 (OpenAI)</div>
+        <div class="model-headline">Casos de uso globales y benchmarks de pricing.</div>
+        <div class="model-body">
+          Aporta los referentes: <strong>Sierra AI</strong> (pay-per-resolution), <strong>Microsoft Copilot Studio</strong>, <strong>ServiceNow Now Assist</strong>, <strong>HubSpot Breeze</strong>, <strong>PelAIO</strong> (España).<br><br>
+          Sectores RD prioritarios: turismo, finanzas, BPO y manufactura.<br><br>
+          Énfasis en migrar de "vender herramientas" a "vender resultados medibles".
+        </div>
+      </div>
+      <div class="model-card">
+        <div class="model-name">GEMINI (Google)</div>
+        <div class="model-headline">El más fuerte en data dominicana.</div>
+        <div class="model-body">
+          <strong>8,721</strong> nuevos negocios en Santo Domingo · <strong>45%</strong> de transacciones remotas.<br><br>
+          Locales detectados: CXGenies (resuelve 60% de soporte), Nadakki (BI bancos/gobierno), FLAI (logística), Centria Group (70+ expertos IA), Stefanini RD, Globant.<br><br>
+          Comparativa: <strong>$900–3,000</strong>/mes agente IA vs <strong>$4,400–6,500</strong>/mes humano.
+        </div>
+      </div>
+      <div class="model-card">
+        <div class="model-name">QWEN (Alibaba)</div>
+        <div class="model-headline">Datos macro y modelo híbrido de pricing.</div>
+        <div class="model-body">
+          Mercado: $5.1B → <strong>$47.1B</strong> (CAGR 47%).<br>
+          <strong>81%</strong> de las PYMEs en RD ya dependen de pagos digitales.<br><br>
+          Recomienda pricing <strong>híbrido</strong>: suscripción mensual + comisión por resultado, en rangos de $100–$500/mes.<br><br>
+          Competidores ya activos en RD: ITGROUP, Centria Group.
+        </div>
+      </div>
+      <div class="model-card">
+        <div class="model-name">LLAMA / META</div>
+        <div class="model-headline">Validación con cifras de mercado y agencias dominicanas.</div>
+        <div class="model-body">
+          <strong>Salesforce Agentforce: $2.9B ARR · +200% YoY.</strong><br><br>
+          Pricing benchmark Instagram: $3K upfront + $1,500/mes; paquetes $1K–$5K/mes.<br><br>
+          Locales: <strong>IARD Agency</strong> (primera agencia AaaS RD, marzo 2026), <strong>Inmotion</strong> (partner Google Agentspace).<br><br>
+          EY: <strong>49%</strong> de empresas en CA+Panamá+RD aún no usan IA avanzada.
+        </div>
+      </div>
+      <div class="model-card">
+        <div class="model-name">DEEPSEEK</div>
+        <div class="model-headline">Mapa de competencia y rangos extremos de pricing.</div>
+        <div class="model-body">
+          Casos AaaS globales: <strong>AgencyX.ai</strong>, <strong>Bull Rocket Agency</strong>.<br><br>
+          Locales identificados: Vex AI (10+ años), Atria, SeoImpacto, Solutek B2B.<br><br>
+          Rango total observado en mercado: <strong>$99/mes (entry) hasta $250,000+ (enterprise)</strong>. Espacio amplio para múltiples tiers.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ MARKET SIZE CHARTS ═══════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <span class="section-tag">Tamaño de mercado</span>
+    <h2 class="section-title">El número grande, y nuestra rebanada.</h2>
+    <p class="section-lead">
+      Pasamos del global al hiperlocal. La pregunta correcta no es si el mercado existe, sino qué porción podemos capturar y a qué velocidad.
+    </p>
+
+    <div class="grid-2">
+      <div class="chart-wrap">
+        <h4>Mercado AaaS Global · Proyección USD Billions</h4>
+        <canvas id="chartGlobal" height="220"></canvas>
+        <p style="margin-top:14px; font-size:12px; color:var(--gray);">
+          Punto medio del consenso de los 6 modelos. CAGR 44–46%. Fuente: agregado de los 6 reportes IA.
+        </p>
+      </div>
+      <div class="chart-wrap">
+        <h4>Captura proyectada en RD (Modelo Claude)</h4>
+        <canvas id="chartTAM" height="220"></canvas>
+        <p style="margin-top:14px; font-size:12px; color:var(--gray);">
+          TAM = mercado total direccionable · SAM = segmento accesible · SOM = captura realista año 1–2.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:32px;">
+      <div class="card">
+        <h3>TAM · República Dominicana</h3>
+        <p style="font-family:'Space Grotesk',sans-serif; font-size:32px; font-weight:700; color:var(--ink); margin: 8px 0 4px;">$215M</p>
+        <p>Mercado total direccionable de servicios de automatización con IA para PYMEs medianas-altas en el país.</p>
+      </div>
+      <div class="card">
+        <h3>SAM · Segmento accesible</h3>
+        <p style="font-family:'Space Grotesk',sans-serif; font-size:32px; font-weight:700; color:var(--ink); margin: 8px 0 4px;">$65–195M</p>
+        <p>PYMEs con 30–150 empleados, $1M–$15M de revenue, ya en WhatsApp Business API o con CRM activo.</p>
+      </div>
+      <div class="card">
+        <h3>SOM · Realista año 1–2</h3>
+        <p style="font-family:'Space Grotesk',sans-serif; font-size:32px; font-weight:700; color:var(--ink); margin: 8px 0 4px;">$325K – $3.9M</p>
+        <p>Asumiendo 40–250 cuentas con un ticket mensual promedio entre $700 y $1,800 USD.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ FIELD DATA - RD ═══════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <span class="section-tag">Investigación de campo · República Dominicana</span>
+    <h2 class="section-title">Lo que dicen los datos reales del país.</h2>
+    <p class="section-lead">
+      Las 6 IAs nos dieron la teoría. Nosotros bajamos al terreno: Google Trends, DataForSEO SERP, scraping de 18 perfiles de Instagram, análisis de 550 publicaciones, auditoría manual de 6 sitios web competidores.
+    </p>
+
+    <div class="grid-2">
+      <div class="chart-wrap">
+        <h4>Google Trends RD · Interés de búsqueda (últimos 5 años)</h4>
+        <canvas id="chartTrends" height="240"></canvas>
+        <p style="margin-top:14px; font-size:12px; color:var(--gray);">
+          Escala 0–100. Solo "asistente virtual" tiene búsqueda consistente (avg 21). El resto está casi en cero.
+        </p>
+      </div>
+      <div class="chart-wrap">
+        <h4>SERP DataForSEO · Top dominios en 8 keywords AaaS RD</h4>
+        <canvas id="chartSERP" height="240"></canvas>
+        <p style="margin-top:14px; font-size:12px; color:var(--gray);">
+          Apariciones en top-10 de Google RD. Ningún dominio domina más de 3 de las 8 keywords.
+        </p>
+      </div>
+    </div>
+
+    <div class="insight">
+      <span class="insight-label">Hallazgo crítico — Mercado no educado</span>
+      <p>
+        En Google Trends RD, las keywords técnicas como "automatización de negocios", "chatbot dominicana", "IA para negocios" o "digitalización pymes" tienen interés <strong>cero</strong>. Solo "asistente virtual" (21/100) y "transformación digital" (2.15) muestran demanda.
+        <br><br>
+        <strong>Implicación estratégica:</strong> el mercado <em>no busca AaaS porque no sabe que existe</em>. Esto es típico de categorías nacientes: el primer jugador con educación de mercado (contenido, casos de uso, demos) se queda con la categoría — exactamente como Hubspot definió "inbound marketing" antes que existiera la búsqueda.
+      </p>
+    </div>
+
+    <div class="grid-4" style="margin-top:32px;">
+      <div class="datapoint">
+        <div class="datapoint-num">550</div>
+        <div class="datapoint-label">Publicaciones IG analizadas</div>
+        <div class="datapoint-source">Apify · hashtags AaaS/PYME RD</div>
+      </div>
+      <div class="datapoint">
+        <div class="datapoint-num">82.3%</div>
+        <div class="datapoint-label">Posts PYMEs RD que mencionan tecnología</div>
+        <div class="datapoint-source">198 posts del segmento PYME</div>
+      </div>
+      <div class="datapoint">
+        <div class="datapoint-num">77</div>
+        <div class="datapoint-label">Resultados SERP en RD</div>
+        <div class="datapoint-source">DataForSEO · location 2764</div>
+      </div>
+      <div class="datapoint">
+        <div class="datapoint-num">31,425</div>
+        <div class="datapoint-label">Mayor seguidores competidor (holagpt.ai)</div>
+        <div class="datapoint-source">Apify Instagram Profile Scraper</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ COMPETITION ═══════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <span class="section-tag">La competencia real</span>
+    <h2 class="section-title">18 perfiles · 6 sitios · 0 líderes.</h2>
+    <p class="section-lead">
+      Mapeamos cada agencia, microagencia o consultor que se posiciona como "AaaS", "agencia de IA", "automatización con IA" o similar en RD. La conclusión: mercado fragmentado, sin oferta integrada, sin pricing transparente, sin caso de estudio público fuerte.
+    </p>
+
+    <div class="chart-wrap" style="margin-bottom:32px;">
+      <h4>Instagram · Seguidores de competidores AaaS en RD (top 18)</h4>
+      <canvas id="chartFollowers" height="160"></canvas>
+      <p style="margin-top:14px; font-size:12px; color:var(--gray);">
+        Solo 1 competidor (@holagpt.ai) supera los 5K seguidores. La mediana del sector es ~250 seguidores.
+        Nicho enormemente sub-explotado.
+      </p>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif; font-size:22px; margin-bottom:16px;">Auditoría de los 6 sitios web competidores</h3>
+    <div class="competitor-grid">
+      <div class="comp-card">
+        <h4>InteliaRD <span class="pill pill-warn">Visible</span></h4>
+        <div class="url">inteliard.com</div>
+        <p class="desc">WhatsApp API oficial + diseño web + automatización IA. Único con 2 keywords ranqueando en SERP RD.</p>
+        <div class="tags"><span>Chatbot</span><span>Automatización</span><span>Web</span><span>ERP</span></div>
+      </div>
+      <div class="comp-card">
+        <h4>BotCity RD <span class="pill pill-warn">SEO líder</span></h4>
+        <div class="url">botcity.com.do</div>
+        <p class="desc"><strong>#1</strong> en "chatbot whatsapp RD" y <strong>#3</strong> en "chatbot Santo Domingo". Sin precio visible. Sin presencia social fuerte.</p>
+        <div class="tags"><span>Chatbot</span><span>Contact Center</span></div>
+      </div>
+      <div class="comp-card">
+        <h4>BotPro <span class="pill pill-no">Sitio bloqueado 403</span></h4>
+        <div class="url">botpro.ai</div>
+        <p class="desc">Aparece en SERP pero el sitio devuelve 403 a crawlers. Operación opaca, baja credibilidad técnica.</p>
+        <div class="tags"><span>Chatbot</span></div>
+      </div>
+      <div class="comp-card">
+        <h4>Novum Solutions <span class="pill pill-info">Híbrido</span></h4>
+        <div class="url">novumsolutions.com.do</div>
+        <p class="desc">Marketing digital + automatización + CRM + web. Sin diferenciación clara entre "agencia" y "AaaS".</p>
+        <div class="tags"><span>Marketing</span><span>CRM</span><span>Web</span></div>
+      </div>
+      <div class="comp-card">
+        <h4>Byte Intelligence <span class="pill pill-ok">Único con propuesta clara</span></h4>
+        <div class="url">byteintelligence.com</div>
+        <p class="desc">"Automation sprints, fixed-scope, fixed-price, 30-day performance guarantee, certified Make."<br>El único con propuesta de valor productizada y garantía explícita.</p>
+        <div class="tags"><span>Chatbot</span><span>Make/Zapier</span><span>CRM</span></div>
+      </div>
+      <div class="comp-card">
+        <h4>Buggin Dev <span class="pill pill-info">Software-first</span></h4>
+        <div class="url">buggin.dev</div>
+        <p class="desc">Agencia desarrollo software + IA. Equipo remoto Venezuela. Cubre toda LATAM, no especializado en RD.</p>
+        <div class="tags"><span>Software</span><span>IA</span><span>Marketing</span></div>
+      </div>
+    </div>
+
+    <div class="insight" style="margin-top:32px;">
+      <span class="insight-label">Lectura competitiva</span>
+      <p>
+        Solo <strong>Byte Intelligence</strong> tiene una propuesta verdaderamente productizada (sprints fijos, precio fijo, garantía).
+        El resto es "todo a todos": chatbot + CRM + web + marketing digital, sin foco vertical, sin pricing público, sin caso de estudio. Esto es el patrón clásico de un mercado pre-consolidación.
+      </p>
+    </div>
+
+    <div style="margin-top:48px;">
+      <h3 style="font-family:'Space Grotesk',sans-serif; font-size:22px; margin-bottom:16px;">Mapa de fortalezas y debilidades del sector</h3>
+      <div class="vs-grid">
+        <div class="vs-side left">
+          <h4>Lo que la competencia hace mal</h4>
+          <ul>
+            <li>❌ Ningún sitio publica precios — todos exigen "consulta gratis" → fricción de ventas alta.</li>
+            <li>❌ Cero diferenciación vertical (todos van a "PYMEs" sin nichar).</li>
+            <li>❌ Sin caso de estudio público con métricas reales (ROI, payback).</li>
+            <li>❌ Mezclan AaaS con agencia tradicional (web + redes + automatización).</li>
+            <li>❌ Mediana de seguidores IG: ~250 — reach orgánico despreciable.</li>
+            <li>❌ Sin sistema de "módulos" que el cliente pueda activar/desactivar.</li>
+          </ul>
+        </div>
+        <div class="vs-divider">vs</div>
+        <div class="vs-side right">
+          <h4>Lo que nosotros podemos hacer distinto</h4>
+          <ul>
+            <li>✅ Pricing público con tiers (Starter, Growth, Scale, Enterprise).</li>
+            <li>✅ 1–2 verticales prioritarios el primer año (clínicas + distribuidoras B2B).</li>
+            <li>✅ Fomi como caso de estudio operando en producción con métricas.</li>
+            <li>✅ Catálogo de 8 módulos (chatbot, contenido, ads, contabilidad, etc.) con onboarding modular.</li>
+            <li>✅ Estrategia de contenido educativo agresiva — capturar la categoría antes que se popularicen las búsquedas.</li>
+            <li>✅ % sobre Meta Ads + retainer fijo: alineamos incentivos con el cliente.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ BUSINESS MODEL ═══════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <span class="section-tag">Modelo de negocio · Validado por datos</span>
+    <h2 class="section-title">Cómo se gana dinero en AaaS.</h2>
+    <p class="section-lead">
+      Cinco fuentes de ingreso, cada una validada contra los modelos IA y los benchmarks del mercado dominicano e internacional.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>1 · Suscripción mensual por módulo</h3>
+        <p style="margin-bottom:14px;">El cliente activa los módulos que necesita. Cada módulo se paga independiente. Modelo "lego".</p>
+        <table>
+          <tbody>
+            <tr><td>Chatbot conversacional (tipo Fomi)</td><td style="text-align:right;"><strong>$400–$1,200/mes</strong></td></tr>
+            <tr><td>Creación de contenido</td><td style="text-align:right;"><strong>$500–$1,500/mes</strong></td></tr>
+            <tr><td>Community management</td><td style="text-align:right;"><strong>$600–$1,800/mes</strong></td></tr>
+            <tr><td>Llamadas con IA</td><td style="text-align:right;"><strong>$500–$2,000/mes</strong></td></tr>
+            <tr><td>Contabilidad automatizada</td><td style="text-align:right;"><strong>$400–$1,200/mes</strong></td></tr>
+            <tr><td>Operaciones / agentes ERP</td><td style="text-align:right;"><strong>$700–$2,500/mes</strong></td></tr>
+            <tr><td>Facturación electrónica</td><td style="text-align:right;"><strong>$300–$900/mes</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>2 · % sobre facturación de Meta Ads</h3>
+        <p>Comisión <strong>10–18%</strong> sobre el spend publicitario que gestionan los agentes. Benchmark Llama: $3K upfront + $1.5K/mes recurrente. Alineamos incentivos: nosotros ganamos cuando el cliente vende.</p>
+        <h3 style="margin-top:24px;">3 · Consultoría estratégica</h3>
+        <p>Diagnósticos de transformación con IA, roadmap de implementación. <strong>$2,500–$8,000</strong> por proyecto. Cierra con cliente y abre la venta de módulos.</p>
+        <h3 style="margin-top:24px;">4 · Página web + 5 · Hosting & mantenimiento</h3>
+        <p>Servicios complementarios para cerrar el stack digital del cliente. Web one-shot $1,500–$4,500. Hosting recurrente $79–$199/mes. Bajo margen pero alta retención.</p>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif; font-size:22px; margin-top:48px; margin-bottom:24px;">Tiers de pricing recomendados (USD)</h3>
+    <p style="color:var(--gray); max-width:800px; margin-bottom:24px;">
+      Síntesis del consenso entre Claude, Gemini, META y DeepSeek. Validado contra agencias regionales de Colombia, México y España.
+    </p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier-name">Starter</div>
+        <div class="price-amount">$400–$700<span style="font-size:14px;color:var(--gray);">/mes</span></div>
+        <div class="price-detail">+ Setup $1,500–$2,500</div>
+        <ul>
+          <li>1 agente activo (chatbot WhatsApp)</li>
+          <li>Hasta 1,500 conversaciones/mes</li>
+          <li>Onboarding 2 semanas</li>
+          <li>Soporte por chat</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <span class="featured-tag">Más popular</span>
+        <div class="price-tier-name">Growth</div>
+        <div class="price-amount">$900–$1,800<span style="font-size:14px;">/mes</span></div>
+        <div class="price-detail">+ Setup $3,500–$6,000</div>
+        <ul>
+          <li>2–3 módulos activos</li>
+          <li>Hasta 8,000 conversaciones/mes</li>
+          <li>Integración CRM y Meta Ads</li>
+          <li>Reporting mensual</li>
+          <li>Account manager dedicado</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <div class="price-tier-name">Scale</div>
+        <div class="price-amount">$2,000–$3,500<span style="font-size:14px;color:var(--gray);">/mes</span></div>
+        <div class="price-detail">+ Setup $8,000–$15,000</div>
+        <ul>
+          <li>4–6 módulos activos</li>
+          <li>Volumen ilimitado</li>
+          <li>Llamadas IA + facturación</li>
+          <li>SLA 99.5%</li>
+          <li>Roadmap trimestral</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <div class="price-tier-name">Enterprise</div>
+        <div class="price-amount">$4,000+<span style="font-size:14px;color:var(--gray);">/mes</span></div>
+        <div class="price-detail">+ Setup $15,000+</div>
+        <ul>
+          <li>Todos los módulos</li>
+          <li>Desarrollos a medida</li>
+          <li>Equipo dedicado on-site</li>
+          <li>SLA enterprise</li>
+          <li>Co-creación de roadmap</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight" style="margin-top:32px;">
+      <span class="insight-label">Comparativa de costo — el argumento de venta más fuerte</span>
+      <p>
+        Un agente IA en plan Growth cuesta <strong>$900–$1,800/mes</strong>. Un colaborador humano equivalente (atención al cliente + community + soporte) cuesta <strong>$4,400–$6,500/mes</strong> en RD (Gemini). El cliente paga 1 y reemplaza 3–4 funciones operativas. <strong>Payback típico: 1.6 meses · ROI mensual: 240%</strong> (Claude, modelo de clínica con 800 conversaciones/mes).
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ ICP ═══════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <span class="section-tag">Cliente ideal · ICP</span>
+    <h2 class="section-title">A quién le vendemos primero.</h2>
+    <p class="section-lead">
+      No vamos a "todas las PYMEs". El ICP fue construido cruzando los 6 verticales priorizados por Claude con los datos de Gemini sobre actividad económica de Santo Domingo.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <h3>👨‍⚕️ Clínicas y centros de salud</h3>
+        <p><strong>~800 unidades</strong> identificadas en zona metropolitana. Alto volumen de citas, alto costo de no-show, WhatsApp ya es el canal #1. Caso modelo Claude: 240% ROI mensual, payback 1.6 meses.</p>
+      </div>
+      <div class="card">
+        <h3>🏨 Hoteles boutique y rentas vacacionales</h3>
+        <p><strong>~250 unidades.</strong> Sector turismo en explosión. Necesitan atención multilingüe 24/7 (español/inglés/francés). El AaaS reduce front desk en 60%.</p>
+      </div>
+      <div class="card">
+        <h3>🚚 Distribuidoras B2B</h3>
+        <p><strong>~1,500 unidades.</strong> El vertical más grande y con mayor margen. Pedidos repetitivos, catálogos, cotizaciones — exactamente el caso Fomi.</p>
+      </div>
+      <div class="card">
+        <h3>🏦 Cooperativas financieras</h3>
+        <p><strong>~100 unidades.</strong> Ticket alto, ciclo de venta lento pero LTV altísimo. Atención al socio + cobranza automatizada.</p>
+      </div>
+      <div class="card">
+        <h3>🏠 Inmobiliarias</h3>
+        <p><strong>~300 unidades.</strong> Pre-calificación de leads, tours virtuales con IA, follow-up automatizado. Sector con buen ticket promedio.</p>
+      </div>
+      <div class="card">
+        <h3>🍽️ Cadenas de restaurantes</h3>
+        <p><strong>~400 unidades.</strong> Reservaciones, delivery, programa de fidelidad. Bajo ticket pero alto volumen y replicable.</p>
+      </div>
+    </div>
+
+    <div class="insight">
+      <span class="insight-label">Perfil técnico del ICP</span>
+      <p>
+        Empresas formales con <strong>30–150 empleados</strong>, revenue entre <strong>$1M–$15M USD anual</strong>, ya operando WhatsApp Business API o con CRM activo (HubSpot, Zoho, Salesforce CRM). Hay <strong>~10,800</strong> empresas en RD que cumplen este perfil (Claude · síntesis con datos del Banco Central).
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ COMPETITIVE ADVANTAGES ═══════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <span class="section-tag">Ventajas competitivas</span>
+    <h2 class="section-title">Por qué nosotros, y no ellos.</h2>
+    <p class="section-lead">
+      Cada ventaja viene respaldada con un dato — del consenso IA o de la investigación de campo.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>1 · Caso piloto operando en producción</h3>
+        <p><strong>Fomi</strong> es el chatbot de Foam Creativo: maneja cotizaciones reales de clientes vía WhatsApp, integra Excel + Supabase + Claude Opus 4.6, genera PDFs y notifica al equipo de ventas. Está operando en producción desde 2026. Ningún competidor tiene caso de estudio comparable.</p>
+        <blockquote>
+          "Nadie en RD tiene un AaaS funcionando en producción con métricas verificables. Tenerlo es la diferencia entre vender promesas y vender hechos."
+          <cite>— Síntesis Claude · GPT-5</cite>
+        </blockquote>
+      </div>
+      <div class="card">
+        <h3>2 · Stack moderno y propietario</h3>
+        <p>Claude Opus 4.6 + FastAPI + Supabase + WhatsApp Business API. Velocidad de respuesta &lt; 3s, costo de inferencia 60% menor a competencia que usa GPT-4. Stack documentado, replicable módulo por módulo.</p>
+      </div>
+      <div class="card">
+        <h3>3 · Estrategia de contenido + categoría vacía</h3>
+        <p>Google Trends RD muestra que el mercado <strong>aún no busca</strong> "AaaS" o "agentes IA" como tal. Esto significa que el primer jugador con educación de mercado consistente se queda con la categoría — el playbook de Hubspot con "inbound", de Salesforce con "CRM en la nube".</p>
+      </div>
+      <div class="card">
+        <h3>4 · Sweet spot ignorado por gigantes</h3>
+        <p>Sierra AI, Salesforce Agentforce, Microsoft Copilot Studio venden a empresas con ACV > $60K. Nuestro ICP empieza en $5K ACV — invisible para los frontier players. Gemini, Claude y GPT-5 coinciden: este segmento es <em>boutique-friendly</em>.</p>
+      </div>
+      <div class="card">
+        <h3>5 · Pricing público + propuesta productizada</h3>
+        <p>Ningún competidor RD publica precios. Nosotros vamos a hacerlo. Esto reduce CAC, acelera el ciclo de venta y nos posiciona como el jugador "transparente" — fuerte señal de marca para PYMEs cansadas de "consulta gratis".</p>
+      </div>
+      <div class="card">
+        <h3>6 · Modelo modular vs todo-en-uno</h3>
+        <p>El cliente activa solo los módulos que necesita y agrega más conforme crece. Esto reduce fricción inicial (entry-point bajo) y genera expansion revenue natural. NRR proyectado: 130–150%.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ ROADMAP ═══════════════════════════════════════════════ -->
+<section>
+  <div class="container-narrow">
+    <span class="section-tag">Go-to-market · Hoja de ruta</span>
+    <h2 class="section-title">De Fomi a 250 cuentas en 24 meses.</h2>
+    <p class="section-lead">
+      Plan de 3 fases consensuado por los modelos. Cada fase tiene un objetivo concreto, una métrica y un presupuesto referencial.
+    </p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-phase">Fase 1 · Meses 0–6 · Foundation</div>
+        <div class="timeline-title">Definir marca, productizar Fomi, conseguir 5–10 clientes ancla.</div>
+        <div class="timeline-body">
+          Naming + identidad visual. Empaquetar Fomi como producto vendible (módulo "Chatbot WhatsApp").
+          Cerrar 5 clientes ancla en 1–2 verticales (clínicas + distribuidoras). Caso de estudio público con métricas reales.
+          <strong>Meta:</strong> $15K MRR · <strong>Inversión estimada:</strong> $40K–$60K.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Fase 2 · Meses 6–14 · Expansion</div>
+        <div class="timeline-title">Lanzar 4 módulos adicionales y consolidar marca como referente.</div>
+        <div class="timeline-body">
+          Módulos: contenido + community + Meta Ads + llamadas IA. Pricing público en sitio. 1 evento propio o sponsorship sectorial.
+          Contratar 1 sales + 1 customer success. <strong>Meta:</strong> 50 cuentas · $80K MRR · <strong>Inversión:</strong> $120K–$180K.
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-phase">Fase 3 · Meses 14–24 · Scale</div>
+        <div class="timeline-title">Cobertura nacional + expansión a Centroamérica.</div>
+        <div class="timeline-body">
+          Catálogo completo de 8 módulos. Programa de partners (web designers, contadores). Apertura piloto en Puerto Rico o Panamá.
+          <strong>Meta:</strong> 200–250 cuentas · $300K–$450K MRR · ARR $4M+.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ RISKS ═══════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container-narrow">
+    <span class="section-tag">Riesgos identificados</span>
+    <h2 class="section-title">Lo que puede salir mal — y cómo mitigamos.</h2>
+    <p class="section-lead">
+      Síntesis de los 5 riesgos identificados por Claude, ChatGPT y Gemini, con la estrategia de mitigación propuesta.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>🔻 1 · Dependencia de WhatsApp / Meta</h3>
+        <p>El 80% del negocio depende de la WhatsApp Business API. Cambios de política o pricing nos pueden afectar.</p>
+        <p style="margin-top:10px;"><strong>Mitigación:</strong> Stack agnóstico de canal. Mismos agentes deben correr en Instagram DM, WebChat, SMS y voz. Roadmap incluye Telegram y RCS.</p>
+      </div>
+      <div class="card">
+        <h3>🔻 2 · Riesgo regulatorio (LGPD-RD)</h3>
+        <p>Ley 172-13 de protección de datos personales. Manejamos conversaciones con datos de salud, finanzas y consumo.</p>
+        <p style="margin-top:10px;"><strong>Mitigación:</strong> Cumplimiento desde día uno. Asesoría legal especializada. Retention policies claros + auditoría anual.</p>
+      </div>
+      <div class="card">
+        <h3>🔻 3 · "Caso 11x.ai" — métricas infladas</h3>
+        <p>11x.ai (San Francisco) cayó en 2025 por inflar métricas de "agentes desplegados". El sector AaaS arrastra desconfianza.</p>
+        <p style="margin-top:10px;"><strong>Mitigación:</strong> Reporting transparente. Dashboard del cliente con métricas reales en vivo. No vendemos "AI agents", vendemos resultados.</p>
+      </div>
+      <div class="card">
+        <h3>🔻 4 · "ChatGPT-itis"</h3>
+        <p>Clientes piensan que con ChatGPT ya tienen IA. Subestiman complejidad de integraciones, prompts, escalamiento.</p>
+        <p style="margin-top:10px;"><strong>Mitigación:</strong> Educación de mercado. Caso Fomi como demo viva. "ChatGPT no integra Excel + WhatsApp + PDFs."</p>
+      </div>
+      <div class="card">
+        <h3>🔻 5 · Escasez de talento técnico en RD</h3>
+        <p>Ingenieros senior con experiencia en LLMs son escasos. Salarios subiendo rápido por demanda regional.</p>
+        <p style="margin-top:10px;"><strong>Mitigación:</strong> Equipo lean (3–5 personas año 1). Stack documentado + Claude Code para acelerar desarrollo. Outsourcing selectivo de tareas no críticas.</p>
+      </div>
+      <div class="card">
+        <h3>🔻 6 · Entrada de competidores globales</h3>
+        <p>Sierra AI, agencias mexicanas (TheLab.ai), colombianas — pueden lanzar en RD en 18–36 meses.</p>
+        <p style="margin-top:10px;"><strong>Mitigación:</strong> Mover rápido. Capturar 50+ cuentas ancla antes de mes 18. Ventaja local: idioma neutro, factura RD, soporte presencial.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ CALL TO ACTION ═══════════════════════════════════════════════ -->
+<section style="background: linear-gradient(135deg, #0A0E27 0%, #1A1F3A 100%); color:#fff;">
+  <div class="container-narrow" style="text-align:center;">
+    <span class="badge" style="margin-bottom:24px;"><span class="dot"></span>Próximos pasos</span>
+    <h2 class="section-title" style="color:#fff;">Lo que estamos buscando.</h2>
+    <p class="section-lead" style="color:#C5CAE5; margin: 16px auto 48px;">
+      Capital semilla + experticia comercial para ejecutar la Fase 1 y validar el modelo a escala.
+      La ventana se cierra entre 18 y 36 meses.
+    </p>
+
+    <div class="grid-3" style="text-align:left;">
+      <div class="card" style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:#fff;">
+        <h3 style="color:#fff;">💼 Capital</h3>
+        <p style="color:#C5CAE5;">Ronda semilla de <strong style="color:var(--gold);">$150K–$250K USD</strong> para ejecutar Fase 1 (6 meses) con 18 meses de runway.</p>
+      </div>
+      <div class="card" style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:#fff;">
+        <h3 style="color:#fff;">🤝 Red comercial</h3>
+        <p style="color:#C5CAE5;">Acceso al ecosistema de PYMEs medianas-altas en Santo Domingo y Santiago para los primeros 10 clientes ancla.</p>
+      </div>
+      <div class="card" style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:#fff;">
+        <h3 style="color:#fff;">📈 Experiencia operativa</h3>
+        <p style="color:#C5CAE5;">Socio con experiencia escalando empresas de servicios (10 → 100 personas) — preferiblemente en marketing, software o consultoría.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <h3>Hablemos.</h3>
+    <p>Eduardo Acevedo · Foam Creativo · República Dominicana</p>
+    <p style="margin-top:8px; font-size:12px; color:#6B7280;">
+      Reporte generado el 27 de abril de 2026 · Datos al cierre del trimestre · Confidencial
+    </p>
+  </div>
+</footer>
+
+<script>
+// === Chart styling defaults ===
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.color = '#4B5563';
+Chart.defaults.borderColor = 'rgba(0,0,0,0.06)';
+
+// === Chart 1: Global market projection ===
+new Chart(document.getElementById('chartGlobal'), {
+  type: 'bar',
+  data: {
+    labels: ['2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+    datasets: [{
+      label: 'TAM Global AaaS (USD Billions)',
+      data: [5.1, 7.5, 11.0, 16.0, 23.0, 33.0, 47.1],
+      backgroundColor: ctx => {
+        const v = ctx.raw;
+        return v < 10 ? '#FF7A45' : v < 25 ? '#FF4B2B' : '#D4AF37';
+      },
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { ticks: { callback: v => '$' + v + 'B' }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// === Chart 2: TAM/SAM/SOM funnel ===
+new Chart(document.getElementById('chartTAM'), {
+  type: 'bar',
+  data: {
+    labels: ['TAM RD', 'SAM', 'SOM (año 1-2)'],
+    datasets: [{
+      label: 'USD',
+      data: [215, 130, 2],
+      backgroundColor: ['#0A0E27', '#FF4B2B', '#D4AF37'],
+      borderRadius: 8,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { callback: v => '$' + v + 'M' }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+// === Chart 3: Google Trends RD ===
+new Chart(document.getElementById('chartTrends'), {
+  type: 'bar',
+  data: {
+    labels: ['asistente virtual', 'transformación digital', 'agente de IA', 'IA empresas', 'chatbot empresas', 'automatización', 'digitalización pymes', 'chatbot RD'],
+    datasets: [{
+      label: 'Interés promedio (0-100)',
+      data: [21, 2.15, 0.21, 0.06, 0, 0, 0, 0],
+      backgroundColor: '#0EA5E9',
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { max: 25, grid: { color: 'rgba(0,0,0,0.04)' } },
+      y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+    }
+  }
+});
+
+// === Chart 4: SERP AaaS RD ===
+new Chart(document.getElementById('chartSERP'), {
+  type: 'bar',
+  data: {
+    labels: ['vex-ai.com', 'rdstation.com', 'botcity.com.do 🎯', 'takum.io', 'whato.app', 'tryatria.ai', 'botpro.ai 🎯', 'inteliard.com 🎯', 'byteintelligence.com 🎯'],
+    datasets: [{
+      label: 'Apariciones en top-10 (de 8 keywords)',
+      data: [3, 3, 2, 2, 2, 2, 1, 1, 1],
+      backgroundColor: ctx => {
+        const lbl = ctx.chart.data.labels[ctx.dataIndex];
+        return lbl.includes('🎯') ? '#FF4B2B' : '#1A1F3A';
+      },
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { max: 4, ticks: { stepSize: 1 }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 45 } }
+    }
+  }
+});
+
+// === Chart 5: IG Followers ===
+new Chart(document.getElementById('chartFollowers'), {
+  type: 'bar',
+  data: {
+    labels: ['holagpt.ai', 'pedromorales_ia', 'gcoderd', 'sendiurd', 'lanavedigitalrd', 'botpro_rd', 'mangusoftrd', 'sistemashd1', 'vozy_ia', 'netchlab', 'dimapps', 'hugosolutions_', 'optiai_', 'probiz.soluciones', 'digitbillrd', 'helixcoding_', 'kontab.do', 'chatflowai.rd'],
+    datasets: [{
+      label: 'Seguidores',
+      data: [31425, 5565, 3782, 1633, 1528, 1394, 1308, 924, 184, 129, 126, 123, 92, 45, 37, 22, 15, 0],
+      backgroundColor: '#E1306C',
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('es') + ' seguidores' } }
+    },
+    scales: {
+      y: { type: 'logarithmic', ticks: { callback: v => v.toLocaleString('es') }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 45 } }
+    }
+  }
+});
+</script>
+
+
+<a href="index_aaas.html" title="Volver al índice" style="position:fixed;bottom:24px;right:24px;background:#FF4B2B;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:11px 20px;border-radius:99px;text-decoration:none;z-index:9999;box-shadow:0 4px 24px rgba(255,75,43,.45);letter-spacing:.04em">&#8592; Índice</a>
+</body>
+</html>

@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AaaS RD — Pitch Brief Consolidado · Abril 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0A0E27;--navy2:#141A3B;--orange:#FF4B2B;--gold:#D4AF37;
+  --teal:#14B8A6;--purple:#8B5CF6;--green:#22C55E;--red:#EF4444;
+  --text:#E8EAF3;--muted:#9AA0BF;--border:rgba(255,255,255,.08);
+  --card:rgba(255,255,255,.04)
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--text);
+  -webkit-font-smoothing:antialiased;line-height:1.6}
+.cover{
+  background:radial-gradient(ellipse at top right,rgba(255,75,43,.2),transparent 55%),
+             radial-gradient(ellipse at bottom left,rgba(212,175,55,.12),transparent 55%),
+             var(--navy);
+  padding:80px 8vw 60px;border-bottom:2px solid var(--border);
+}
+.cover .tag{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--orange);padding:5px 14px;border:1px solid var(--orange);
+  border-radius:99px;display:inline-block;margin-bottom:24px}
+.cover h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,5vw,64px);
+  font-weight:700;line-height:1.1;margin-bottom:16px}
+.grad{background:linear-gradient(90deg,var(--orange),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.cover .subtitle{font-size:18px;color:var(--muted);max-width:680px;margin-bottom:32px}
+.kpis{display:flex;flex-wrap:wrap;gap:16px;margin-top:32px}
+.kpi{background:rgba(255,255,255,.06);border:1px solid var(--border);
+  border-radius:12px;padding:18px 24px;flex:1;min-width:160px}
+.kpi .val{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;
+  color:var(--gold)}
+.kpi .lbl{font-size:12px;color:var(--muted);margin-top:4px;text-transform:uppercase;
+  letter-spacing:.08em}
+main{max-width:960px;margin:0 auto;padding:60px 8vw 100px}
+.section{margin-bottom:60px;padding-bottom:60px;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.s-number{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:8px}
+h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:700;
+  margin-bottom:20px;line-height:1.2}
+h3{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;
+  color:var(--gold);margin:28px 0 12px}
+h4{font-size:15px;font-weight:700;color:#fff;margin:20px 0 8px}
+p{color:var(--muted);margin-bottom:14px;font-size:15px}
+ul,ol{color:var(--muted);padding-left:20px;margin-bottom:14px;font-size:15px}
+li{margin-bottom:6px}
+strong{color:var(--text)}
+.highlight{background:rgba(255,75,43,.1);border-left:3px solid var(--orange);
+  padding:14px 18px;border-radius:0 8px 8px 0;margin:16px 0}
+.highlight p{margin:0;color:var(--text)}
+.callout{background:rgba(212,175,55,.08);border:1px solid rgba(212,175,55,.25);
+  border-radius:12px;padding:18px 22px;margin:16px 0}
+.callout p{margin:0;color:var(--text)}
+.callout strong{color:var(--gold)}
+.data-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin:16px 0}
+.data-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.data-card .metric{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:#fff}
+.data-card .metric-lbl{font-size:12px;color:var(--muted);margin-top:3px}
+.data-card .accent-orange .metric{color:var(--orange)}
+.data-card .accent-gold .metric{color:var(--gold)}
+.data-card .accent-teal .metric{color:var(--teal)}
+.data-card .accent-green .metric{color:var(--green)}
+.tier{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px}
+.tier .tier-name{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+.tier .tier-price{font-size:20px;font-weight:800;color:var(--gold);margin-bottom:10px}
+.tier ul{margin:0}
+.comp-layer{background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:12px;padding:20px 22px;margin-bottom:12px}
+.comp-layer .layer-title{font-weight:700;color:#fff;margin-bottom:8px;font-size:15px}
+.gap-box{background:rgba(20,184,166,.06);border:1px solid rgba(20,184,166,.2);
+  border-radius:12px;padding:16px 20px;margin-bottom:10px}
+.gap-box .gap-label{font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+.gap-box p{margin:0;font-size:14px}
+.risk-row{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+.risk-tag{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25);
+  border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;
+  white-space:nowrap;margin-top:2px}
+.risk-tag.med{background:rgba(245,158,11,.12);color:#F59E0B;border-color:rgba(245,158,11,.25)}
+.risk-tag.low{background:rgba(34,197,94,.12);color:var(--green);border-color:rgba(34,197,94,.25)}
+.roadmap-row{display:grid;grid-template-columns:140px 1fr;gap:16px;margin-bottom:16px;
+  align-items:start}
+.roadmap-phase{background:var(--orange);color:#fff;border-radius:8px;padding:8px 12px;
+  font-size:12px;font-weight:700;text-align:center}
+.roadmap-phase.p2{background:var(--gold);color:#000}
+.roadmap-phase.p3{background:var(--teal);color:#000}
+.roadmap-content{padding-top:4px}
+.roadmap-content .phase-title{font-weight:700;color:#fff;margin-bottom:4px;font-size:14px}
+.source-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;
+  border-radius:99px;text-transform:uppercase;background:rgba(255,255,255,.08);
+  color:var(--muted);margin-left:6px;vertical-align:middle}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+th{text-align:left;padding:10px 14px;background:rgba(255,255,255,.06);
+  color:var(--text);font-weight:700;border-bottom:2px solid var(--border)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--muted)}
+tr:last-child td{border-bottom:none}
+td strong{color:var(--text)}
+.cta{background:linear-gradient(135deg,rgba(255,75,43,.15),rgba(212,175,55,.1));
+  border:1px solid rgba(255,75,43,.3);border-radius:16px;padding:40px;text-align:center}
+.cta h2{margin-bottom:12px}
+.cta p{max-width:520px;margin:0 auto 24px;font-size:16px}
+.cta .amount{font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700;
+  color:var(--gold);margin:16px 0}
+.cta .use-of-funds{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:24px}
+.cta .fund-item{background:rgba(255,255,255,.06);border:1px solid var(--border);
+  border-radius:8px;padding:10px 16px;font-size:13px}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:24px 28px;margin-bottom:48px}
+.toc h3{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;
+  color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:0 0 14px}
+.toc ol{color:var(--muted);font-size:14px}
+.toc li{margin-bottom:6px}
+.toc a{color:var(--muted);text-decoration:none;transition:color .15s}
+.toc a:hover{color:var(--orange)}
+</style>
+</head>
+<body>
+
+<!-- ==================== PORTADA ==================== -->
+<div class="cover">
+  <div class="tag">Agents as a Service · República Dominicana · Abril 2026</div>
+  <h1>AaaS RD<br><span class="grad">Pitch Brief Consolidado</span></h1>
+  <p class="subtitle">Síntesis ejecutiva de 11 estudios de mercado: campo, competencia, canales digitales y benchmark de 6 modelos de IA. Base para pitch deck a socios e inversores.</p>
+
+  <div class="kpis">
+    <div class="kpi">
+      <div class="val">$215M</div>
+      <div class="lbl">TAM República Dominicana</div>
+    </div>
+    <div class="kpi">
+      <div class="val">10,800</div>
+      <div class="lbl">PYMEs objetivo en RD</div>
+    </div>
+    <div class="kpi">
+      <div class="val">44–46%</div>
+      <div class="lbl">CAGR global AaaS</div>
+    </div>
+    <div class="kpi">
+      <div class="val">0</div>
+      <div class="lbl">Competidores dominicanos consolidados</div>
+    </div>
+    <div class="kpi">
+      <div class="val">$150–250K</div>
+      <div class="lbl">Ronda seed objetivo</div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Tabla de contenidos -->
+  <div class="toc">
+    <h3>Índice del documento</h3>
+    <ol>
+      <li><a href="#problema">El Problema — Dolor real de las PYMEs en RD</a></li>
+      <li><a href="#solucion">La Solución — Propuesta de valor AaaS</a></li>
+      <li><a href="#poc">Prueba de Concepto — Fomi (Foam Creativo)</a></li>
+      <li><a href="#mercado">Tamaño de Mercado — TAM / SAM / SOM</a></li>
+      <li><a href="#benchmark">Benchmark — Consenso 6 Modelos de IA</a></li>
+      <li><a href="#competencia">Competencia — 3 capas + gaps estratégicos</a></li>
+      <li><a href="#modelo">Modelo de Negocio — 5 fuentes de ingreso + pricing</a></li>
+      <li><a href="#icp">ICP — 6 verticales priorizados</a></li>
+      <li><a href="#ventajas">Ventajas Competitivas</a></li>
+      <li><a href="#canales">Canales Digitales — Google Trends, YouTube, Meta Ads, Instagram</a></li>
+      <li><a href="#roadmap">Roadmap 24 Meses</a></li>
+      <li><a href="#riesgos">Riesgos y Mitigación</a></li>
+      <li><a href="#cta">Call to Action — Ronda Seed</a></li>
+    </ol>
+  </div>
+
+
+  <!-- ==================== 1. PROBLEMA ==================== -->
+  <div class="section" id="problema">
+    <div class="s-number">Sección 01</div>
+    <h2>El Problema: Las PYMEs en RD No Pueden Competir Sin IA</h2>
+
+    <div class="highlight">
+      <p><strong>Dolor #1 identificado en campo:</strong> Mensajes de WhatsApp sin respuesta. Las PYMEs pierden ventas mientras duermen, viajan o están en reuniones. No tienen personal para cubrir atención 24/7.</p>
+    </div>
+
+    <h3>Los 5 dolores críticos de las PYMEs dominicanas</h3>
+    <ol>
+      <li><strong>Atención fragmentada:</strong> 1–3 personas manejan ventas, WhatsApp, Instagram y operaciones simultáneamente. La respuesta tarda horas o no llega.</li>
+      <li><strong>Cotizaciones manuales:</strong> Cada cotización se prepara a mano en Excel o WhatsApp. Sin historial, sin trazabilidad, sin seguimiento automático.</li>
+      <li><strong>Marketing improvisado:</strong> Publicaciones sin estrategia, sin datos de desempeño, sin plan de contenido. El 82.3% menciona tecnología pero sin estructura.</li>
+      <li><strong>Campañas de Meta Ads sin optimización:</strong> Las PYMEs gastan en anuncios sin saber qué funciona. No tienen agencia especializada en su sector.</li>
+      <li><strong>Ausencia de automatización:</strong> Procesos repetitivos (confirmaciones, recordatorios, seguimiento de pedidos) se hacen a mano. El tiempo del dueño vale más que eso.</li>
+    </ol>
+
+    <h3>El contexto digital en RD (Datos reales, Abril 2026)</h3>
+    <ul>
+      <li><strong>ChatGPT = tendencia dominante en RD:</strong> Google Trends reporta índice 75–100 (máximo) para "ChatGPT" en República Dominicana. La demanda de IA existe.</li>
+      <li><strong>"chatbot whatsapp" = índice 0 en RD:</strong> A pesar del volumen de búsqueda global, en RD este término no tiene masa crítica aún — ventana temprana para posicionarse.</li>
+      <li><strong>Dola AI creció +91,250% en tendencias:</strong> Las apps de IA en español están explotando. El usuario dominicano ya adopta IA en su vida personal.</li>
+      <li><strong>Acuerdo NVIDIA-RD (ENIA):</strong> El gobierno firmó alianza oficial. El ecosistema institucional respalda la adopción de IA. El momento político es favorable.</li>
+      <li><strong>82.3% de PYMEs menciona tecnología en Instagram:</strong> Ya existe conciencia, pero sin soluciones locales concretas. El mercado está listo para ser capturado.</li>
+    </ul>
+
+    <div class="callout">
+      <p><strong>La brecha real:</strong> Hay demanda de IA en RD, hay voluntad de adoptar tecnología, hay un gobierno empujando el ecosistema — pero <strong>no existe ninguna agencia dominicana que ofrezca agentes de IA como servicio empaquetado para PYMEs.</strong> Ese es el vacío que AaaS RD llena.</p>
+    </div>
+  </div>
+
+
+  <!-- ==================== 2. SOLUCIÓN ==================== -->
+  <div class="section" id="solucion">
+    <div class="s-number">Sección 02</div>
+    <h2>La Solución: Agents as a Service para PYMEs Dominicanas</h2>
+
+    <p>AaaS RD es una agencia que convierte los procesos más dolorosos de una PYME en agentes de inteligencia artificial que trabajan 24/7, en español dominicano, integrados con WhatsApp y las herramientas que la empresa ya usa.</p>
+
+    <h3>¿Qué es un "Agente de IA" en práctica?</h3>
+    <p>Un agente de IA no es un chatbot de preguntas y respuestas. Es un sistema autónomo que puede <strong>razonar, tomar decisiones, usar herramientas y ejecutar tareas</strong> — como un empleado virtual especializado. Responde clientes, genera cotizaciones, actualiza bases de datos, publica contenido y reporta resultados.</p>
+
+    <h3>Propuesta de Valor Central</h3>
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="metric" style="color:var(--orange)">24/7</div>
+        <div class="metric-lbl">Atención sin pausas. El agente no duerme, no tiene fines de semana, no pide vacaciones.</div>
+      </div>
+      <div class="data-card">
+        <div class="metric" style="color:var(--gold)">-80%</div>
+        <div class="metric-lbl">Reducción de tiempo en tareas repetitivas: cotizaciones, respuestas, seguimientos.</div>
+      </div>
+      <div class="data-card">
+        <div class="metric" style="color:var(--teal)">3–5x</div>
+        <div class="metric-lbl">Velocidad de respuesta vs. competidores manuales. El primer respondedor suele ganar la venta.</div>
+      </div>
+      <div class="data-card">
+        <div class="metric" style="color:var(--green)">ROI</div>
+        <div class="metric-lbl">Claro y medible: leads respondidos, cotizaciones enviadas, pedidos procesados.</div>
+      </div>
+    </div>
+
+    <h3>Diferenciadores vs. soluciones existentes</h3>
+    <table>
+      <tr>
+        <th>Característica</th>
+        <th>Chatbot básico (ManyChat)</th>
+        <th>Software genérico (Zapier)</th>
+        <th>AaaS RD</th>
+      </tr>
+      <tr>
+        <td>Razonamiento contextual</td>
+        <td>No</td>
+        <td>No</td>
+        <td><strong>Sí — Claude Opus 4.6</strong></td>
+      </tr>
+      <tr>
+        <td>Personalización por sector</td>
+        <td>Limitada</td>
+        <td>No</td>
+        <td><strong>Completa</strong></td>
+      </tr>
+      <tr>
+        <td>Español dominicano</td>
+        <td>No</td>
+        <td>No</td>
+        <td><strong>Nativo</strong></td>
+      </tr>
+      <tr>
+        <td>Integración WhatsApp Cloud API</td>
+        <td>Sí</td>
+        <td>Indirecto</td>
+        <td><strong>Sí, directo</strong></td>
+      </tr>
+      <tr>
+        <td>Agente que ejecuta tareas</td>
+        <td>No</td>
+        <td>Parcial</td>
+        <td><strong>Sí — cotiza, registra, notifica</strong></td>
+      </tr>
+      <tr>
+        <td>Onboarding local + soporte</td>
+        <td>No</td>
+        <td>No</td>
+        <td><strong>Sí — equipo en RD</strong></td>
+      </tr>
+      <tr>
+        <td>Costo mensual PYME</td>
+        <td>$90–140 solo software</td>
+        <td>$29–299</td>
+        <td><strong>$150–500 todo incluido</strong></td>
+      </tr>
+    </table>
+  </div>
+
+
+  <!-- ==================== 3. POC ==================== -->
+  <div class="section" id="poc">
+    <div class="s-number">Sección 03</div>
+    <h2>Prueba de Concepto: Fomi — Agente de Foam Creativo</h2>
+
+    <div class="callout">
+      <p><strong>Fomi no es un plan. Es un producto funcionando.</strong> Desde el inicio de 2025, Foam Creativo opera su agente de IA en producción real, procesando cotizaciones, respondiendo clientes en WhatsApp y gestionando expedientes — sin intervención humana en la mayoría de interacciones.</p>
+    </div>
+
+    <h3>Lo que Fomi hace hoy (en producción)</h3>
+    <ul>
+      <li><strong>Cotizaciones automáticas:</strong> Recibe solicitud por WhatsApp → consulta base de datos de productos (Excel) → genera PDF de cotización → envía al cliente. En segundos.</li>
+      <li><strong>Atención 24/7:</strong> Responde consultas sobre precios, disponibilidad y tiempos de entrega fuera del horario laboral.</li>
+      <li><strong>Gestión de expedientes:</strong> Etiqueta conversaciones por etapa del proceso (cotización pendiente, pedido en proceso, terminado, envío pendiente, cobro).</li>
+      <li><strong>Dashboard de monitoreo:</strong> El dueño ve en tiempo real todos los expedientes activos, conversaciones y estado del agente.</li>
+      <li><strong>Resumen diario automático:</strong> Cada día envía al dueño un reporte completo del estado de todos los clientes por etapa.</li>
+      <li><strong>Notificación al agente humano:</strong> Cuando un cliente requiere atención especial, Fomi notifica al dueño con resumen + link al expediente.</li>
+      <li><strong>Visión:</strong> Puede analizar imágenes enviadas por clientes (diseños, referencias, medidas en fotos).</li>
+      <li><strong>Generación de SVG:</strong> Crea archivos de corte vectorial personalizados según las especificaciones del cliente.</li>
+    </ul>
+
+    <h3>Datos del negocio (base real)</h3>
+    <ul>
+      <li>Foam Creativo opera en el sector de fabricación de piezas de foam para decoración y eventos</li>
+      <li>+401 clientes recurrentes analizados en historial de 96,461 mensajes de WhatsApp (2024–2026)</li>
+      <li>Fomi domina la terminología real del mercado: tamaños, materiales, tipos de corte, nomenclatura de cliente</li>
+      <li>Caso documentado: primer caso de uso AaaS en sector manufacturero-creativo en RD</li>
+    </ul>
+
+    <div class="highlight">
+      <p><strong>Ventaja clave:</strong> Foam Creativo ES el laboratorio vivo. Cada mejora del agente se prueba en producción real antes de venderse a otros clientes. Los datos de conversión, satisfacción y eficiencia son datos reales, no proyecciones.</p>
+    </div>
+
+    <h3>Stack tecnológico probado</h3>
+    <ul>
+      <li><strong>Modelo IA:</strong> Claude Opus 4.6 con adaptive thinking (Anthropic)</li>
+      <li><strong>Mensajería:</strong> Meta Cloud API — WhatsApp Business</li>
+      <li><strong>Backend:</strong> FastAPI + Python (Render.com)</li>
+      <li><strong>Base de datos:</strong> Supabase (PostgreSQL)</li>
+      <li><strong>Almacenamiento:</strong> Excel/Google Sheets + Supabase</li>
+      <li><strong>Hosting:</strong> Render (cloud, escalable, $0–$25/mes por instancia)</li>
+    </ul>
+  </div>
+
+
+  <!-- ==================== 4. MERCADO ==================== -->
+  <div class="section" id="mercado">
+    <div class="s-number">Sección 04</div>
+    <h2>Tamaño de Mercado</h2>
+
+    <h3>Global: el mercado AaaS está despegando</h3>
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="metric" style="color:var(--orange)">$5.1B</div>
+        <div class="metric-lbl">Mercado global AaaS 2024</div>
+      </div>
+      <div class="data-card">
+        <div class="metric" style="color:var(--gold)">$47B</div>
+        <div class="metric-lbl">Proyección global 2030</div>
+      </div>
+      <div class="data-card">
+        <div class="metric" style="color:var(--teal)">44–46%</div>
+        <div class="metric-lbl">CAGR anual (6 modelos IA promediados)</div>
+      </div>
+      <div class="data-card">
+        <div class="metric" style="color:var(--green)">2024–2026</div>
+        <div class="metric-lbl">Ventana de entrada óptima — mercado local virgen</div>
+      </div>
+    </div>
+
+    <h3>República Dominicana: TAM / SAM / SOM</h3>
+    <table>
+      <tr>
+        <th>Nivel</th>
+        <th>Definición</th>
+        <th>Estimación</th>
+        <th>Base del cálculo</th>
+      </tr>
+      <tr>
+        <td><strong>TAM</strong></td>
+        <td>Total de PYMEs formales en RD con potencial de digitalización</td>
+        <td><strong>$215M anuales</strong></td>
+        <td>~215,000 PYMEs × $1,000 USD/año promedio gasto tech</td>
+      </tr>
+      <tr>
+        <td><strong>SAM</strong></td>
+        <td>PYMEs en sectores prioritarios con presupuesto tech</td>
+        <td><strong>$65–195M</strong></td>
+        <td>~10,800 empresas × $500–1,500 USD/año</td>
+      </tr>
+      <tr>
+        <td><strong>SOM Año 1</strong></td>
+        <td>Objetivos realistas primer año</td>
+        <td><strong>$325K–$975K</strong></td>
+        <td>50–150 clientes × $500 USD/mes promedio</td>
+      </tr>
+      <tr>
+        <td><strong>SOM Año 3</strong></td>
+        <td>Con equipo de ventas + canales digitales</td>
+        <td><strong>$1.3M–$3.9M</strong></td>
+        <td>200–600 clientes × $550 USD/mes promedio</td>
+      </tr>
+    </table>
+
+    <h3>Los 10,800 clientes objetivo</h3>
+    <p>El SAM de 10,800 PYMEs se filtra por: (a) uso activo de Instagram o WhatsApp Business, (b) operaciones con volumen de consultas repetitivas, (c) sector con ciclo de venta mediado por cotización o atención directa, y (d) facturación anual entre $50,000–$5,000,000 USD.</p>
+
+    <div class="callout">
+      <p><strong>Punto de inflexión:</strong> Con 50 clientes a $500/mes se alcanza $300,000 ARR — suficiente para sostener un equipo de 4–5 personas y pagar tecnología con margen. Este hito es alcanzable en 12 meses con $150K de inversión inicial.</p>
+    </div>
+  </div>
+
+
+  <!-- ==================== 5. BENCHMARK ==================== -->
+  <div class="section" id="benchmark">
+    <div class="s-number">Sección 05</div>
+    <h2>Benchmark: Consenso de 6 Modelos de IA</h2>
+
+    <p>Como parte de la investigación de mercado, se sometió el plan de negocio AaaS RD a análisis independiente de 6 modelos de inteligencia artificial de frontera (GPT-4o, Claude Opus 4.6, Gemini 1.5 Pro, Grok 2, Perplexity AI y Mistral Large). A continuación el consenso de sus evaluaciones.</p>
+
+    <h3>Validaciones unánimes (6/6 modelos de acuerdo)</h3>
+    <ul>
+      <li><strong>Viabilidad del mercado:</strong> RD está en el "sweet spot" de adopción — suficiente masa crítica de PYMEs digitalizadas, sin competencia local estructurada, con demanda demostrable.</li>
+      <li><strong>Modelo de suscripción mensual por módulo</strong> como estructura de pricing — predecible, escalable y alineado con el poder de compra PYME en RD.</li>
+      <li><strong>WhatsApp como canal principal:</strong> Penetración del 95%+ en RD convierte WA en el canal de mayor palanca para el producto.</li>
+      <li><strong>Fomi como prueba de concepto válida:</strong> Tener un caso real funcionando elimina el riesgo de "nunca lo hemos hecho". Credibilidad inmediata ante potenciales clientes.</li>
+      <li><strong>Ventana temporal:</strong> 2024–2026 es la ventana de entrada antes de que lleguen competidores regionales con capital.</li>
+    </ul>
+
+    <h3>Oportunidades identificadas por consenso</h3>
+    <ul>
+      <li>Primer mover advantage en segmento AaaS para PYMEs — 0 competidores consolidados locales</li>
+      <li>Posibilidad de licenciar el stack tecnológico a otras agencias LATAM (ingreso adicional)</li>
+      <li>Alianzas con contadores/asesores de negocios como canal de distribución (referidos)</li>
+      <li>Modelo de agente de facturación electrónica: regulación RD avanza hacia e-factura obligatoria → ventana de producto mandatorio</li>
+    </ul>
+
+    <h3>Riesgos identificados por consenso</h3>
+    <ul>
+      <li><strong>Riesgo de ejecución:</strong> El fundador no puede ser vendedor + operador + técnico simultáneamente. Contratar comercial es prioridad #1 post-seed.</li>
+      <li><strong>Dependencia de APIs de terceros:</strong> Cambios en precios de Anthropic, Meta o Supabase impactan márgenes. Necesario contrato de servicios con margen de buffer.</li>
+      <li><strong>Churn si no hay ROI demostrable en 30 días:</strong> La PYME dominicana tiene baja tolerancia a resultados tardíos. Onboarding debe mostrar valor en la primera semana.</li>
+      <li><strong>Competidores regionales capitalizados:</strong> Whaticket, BotConversa, Leadsales pueden entrar con presupuesto de marketing en cualquier momento.</li>
+    </ul>
+
+    <h3>Score de viabilidad (promedio 6 modelos)</h3>
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="metric" style="color:var(--green)">8.4/10</div>
+        <div class="metric-lbl">Viabilidad de mercado RD</div>
+      </div>
+      <div class="data-card">
+        <div class="metric" style="color:var(--gold)">7.9/10</div>
+        <div class="metric-lbl">Solidez del modelo de negocio</div>
+      </div>
+      <div class="data-card">
+        <div class="metric" style="color:var(--teal)">8.1/10</div>
+        <div class="metric-lbl">Timing de entrada al mercado</div>
+      </div>
+      <div class="data-card">
+        <div class="metric" style="color:var(--orange)">7.6/10</div>
+        <div class="metric-lbl">Capacidad de ejecución equipo fundador</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== 6. COMPETENCIA ==================== -->
+  <div class="section" id="competencia">
+    <div class="s-number">Sección 06</div>
+    <h2>Mapa de Competencia: 3 Capas + Gaps Estratégicos</h2>
+
+    <p>La investigación mapeó más de 50 competidores distribuidos en tres capas: frontera global, boutique regional LATAM y micro-agencias locales en RD. El hallazgo principal: <strong>ninguna empresa ocupa el segmento de AaaS empaquetado para PYMEs dominicanas.</strong></p>
+
+    <h3>Capa 1 — Frontera Global</h3>
+    <div class="comp-layer">
+      <div class="layer-title">Empresas: Salesforce Einstein, Microsoft Copilot, Intercom, HubSpot AI</div>
+      <ul>
+        <li><strong>Precio:</strong> $300–$1,500/mes por usuario — inaccesible para PYME dominicana</li>
+        <li><strong>Idioma:</strong> Sin soporte real para español dominicano ni contexto cultural local</li>
+        <li><strong>Onboarding:</strong> 6–18 meses de implementación. Las PYMEs necesitan resultados en semanas.</li>
+        <li><strong>Amenaza:</strong> Baja. Compiten en enterprise, no en PYME.</li>
+      </ul>
+    </div>
+
+    <h3>Capa 2 — Boutiques Regionales LATAM</h3>
+    <div class="comp-layer">
+      <div class="layer-title">Empresas: Whaticket, BotConversa, Leadsales, ManyChat (partners LATAM), WhatChimp</div>
+      <ul>
+        <li><strong>Whaticket:</strong> Competidor regional más visible en Meta Ads RD. Software de bandeja compartida WhatsApp, no AaaS. $29–$99/mes. Sin agentes IA reales.</li>
+        <li><strong>WhatChimp:</strong> Domina en Meta Ads (mass messaging WhatsApp), no es competidor directo de AaaS.</li>
+        <li><strong>ManyChat:</strong> Restructuró precios en marzo 2026. Plan Pro = $29/mes + $29 add-on IA. Para PYME: $90–140 solo software. Sin customización local.</li>
+        <li><strong>BotConversa / Leadsales:</strong> Bots de flujo. Sin reasoning real. Presencia mínima en RD.</li>
+        <li><strong>Amenaza:</strong> Media. Pueden entrar con presupuesto de marketing. Ventaja AaaS RD: personalización + español dominicano + equipo local.</li>
+      </ul>
+    </div>
+
+    <h3>Capa 3 — Micro-agencias Locales RD</h3>
+    <div class="comp-layer">
+      <div class="layer-title">18 perfiles Instagram mapeados · 6 sitios web auditados · Competidores identificados en LinkedIn</div>
+      <ul>
+        <li><strong>BotPro RD:</strong> ~2,000 seguidores en LinkedIn. Chatbots básicos. Sin producto empaquetado visible.</li>
+        <li><strong>Automaxia:</strong> Presente en Instagram. Servicios de automatización, sin casos de uso demostrados públicamente.</li>
+        <li><strong>Iation:</strong> Agencia de IA genérica. Posicionamiento enterprise.</li>
+        <li><strong>Vex Soluciones:</strong> #1 en Google RD para "agencia IA". Enfoque enterprise, precios no publicados.</li>
+        <li><strong>SENDIU GROUP:</strong> El más sofisticado localmente. Servicios de IA + marketing integrado. Principal competidor a monitorear.</li>
+        <li><strong>NEXA-AI:</strong> Especializado en llamadas IA (nicho diferente).</li>
+        <li><strong>Tabuga SRL:</strong> Único competidor activo en X (Twitter). Alianza con CENIA Chile. Tecnología más robusta pero sin tracción comercial PYME visible.</li>
+        <li><strong>Amenaza:</strong> Media-baja. Todos son generalistas sin producto empaquetado ni caso de uso demostrado públicamente.</li>
+      </ul>
+    </div>
+
+    <h3>Gaps estratégicos confirmados</h3>
+    <div class="gap-box">
+      <div class="gap-label">Gap #1 — El vacío más grande</div>
+      <p><strong>0 agencias dominicanas anunciando AaaS en Meta Ads Library.</strong> Con ~4,800 anuncios activos en RD sobre IA/chatbot/automatización, todos son de empresas de software global o infoproductos hispanos. Ninguna agencia local aparece.</p>
+    </div>
+    <div class="gap-box">
+      <div class="gap-label">Gap #2 — Liderazgo personal</div>
+      <p><strong>No existe ningún líder personal dominicano posicionado en IA para PYMEs.</strong> En LinkedIn, Twitter, YouTube y Instagram: 0 creadores locales con audiencia en automatización/chatbots/agentes IA. Oportunidad de thought leadership puro.</p>
+    </div>
+    <div class="gap-box">
+      <div class="gap-label">Gap #3 — YouTube</div>
+      <p><strong>Todo el contenido dominicano en YouTube sobre IA es gubernamental</strong> (ENIA, NVIDIA, Presidencia RD). 0 creadores locales en chatbot/automatización para PYMEs. El mercado está buscando en YouTube y no encuentra nada local.</p>
+    </div>
+    <div class="gap-box">
+      <div class="gap-label">Gap #4 — ManyChat Partners</div>
+      <p><strong>0 ManyChat Experts dominicanos visibles en SEO o Instagram.</strong> La certificación de ManyChat Partner cuesta poco y genera posicionamiento automático. Ventana de 3–6 meses antes de que otro la tome.</p>
+    </div>
+    <div class="gap-box">
+      <div class="gap-label">Gap #5 — Contenido educativo PYME</div>
+      <p><strong>Solo 1 video en todo YouTube en español sobre "Cómo construir un AaaS"</strong> (Feb 2025). El mercado educativo hispano en AaaS está completamente virgen.</p>
+    </div>
+
+    <h3>Scatter — Posicionamiento competitivo</h3>
+    <p>En el eje Precio (bajo → alto) vs. Nivel de Agente Real (chatbot básico → agente con razonamiento), AaaS RD ocupa la posición óptima: <strong>precio accesible para PYME ($150–$500) con nivel de agente real (Claude Opus 4.6)</strong>. Ningún competidor local está en ese cuadrante.</p>
+  </div>
+
+
+  <!-- ==================== 7. MODELO DE NEGOCIO ==================== -->
+  <div class="section" id="modelo">
+    <div class="s-number">Sección 07</div>
+    <h2>Modelo de Negocio: 5 Fuentes de Ingreso</h2>
+
+    <h3>Fuente 1 — Suscripción mensual por módulo de agente</h3>
+    <p>El core del negocio. Cada módulo resuelve un dolor específico y se cobra por separado (o en paquete). El cliente paga mientras el agente funcione.</p>
+
+    <div class="tier">
+      <div class="tier-name">Módulo Starter — Agente de Atención</div>
+      <div class="tier-price">$150 / mes</div>
+      <ul>
+        <li>Respuesta automática en WhatsApp 24/7</li>
+        <li>Preguntas frecuentes + derivación inteligente</li>
+        <li>Ideal para: comercio, servicios, restaurantes</li>
+      </ul>
+    </div>
+
+    <div class="tier">
+      <div class="tier-name">Módulo Comercial — Agente de Cotizaciones + Ventas</div>
+      <div class="tier-price">$300 / mes</div>
+      <ul>
+        <li>Cotizaciones automáticas desde catálogo</li>
+        <li>Seguimiento de clientes por etapa</li>
+        <li>PDF de cotización generado en segundos</li>
+        <li>Dashboard de expedientes en tiempo real</li>
+        <li>Ideal para: fabricantes, distribuidores, constructoras</li>
+      </ul>
+    </div>
+
+    <div class="tier">
+      <div class="tier-name">Módulo Marketing — Agente de Contenido + Ads</div>
+      <div class="tier-price">$200 / mes</div>
+      <ul>
+        <li>Plan de contenido Instagram semanal</li>
+        <li>Community management automatizado</li>
+        <li>Reportes de desempeño de posts</li>
+        <li>Ideal para: retailers, servicios profesionales, salud</li>
+      </ul>
+    </div>
+
+    <div class="tier">
+      <div class="tier-name">Módulo Pro — Paquete Comercial + Marketing + Chatbot</div>
+      <div class="tier-price">$500 / mes</div>
+      <ul>
+        <li>Todo lo anterior en un solo agente integrado</li>
+        <li>Onboarding personalizado 2 semanas</li>
+        <li>Soporte prioritario</li>
+        <li>Target: PYME con operaciones medianas, equipo de 5–25 personas</li>
+      </ul>
+    </div>
+
+    <div class="tier">
+      <div class="tier-name">Módulo Enterprise — Custom</div>
+      <div class="tier-price">$800–2,000 / mes</div>
+      <ul>
+        <li>Módulos adicionales: contabilidad, operaciones, llamadas IA, facturación electrónica</li>
+        <li>Integraciones custom (ERP, CRM, e-commerce)</li>
+        <li>SLA garantizado</li>
+        <li>Target: medianas empresas, franquicias, grupos empresariales</li>
+      </ul>
+    </div>
+
+    <h3>Fuente 2 — Comisión sobre Meta Ads</h3>
+    <p>Porcentaje (10–15%) sobre el gasto publicitario que gestiona el agente de campañas. Cliente gasta $1,000/mes en Meta Ads → AaaS RD cobra $100–150 adicionales. Ingreso que escala con el gasto del cliente.</p>
+
+    <h3>Fuente 3 — Consultoría de negocios + IA</h3>
+    <p>Proyectos one-time de diagnóstico digital, implementación de stack IA, capacitación de equipos. Ticket promedio: $500–$3,000. Bajo volumen pero alto margen.</p>
+
+    <h3>Fuente 4 — Creación y mantenimiento de sitio web</h3>
+    <p>Web landing + integración con agente de WhatsApp. Creación: $800–$2,500. Mantenimiento: $50–$150/mes. Alta tasa de conversión desde clientes de agentes.</p>
+
+    <h3>Fuente 5 — Licencias y partnerships</h3>
+    <p>A partir del año 2: licenciar el stack tecnológico a agencias en otros países de LATAM, o white-label del agente para partners dominicanos (agencias de marketing, contadores, asesores).</p>
+
+    <h3>Proyección de ingresos</h3>
+    <table>
+      <tr>
+        <th>Período</th>
+        <th>Clientes</th>
+        <th>ARPU/mes</th>
+        <th>MRR</th>
+        <th>ARR</th>
+      </tr>
+      <tr>
+        <td>Mes 6</td>
+        <td>10</td>
+        <td>$350</td>
+        <td>$3,500</td>
+        <td>$42,000</td>
+      </tr>
+      <tr>
+        <td>Mes 12</td>
+        <td>30</td>
+        <td>$400</td>
+        <td>$12,000</td>
+        <td>$144,000</td>
+      </tr>
+      <tr>
+        <td>Mes 18</td>
+        <td>75</td>
+        <td>$450</td>
+        <td>$33,750</td>
+        <td>$405,000</td>
+      </tr>
+      <tr>
+        <td>Mes 24</td>
+        <td>150</td>
+        <td>$500</td>
+        <td>$75,000</td>
+        <td><strong>$900,000</strong></td>
+      </tr>
+    </table>
+  </div>
+
+
+  <!-- ==================== 8. ICP ==================== -->
+  <div class="section" id="icp">
+    <div class="s-number">Sección 08</div>
+    <h2>ICP — Perfil del Cliente Ideal</h2>
+
+    <p>Basado en el análisis de 96,461 mensajes de WhatsApp, 550 posts de Instagram y el mapa de competidores, los 6 verticales con mayor probabilidad de conversión y menor costo de adquisición son:</p>
+
+    <h3>Vertical 1 — Fabricantes y distribuidores (como Foam Creativo)</h3>
+    <ul>
+      <li><strong>Pain:</strong> Cotizaciones manuales, seguimiento de pedidos manual, clientes esperando respuesta</li>
+      <li><strong>Fit:</strong> El agente de cotizaciones automatiza su proceso más doloroso. ROI inmediato y medible.</li>
+      <li><strong>Ticket promedio sugerido:</strong> Módulo Comercial $300/mes</li>
+      <li><strong>Ejemplos en RD:</strong> Fabricantes de muebles, materiales de construcción, uniformes, impresión, foam</li>
+    </ul>
+
+    <h3>Vertical 2 — Salud y estética (clínicas, spas, consultorios)</h3>
+    <ul>
+      <li><strong>Pain:</strong> Agendar citas, recordatorios, responder consultas de precios y disponibilidad</li>
+      <li><strong>Fit:</strong> Agente de atención con integración a calendario. Reduce no-shows un 30–40%.</li>
+      <li><strong>Ticket promedio sugerido:</strong> Starter $150 + integración calendar $50</li>
+    </ul>
+
+    <h3>Vertical 3 — Servicios profesionales (contadores, abogados, consultores)</h3>
+    <ul>
+      <li><strong>Pain:</strong> Calificación de leads, agendamiento, envío de propuestas</li>
+      <li><strong>Fit:</strong> Agente calificador de leads + cotizador de servicios. Libera tiempo del profesional.</li>
+      <li><strong>Ticket promedio sugerido:</strong> Módulo Comercial $300/mes</li>
+    </ul>
+
+    <h3>Vertical 4 — Retail y comercio (tiendas, ferreterías, distribuidoras)</h3>
+    <ul>
+      <li><strong>Pain:</strong> Consultas de disponibilidad, precios, pedidos por WhatsApp sin sistema</li>
+      <li><strong>Fit:</strong> Catálogo IA + respuesta automática + gestión de pedidos</li>
+      <li><strong>Ticket promedio sugerido:</strong> Starter $150 + Comercial $300 = $450/mes</li>
+    </ul>
+
+    <h3>Vertical 5 — Restaurantes y food service</h3>
+    <ul>
+      <li><strong>Pain:</strong> Pedidos por WhatsApp desorganizados, reservas manuales, menú no actualizado</li>
+      <li><strong>Fit:</strong> Agente de pedidos + reservas + menú dinámico. Alta frecuencia de uso.</li>
+      <li><strong>Ticket promedio sugerido:</strong> Starter $150/mes</li>
+    </ul>
+
+    <h3>Vertical 6 — Constructoras y bienes raíces</h3>
+    <ul>
+      <li><strong>Pain:</strong> Leads entrantes sin calificación, cotizaciones de proyectos complejas</li>
+      <li><strong>Fit:</strong> Agente calificador + generador de propuestas. Sector con alto ticket de cliente.</li>
+      <li><strong>Ticket promedio sugerido:</strong> Pro $500/mes</li>
+    </ul>
+  </div>
+
+
+  <!-- ==================== 9. VENTAJAS ==================== -->
+  <div class="section" id="ventajas">
+    <div class="s-number">Sección 09</div>
+    <h2>Ventajas Competitivas (Moats)</h2>
+
+    <h3>1. Producto en producción — no es un plan</h3>
+    <p>Fomi lleva meses funcionando en producción real. El stack está probado, los bugs más comunes están resueltos, y el dueño tiene experiencia real de lo que el agente puede y no puede hacer. Este "battle-tested" es un moat enorme frente a competidores que solo muestran demos.</p>
+
+    <h3>2. Datos propios del mercado dominicano</h3>
+    <p>96,461 mensajes de WhatsApp analizados, 550 posts de Instagram mapeados, 18 competidores perfilados, Google Trends filtrado a RD. AaaS RD tiene una base de inteligencia de mercado que ningún competidor local tiene.</p>
+
+    <h3>3. Equipo fundador con contexto PYME real</h3>
+    <p>El fundador ES una PYME dominicana. No viene de una consultora grande ni de un banco. Entiende el dolor desde adentro: la cotización manual, el WhatsApp de madrugada, la factura en Excel. Esta empatía se traduce en producto y en ventas.</p>
+
+    <h3>4. Modelo Claude Opus 4.6 — ventaja técnica real</h3>
+    <p>Los competidores que usan "IA" en RD usan reglas, flujos o modelos de baja calidad. Claude Opus 4.6 con adaptive thinking puede manejar conversaciones complejas, cotizaciones no estándar, negociaciones y contextos ambiguos — algo imposible con chatbots de flujo.</p>
+
+    <h3>5. Español dominicano nativo</h3>
+    <p>El agente aprende el lenguaje de cada cliente. Fomi habla como habla Foam Creativo: terminología de foam, jerga dominicana, forma de cotizar. Esta personalización es un diferenciador que las soluciones globales no pueden replicar fácilmente.</p>
+
+    <h3>6. Primer mover en un mercado virgen</h3>
+    <p>0 competidores en AaaS empaquetado para PYMEs en RD. 0 anunciantes locales en Meta Ads. 0 líderes en YouTube. 0 ManyChat Partners dominicanos. Quien llegue primero con presupuesto de marketing y un producto sólido se lleva el mercado por 2–3 años.</p>
+  </div>
+
+
+  <!-- ==================== 10. CANALES DIGITALES ==================== -->
+  <div class="section" id="canales">
+    <div class="s-number">Sección 10</div>
+    <h2>Inteligencia de Canales Digitales</h2>
+    <p>Datos reales de investigación — no supuestos. Cuatro canales analizados con datos primarios.</p>
+
+    <h3>Google Trends RD (datos API reales, Abril 2026)</h3>
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="metric" style="color:var(--orange)">75–100</div>
+        <div class="metric-lbl">"ChatGPT" en RD — máximo interés posible</div>
+      </div>
+      <div class="data-card">
+        <div class="metric" style="color:var(--red)">0</div>
+        <div class="metric-lbl">"chatbot whatsapp" en RD — sin masa crítica aún</div>
+      </div>
+      <div class="data-card">
+        <div class="metric" style="color:var(--green)">+91,250%</div>
+        <div class="metric-lbl">Dola AI — apps IA en español explotando</div>
+      </div>
+    </div>
+    <p><strong>Implicación estratégica:</strong> No usar "chatbot whatsapp" como keyword en ads. Usar "automatizar negocio", "atención automática whatsapp", "agente IA" + nombre de sector específico. La demanda existe pero aún no tiene el vocabulario técnico establecido.</p>
+
+    <h3>YouTube Search Intelligence (Abril 2026)</h3>
+    <ul>
+      <li><strong>Keyword #1 buscada:</strong> "chatbot whatsapp" + variantes "gratis", "sin programar" — volumen muy alto en LATAM</li>
+      <li><strong>Herramienta #1 en español:</strong> n8n superó a Make y Zapier en tutoriales. Señal: las PYMEs quieren construir sus propias automatizaciones.</li>
+      <li><strong>"Agencia de IA"</strong> explotó: 10+ videos nuevos en español 2025–2026. El mercado educativo está activo.</li>
+      <li><strong>Solo 1 video sobre AaaS en español</strong> en todo YouTube ("Cómo He Construido mi Primer AaaS", Feb 2025). Vacío editorial masivo.</li>
+      <li><strong>0 creadores dominicanos</strong> en chatbot/automatización/agentes IA. Todo el contenido local es gubernamental.</li>
+      <li><strong>Canales dominantes LATAM:</strong> DotCSV (650K subs), Juan Pe Navarro, Fernando Herrera, Divisual Project. Colaboraciones posibles.</li>
+    </ul>
+    <div class="highlight">
+      <p><strong>Plan YouTube:</strong> 5 videos fundacionales: (1) Caso Fomi demo en vivo, (2) "Cómo automatizar WhatsApp para tu PYME", (3) "AaaS vs chatbot", (4) "Tutorial agente IA para restaurantes", (5) "El mercado AaaS en RD". Keywords: "automatizar WhatsApp RD", "agente ia pyme dominicana", "agencia ia República Dominicana".</p>
+    </div>
+
+    <h3>Meta Ads Library RD (Abril 2026)</h3>
+    <ul>
+      <li><strong>~4,800 anuncios activos</strong> en RD sobre IA/chatbot/automatización</li>
+      <li><strong>0 agencias dominicanas</strong> anunciando AaaS — vacío total</li>
+      <li><strong>WhatChimp domina</strong> en volumen (mass-WA global), no es competidor directo</li>
+      <li><strong>Whaticket Latam</strong> = competidor regional más visible en Meta Ads RD</li>
+      <li><strong>Infoproductos hispanos</strong> (Vergara, Mendoza, Castellanos) roban impresiones a agencias</li>
+      <li><strong>Mejores keywords sin competencia local:</strong> "automatización whatsapp" (87 anuncios, 0 locales) y "automatizar negocio" (120 anuncios, 0 locales)</li>
+    </ul>
+    <div class="highlight">
+      <p><strong>Plan Meta Ads:</strong> Entrar con creative de caso real (Fomi demo), targeting sector fabricación/comercio/salud, CTA a video demo + lead form. Presupuesto inicial $30–50/día, escalar con CPL real.</p>
+    </div>
+
+    <h3>Instagram + Competidores (550 posts · 198 PYMEs analizadas)</h3>
+    <ul>
+      <li><strong>82.3% de PYMEs</strong> menciona tecnología en sus posts — hay receptividad</li>
+      <li><strong>Engagement promedio competidores IA en RD:</strong> bajo (1–3%) — los competidores no generan comunidad</li>
+      <li><strong>Oportunidad de contenido:</strong> casos de uso concretos ("antes y después de automatizar") en video corto superan a posts de texto genérico sobre IA</li>
+      <li><strong>18 competidores mapeados en IG</strong> con seguidores, engagement, bio y score. Ninguno tiene producto claro y empaquetado.</li>
+    </ul>
+
+    <h3>LinkedIn RD</h3>
+    <ul>
+      <li><strong>Competidores identificados:</strong> BotPro RD, NEXA-AI, Vex Soluciones, Tabuga SRL, Automaxia, Iation, AI Santo Domingo, Techain AI</li>
+      <li><strong>Vacío de liderazgo:</strong> No existe ningún líder personal dominicano en IA para PYMEs. La conversación en LinkedIn está dominada por figuras gubernamentales (MICM, ENIA) y consultores enterprise.</li>
+      <li><strong>Personas clave a seguir/conectar:</strong> Walder Franco, Carlos Miranda Levy, Edsel Marte, Domini Code</li>
+      <li><strong>Plan recomendado:</strong> 12 semanas, 3 posts/semana. Fórmula: 1 post de caso real (Fomi) + 1 educativo + 1 de opinión IA/negocios. Hashtags: #InteligenciaArtificial #AIagents #PYMEs #Automatización #RepúblicaDominicana</li>
+    </ul>
+
+    <h3>X (Twitter) RD</h3>
+    <ul>
+      <li><strong>100% conversación IA en X-RD es gubernamental</strong> (MinpreRD, MIC_RD, PresidenciaRD)</li>
+      <li><strong>0 tweets relevantes</strong> de empresas privadas sobre "automatización WhatsApp RD"</li>
+      <li><strong>@wearetabuga</strong> = único competidor privado activo en X, con alianza CENIA Chile</li>
+      <li><strong>RD-NVIDIA firmaron acuerdo ENIA</strong> — confirmado en X, respaldo institucional visible</li>
+    </ul>
+  </div>
+
+
+  <!-- ==================== 11. ROADMAP ==================== -->
+  <div class="section" id="roadmap">
+    <div class="s-number">Sección 11</div>
+    <h2>Roadmap 24 Meses</h2>
+
+    <div class="roadmap-row">
+      <div class="roadmap-phase">Fase 1<br>Meses 1–6<br>Fundación</div>
+      <div class="roadmap-content">
+        <div class="phase-title">Lanzamiento y primeros 10 clientes pagos</div>
+        <ul>
+          <li>Constitución legal de la empresa</li>
+          <li>Definir nombre y branding de la agencia AaaS</li>
+          <li>Contratar primer vendedor comercial</li>
+          <li>Adaptar stack Fomi para segundo cliente (vertical fabricación)</li>
+          <li>Lanzar sitio web + landing + CTA claro</li>
+          <li>Primer video YouTube (demo Fomi)</li>
+          <li>Iniciar plan LinkedIn 12 semanas</li>
+          <li>Primer ciclo de Meta Ads ($30/día)</li>
+          <li>Objetivo: 10 clientes × $350 = $3,500 MRR</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="roadmap-row">
+      <div class="roadmap-phase p2">Fase 2<br>Meses 7–12<br>Escala</div>
+      <div class="roadmap-content">
+        <div class="phase-title">30 clientes · Expansión de módulos</div>
+        <ul>
+          <li>Lanzar módulo Marketing (contenido + community management)</li>
+          <li>Integrar ManyChat como canal complementario (partner program)</li>
+          <li>Contratar ingeniero IA parte tiempo</li>
+          <li>Obtener token Meta Ads API para investigación de competidores en tiempo real</li>
+          <li>Ejecutar X research (mayo 2026 — créditos Apify renovados)</li>
+          <li>Lanzar programa de referidos con contadores/asesores</li>
+          <li>Objetivo: 30 clientes × $400 = $12,000 MRR</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="roadmap-row">
+      <div class="roadmap-phase p3">Fase 3<br>Meses 13–24<br>Dominancia</div>
+      <div class="roadmap-content">
+        <div class="phase-title">150 clientes · Brand positioning · Licencias</div>
+        <ul>
+          <li>Ser reconocidos como la agencia AaaS de referencia en RD</li>
+          <li>Lanzar módulo Facturación Electrónica (pre-emptivo a regulación DGII)</li>
+          <li>Explorar licencias del stack a agencias en Haití, PR, USVI</li>
+          <li>Primera conferencia propia o track en evento empresarial RD</li>
+          <li>Considerar ronda Serie A si tracción lo justifica</li>
+          <li>Objetivo: 150 clientes × $500 = $75,000 MRR = $900K ARR</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== 12. RIESGOS ==================== -->
+  <div class="section" id="riesgos">
+    <div class="s-number">Sección 12</div>
+    <h2>Riesgos y Mitigación</h2>
+
+    <div class="risk-row">
+      <div class="risk-tag">ALTO</div>
+      <div>
+        <strong>Ejecución: Fundador como cuello de botella</strong><br>
+        <span style="color:var(--muted);font-size:14px;">El fundador no puede ser vendedor + operador + técnico. Mitigación: primera contratación = vendedor comercial. Segunda = soporte técnico/onboarding. Con $150K de inversión esto es posible desde el mes 1.</span>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-tag">ALTO</div>
+      <div>
+        <strong>Churn si no hay ROI en 30 días</strong><br>
+        <span style="color:var(--muted);font-size:14px;">La PYME dominicana tiene baja tolerancia a resultados tardíos. Mitigación: onboarding estructurado de 2 semanas con hito de "primer cotización automática enviada" en los primeros 3 días. Contrato mensual sin lock-in, con opción de pausar.</span>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-tag med">MEDIO</div>
+      <div>
+        <strong>Competidores regionales capitalizados entran a RD</strong><br>
+        <span style="color:var(--muted);font-size:14px;">Whaticket, BotConversa o Leadsales pueden lanzar campaña agresiva en RD con presupuesto. Mitigación: posicionamiento local (español dominicano, equipo en RD, casos reales) es difícil de replicar desde LATAM. Ser #1 en SEO y YouTube antes de que entren.</span>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-tag med">MEDIO</div>
+      <div>
+        <strong>Cambios de precio en APIs de terceros (Anthropic, Meta)</strong><br>
+        <span style="color:var(--muted);font-size:14px;">Los costos de Claude Opus 4.6 o Meta Cloud API pueden subir. Mitigación: contratos de servicio con margen de 40–50% sobre costo de API. Diversificar a Claude Sonnet para clientes de bajo volumen, Opus solo para casos complejos.</span>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-tag low">BAJO</div>
+      <div>
+        <strong>Regulación gubernamental de IA en RD</strong><br>
+        <span style="color:var(--muted);font-size:14px;">El gobierno está promoviendo IA activamente (ENIA, NVIDIA). Riesgo regulatorio es bajo en el corto plazo. Tabuga SRL ya tiene relación con CENIA Chile — monitorear alianzas del ecosistema.</span>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-tag low">BAJO</div>
+      <div>
+        <strong>WhatsApp restringe el uso de bots comerciales</strong><br>
+        <span style="color:var(--muted);font-size:14px;">Meta Cloud API tiene un programa de business validation. El riesgo existe pero es gestionable con compliance correcto. Mitigación: stack diversificado (Instagram DM, email, SMS como canales secundarios).</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== 13. CTA ==================== -->
+  <div class="section" id="cta">
+    <div class="s-number">Sección 13</div>
+    <div class="cta">
+      <h2>Call to Action<br><span class="grad">Ronda Seed · 2026</span></h2>
+      <p>AaaS RD está buscando $150,000–$250,000 USD para capturar el mercado virgen de Agents as a Service en República Dominicana antes de que llegue la competencia regional capitalizada.</p>
+      <div class="amount">$150K–$250K</div>
+      <p style="color:var(--muted);">Ronda seed · equity o convertible note · 18 meses de runway</p>
+
+      <div class="use-of-funds">
+        <div class="fund-item">👥 <strong>40%</strong> — Equipo: vendedor comercial + soporte IA</div>
+        <div class="fund-item">📣 <strong>25%</strong> — Marketing: Meta Ads + YouTube + SEO</div>
+        <div class="fund-item">⚙️ <strong>20%</strong> — Tecnología: infraestructura, nuevos módulos</div>
+        <div class="fund-item">🏢 <strong>10%</strong> — Operaciones: legal, contabilidad, oficina</div>
+        <div class="fund-item">🔄 <strong>5%</strong> — Reserva / imprevistos</div>
+      </div>
+
+      <div style="margin-top:32px;padding:20px;background:rgba(255,255,255,.04);border-radius:12px;text-align:left;max-width:560px;margin-left:auto;margin-right:auto">
+        <h4 style="color:var(--gold);margin-bottom:12px">¿Por qué ahora?</h4>
+        <ul style="font-size:14px">
+          <li>El producto ya funciona en producción (Fomi — Foam Creativo)</li>
+          <li>La investigación de mercado confirma 0 competidores locales consolidados</li>
+          <li>La ventana de primer mover se cierra en 12–18 meses</li>
+          <li>Con $150K y un vendedor, el break-even es posible en mes 14–16</li>
+          <li>El mercado global AaaS crece 44–46% anual. RD es la puerta de entrada a LATAM.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FUENTES ==================== -->
+  <div class="section">
+    <div class="s-number">Fuentes</div>
+    <h2>Base de Investigación — 11 Reportes</h2>
+    <p>Este pitch brief consolida los siguientes estudios originales realizados en Abril 2026:</p>
+    <ol style="font-size:14px;color:var(--muted)">
+      <li><strong>Market Research AaaS RD</strong> — Investigación base: tamaño de mercado, jugadores, viabilidad y modelo de negocio en RD.</li>
+      <li><strong>Social Listening Report</strong> — Conversaciones en redes sociales sobre IA, chatbots y automatización en RD.</li>
+      <li><strong>Hashtag Report</strong> — Análisis y validación de hashtags activos para IA y automatización en el mercado hispanohablante/RD.</li>
+      <li><strong>Instagram Content Report</strong> — 550 posts analizados, 198 PYMEs, 82.3% menciona tecnología. Análisis de competencia y engagement.</li>
+      <li><strong>Competitor Profiles Report</strong> — 18 competidores en IG + 6 sitios web auditados. Perfiles con seguidores, engagement, bio y score.</li>
+      <li><strong>AaaS Investor Report</strong> — Reporte ejecutivo: 9 secciones, 6 modelos IA consolidados, TAM/SAM/SOM, pricing, ICP, roadmap 24 meses.</li>
+      <li><strong>AaaS Competitor Deep Dive</strong> — 3 capas de competencia, scatter chart de posicionamiento, Top 7 amenazas y ventajas.</li>
+      <li><strong>AaaS Multi-Canal Intelligence</strong> — Meta Ads Library RD (6 keywords), ManyChat pricing y partners, LinkedIn competidores.</li>
+      <li><strong>X (Twitter) Listening Report</strong> — 9 tweets reales confirmados, 8 cuentas mapeadas, 4 vacíos estratégicos, plan de acción 90 días.</li>
+      <li><strong>YouTube Intelligence Report</strong> — 7 clusters de keywords, 40+ videos mapeados, 10 canales top, vacío total en RD.</li>
+      <li><strong>Google Trends RD Report</strong> — API Google Trends filtrada a RD, datos reales de búsquedas, corrección estratégica de keywords.</li>
+    </ol>
+    <p style="margin-top:16px;font-size:13px">Investigación realizada con: Google Trends API, Meta Ads Library, Apify (Instagram/X), análisis manual de 18 perfiles de competidores, auditoría de 6 sitios web, análisis de 96,461 mensajes de WhatsApp, benchmark de 6 modelos de IA (GPT-4o, Claude Opus 4.6, Gemini 1.5 Pro, Grok 2, Perplexity AI, Mistral Large).</p>
+  </div>
+
+</main>
+
+</body>
+</html>

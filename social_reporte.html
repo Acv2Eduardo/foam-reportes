@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redes Sociales — Foam Creativo</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  body { font-family: -apple-system, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; color: #333; }
+  h1   { color: #2e7d32; text-align: center; margin-bottom: 4px; }
+  .fecha { text-align: center; color: #888; margin-bottom: 24px; font-size: 14px; }
+  .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  h2   { margin: 0 0 16px; color: #1a1a1a; font-size: 18px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th   { background: #f0f0f0; padding: 9px 12px; text-align: left; }
+  td   { padding: 8px 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  .nota { font-size: 12px; color: #888; margin-top: 12px; }
+</style>
+</head>
+<body>
+<h1>Redes Sociales — Foam Creativo</h1>
+<p class="fecha">Generado: 2026-04-27 13:35</p>
+
+<div class="card">
+  <h2>Seguidores por perfil</h2>
+  <canvas id="chartBar" height="80"></canvas>
+</div>
+
+<div class="card">
+  <h2>Comparativa de perfiles</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Plataforma</th>
+        <th>Handle</th>
+        <th style="text-align:right;">Seguidores</th>
+        <th style="text-align:right;">Siguiendo</th>
+        <th style="text-align:right;">Posts</th>
+        <th style="text-align:right;">Engagement est.</th>
+        <th style="text-align:center;">Verificado</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+            <tr>
+                <td><span style="background:#E1306C;color:white;padding:3px 10px;
+                     border-radius:12px;font-size:13px;">Instagram</span></td>
+                <td><strong>@foamcreativo</strong></td>
+                <td style="text-align:right;">9,920</td>
+                <td style="text-align:right;">4,549</td>
+                <td style="text-align:right;">325</td>
+                <td style="text-align:right;">0.55%</td>
+                <td style="text-align:center;">No</td>
+            </tr>
+            <tr>
+                <td><span style="background:#000000;color:white;padding:3px 10px;
+                     border-radius:12px;font-size:13px;">TikTok</span></td>
+                <td><strong>@foamcreativo</strong></td>
+                <td style="text-align:right;">66</td>
+                <td style="text-align:right;">3</td>
+                <td style="text-align:right;">9</td>
+                <td style="text-align:right;">16.16%</td>
+                <td style="text-align:center;">No</td>
+            </tr>
+    </tbody>
+  </table>
+  <p class="nota">
+    Engagement estimado Instagram = promedio (likes+comentarios) de últimos posts / seguidores.<br>
+    Engagement estimado TikTok = (total hearts / total videos) / seguidores.
+  </p>
+</div>
+
+<script>
+new Chart(document.getElementById('chartBar'), {
+  type: 'bar',
+  data: {
+    labels: ["@foamcreativo", "@foamcreativo"],
+    datasets: [{
+      label: 'Seguidores',
+      data: [9920, 66],
+      backgroundColor: ["#E1306C", "#333333"],
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ' ' + ctx.parsed.y.toLocaleString('es') + ' seguidores'
+        }
+      }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString('es') } }
+    }
+  }
+});
+</script>
+
+<a href="index_foam.html" title="Volver al índice" style="position:fixed;bottom:24px;right:24px;background:#FF4B2B;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:11px 20px;border-radius:99px;text-decoration:none;z-index:9999;box-shadow:0 4px 24px rgba(255,75,43,.45);letter-spacing:.04em">&#8592; Índice</a>
+</body>
+</html>

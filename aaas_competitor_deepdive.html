@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AaaS RD — Estudio Profundo de la Competencia | 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0A0E27;
+    --ink-soft: #1A1F3A;
+    --paper: #FAFAF7;
+    --accent: #FF4B2B;
+    --accent-2: #FF7A45;
+    --gold: #D4AF37;
+    --teal: #0F766E;
+    --sky: #0EA5E9;
+    --green: #16A34A;
+    --rose: #E11D48;
+    --gray: #6B7280;
+    --line: #E5E7EB;
+    --layer1: #5B21B6;
+    --layer2: #0F766E;
+    --layer3: #B45309;
+  }
+  html, body { background: var(--paper); color: var(--ink); font-family: 'Inter', -apple-system, sans-serif; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .display { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+  .container-narrow { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+
+  /* HERO */
+  .hero {
+    background: radial-gradient(ellipse at top right, #1A1F3A 0%, #0A0E27 60%);
+    color: #fff;
+    padding: 80px 0 100px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,75,43,0.18) 0%, transparent 70%);
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,75,43,0.15); color: #FFB89E;
+    border: 1px solid rgba(255,75,43,0.4);
+    padding: 6px 16px; border-radius: 100px; font-size: 12px;
+    font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700; line-height: 1.05; margin: 24px 0 16px;
+    letter-spacing: -0.04em;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, #FF4B2B 0%, #D4AF37 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero .lead { font-size: 19px; color: #C5CAE5; max-width: 760px; margin-top: 16px; line-height: 1.6; }
+  .hero-meta {
+    display: flex; gap: 32px; margin-top: 48px;
+    padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1);
+    flex-wrap: wrap;
+  }
+  .hero-meta-item { color: #8892B0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .hero-meta-item strong { display: block; color: #fff; font-size: 18px; margin-top: 4px; text-transform: none; letter-spacing: 0; }
+
+  /* KPI */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 56px; position: relative; z-index: 2; }
+  .kpi { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 24px; border-radius: 16px; }
+  .kpi-label { font-size: 11px; color: #8892B0; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+  .kpi-value { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; color: #fff; margin: 8px 0 4px; letter-spacing: -0.02em; }
+  .kpi-sub { font-size: 12px; color: #C5CAE5; }
+
+  /* SECTIONS */
+  section { padding: 96px 0; }
+  section.alt { background: #fff; }
+  .section-tag { display: inline-block; font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px; }
+  .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 4.5vw, 52px); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 16px; color: var(--ink); }
+  .section-lead { font-size: 18px; color: var(--gray); max-width: 780px; line-height: 1.65; margin-bottom: 56px; }
+
+  /* CARDS */
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 28px; box-shadow: 0 1px 3px rgba(10,14,39,0.04); }
+  section.alt .card { background: var(--paper); border-color: #EEEAE0; }
+  .card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.01em; }
+  .card p { color: #4B5563; font-size: 14px; line-height: 1.65; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  /* LAYER */
+  .layer-card { border-radius: 18px; padding: 32px; color: #fff; position: relative; overflow: hidden; }
+  .layer-card::before { content: ""; position: absolute; right: -80px; top: -80px; width: 240px; height: 240px; border-radius: 50%; background: rgba(255,255,255,0.08); }
+  .layer-1 { background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 100%); }
+  .layer-2 { background: linear-gradient(135deg, #0F766E 0%, #14B8A6 100%); }
+  .layer-3 { background: linear-gradient(135deg, #B45309 0%, #F59E0B 100%); }
+  .layer-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.85; }
+  .layer-title { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; margin: 8px 0 12px; letter-spacing: -0.02em; }
+  .layer-body { font-size: 14px; line-height: 1.6; opacity: 0.9; position: relative; z-index: 2; }
+  .layer-stat { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.2); display: flex; gap: 24px; flex-wrap: wrap; }
+  .layer-stat div { font-size: 12px; opacity: 0.85; }
+  .layer-stat strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; opacity: 1; }
+
+  /* COMPETITOR PROFILE */
+  .comp-profile { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 24px; transition: transform 0.2s, box-shadow 0.2s; }
+  .comp-profile:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(10,14,39,0.08); }
+  .comp-profile.threat-high { border-top: 4px solid var(--rose); }
+  .comp-profile.threat-mid { border-top: 4px solid var(--accent); }
+  .comp-profile.threat-low { border-top: 4px solid var(--green); }
+  .threat-pill { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  .threat-pill.high { background: #FEE2E2; color: #991B1B; }
+  .threat-pill.mid { background: #FFEDD5; color: #9A3412; }
+  .threat-pill.low { background: #DCFCE7; color: #166534; }
+  .comp-profile h4 { font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 700; margin: 8px 0 4px; }
+  .comp-profile .url { font-size: 11px; color: var(--sky); margin-bottom: 12px; word-break: break-all; }
+  .comp-profile p { font-size: 13px; color: #374151; line-height: 1.55; }
+  .comp-profile .source { font-size: 11px; color: var(--gray); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+  .comp-stats { display: flex; gap: 12px; margin: 12px 0; flex-wrap: wrap; font-size: 11px; color: var(--gray); }
+  .comp-stats span { background: #F3F4F6; padding: 3px 8px; border-radius: 6px; }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+  th { background: var(--ink); color: #fff; padding: 12px 14px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+  td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:hover td { background: #FAFAF7; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+  .pill-ok { background: #DCFCE7; color: #166534; }
+  .pill-warn { background: #FEF3C7; color: #92400E; }
+  .pill-no { background: #FEE2E2; color: #991B1B; }
+  .pill-info { background: #DBEAFE; color: #1E40AF; }
+  .pill-purple { background: #EDE9FE; color: #5B21B6; }
+
+  /* CHART */
+  .chart-wrap { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+  .chart-wrap h4 { font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 600; margin-bottom: 16px; }
+
+  /* INSIGHT */
+  .insight { background: linear-gradient(135deg, #FFF7ED 0%, #FFEFD5 100%); border-left: 4px solid var(--accent); border-radius: 10px; padding: 22px 24px; margin: 24px 0; }
+  .insight-label { font-weight: 700; color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; }
+  .insight p { margin-top: 6px; color: var(--ink-soft); font-size: 15px; line-height: 1.6; }
+
+  /* GAP MATRIX */
+  .gap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+  .gap-cell { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  .gap-cell.empty { background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border-color: #F59E0B; }
+  .gap-cell h5 { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .gap-cell p { font-size: 13px; color: #374151; line-height: 1.5; }
+  .gap-cell .gap-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+
+  /* QUOTE */
+  blockquote { border-left: 4px solid var(--gold); background: #fff; padding: 22px 26px; margin: 24px 0; border-radius: 0 12px 12px 0; font-size: 16px; line-height: 1.6; color: var(--ink-soft); font-style: italic; }
+  blockquote cite { display: block; margin-top: 12px; font-style: normal; font-size: 12px; color: var(--gray); }
+
+  /* DATA POINT */
+  .datapoint { border-top: 3px solid var(--accent); padding: 22px 18px; background: #fff; border-radius: 0 0 12px 12px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .datapoint-num { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; line-height: 1; letter-spacing: -0.03em; color: var(--ink); }
+  .datapoint-label { font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-top: 8px; }
+  .datapoint-source { font-size: 10px; color: #9CA3AF; margin-top: 6px; }
+
+  /* VS GRID */
+  .vs-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: stretch; margin-top: 32px; }
+  .vs-side { background: #fff; border-radius: 14px; padding: 24px; border: 1px solid var(--line); }
+  .vs-side.left { border-top: 4px solid var(--rose); }
+  .vs-side.right { border-top: 4px solid var(--green); }
+  .vs-divider { display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--gold); font-size: 24px; }
+  .vs-side h4 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
+  .vs-side ul { list-style: none; padding: 0; }
+  .vs-side ul li { padding: 8px 0; font-size: 14px; color: #374151; line-height: 1.5; }
+
+  /* FOOTER */
+  footer { background: var(--ink); color: #C5CAE5; padding: 56px 0; text-align: center; }
+  footer h3 { font-family: 'Space Grotesk', sans-serif; color: #fff; font-size: 24px; margin-bottom: 8px; }
+  footer p { font-size: 14px; }
+
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-4, .vs-grid, .kpi-row, .gap-grid { grid-template-columns: 1fr; }
+    .vs-divider { display: none; }
+    section { padding: 64px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ HERO ═══════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="container hero-content">
+    <span class="badge"><span class="dot"></span>Estudio profundo de competencia · Confidencial</span>
+    <h1 class="display">
+      Quién compite por el mercado <em>AaaS</em><br>en República Dominicana.
+    </h1>
+    <p class="lead">
+      Mapa completo de competencia: 3 capas, 50+ jugadores identificados, cruce entre lo que reportaron las 6 IAs frontera (Claude, GPT-5, Gemini, Qwen, Llama, DeepSeek) y lo que realmente encontramos en campo (18 perfiles de Instagram, 6 sitios web auditados, 77 resultados SERP, dominios DataForSEO).
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">Competidores identificados<strong>50+</strong></div>
+      <div class="hero-meta-item">Capas de mercado<strong>3 niveles</strong></div>
+      <div class="hero-meta-item">Profundidad de análisis<strong>Bio + servicios + SERP + engagement</strong></div>
+      <div class="hero-meta-item">Fuentes cruzadas<strong>6 IAs + Apify + DataForSEO</strong></div>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-label">Líder consolidado RD</div>
+        <div class="kpi-value">0</div>
+        <div class="kpi-sub">Ningún jugador supera 5% de share</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Sitios sin precio público</div>
+        <div class="kpi-value">5 / 6</div>
+        <div class="kpi-sub">El 83% obliga a "consulta gratis"</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Mediana seguidores IG</div>
+        <div class="kpi-value">~250</div>
+        <div class="kpi-sub">Reach orgánico despreciable</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Competidores con caso real</div>
+        <div class="kpi-value">1</div>
+        <div class="kpi-sub">Solo Byte Intelligence muestra garantía</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════ THESIS ═══════════════════════════════════════════════ -->
+<section>
+  <div class="container-narrow">
+    <span class="section-tag">Tesis competitiva</span>
+    <h2 class="section-title">El mercado tiene 3 capas. Nuestra capa está vacía.</h2>
+    <p class="section-lead">
+      El modelo más útil para entender la competencia AaaS en RD lo aportó <strong>Claude</strong>: un ecosistema de tres capas con dinámicas y economías muy distintas. La capa intermedia — donde queremos jugar — es la única estructuralmente desatendida en RD.
+    </p>
+
+    <div style="display:grid;grid-template-columns:1fr;gap:20px;">
+      <div class="layer-card layer-1">
+        <span class="layer-tag">Capa 1 · Frontera global</span>
+        <div class="layer-title">Plataformas de IA enterprise</div>
+        <p class="layer-body">Sierra AI, Salesforce Agentforce, Microsoft Copilot Studio, ServiceNow Now Assist, HubSpot Breeze, Google Agentspace. Venden a empresas con ACV &gt; <strong>$60K USD</strong>. Estructuralmente <em>no pueden</em> servir PYMEs dominicanas: el costo de adquisición y onboarding es prohibitivo.</p>
+        <div class="layer-stat">
+          <div>Mencionado por<strong>GPT-5 · Llama · Claude</strong></div>
+          <div>Ticket mínimo<strong>$60,000+/año</strong></div>
+          <div>Riesgo para nosotros<strong>Bajo (3–5 años)</strong></div>
+        </div>
+      </div>
+
+      <div class="layer-card layer-2">
+        <span class="layer-tag">Capa 2 · Regional / boutique</span>
+        <div class="layer-title">Agencias AaaS de LATAM y Europa</div>
+        <p class="layer-body">AgencyX.ai, Bull Rocket Agency, PelAIO (España), TheLab.ai (México), Terralogic, Atria, RDStation (Brasil). Apuntan a PYMEs con ACV $5K–$30K. <strong>Esta es la capa donde queremos competir.</strong> En RD aún no han desembarcado con presencia local.</p>
+        <div class="layer-stat">
+          <div>Mencionado por<strong>DeepSeek · Qwen · GPT-5</strong></div>
+          <div>Ticket típico<strong>$5K–$30K/año</strong></div>
+          <div>Riesgo para nosotros<strong>Alto (12–24 meses)</strong></div>
+        </div>
+      </div>
+
+      <div class="layer-card layer-3">
+        <span class="layer-tag">Capa 3 · Local RD</span>
+        <div class="layer-title">Micro-agencias y consultores dominicanos</div>
+        <p class="layer-body">~18 cuentas activas en Instagram. 6 sitios web operativos. Mediana de seguidores ~250. Sin pricing público, sin propuesta productizada, sin caso de estudio fuerte. <strong>Esta es la competencia inmediata</strong> — y es muy débil.</p>
+        <div class="layer-stat">
+          <div>Mencionado por<strong>Gemini · Llama · DeepSeek</strong></div>
+          <div>Ticket típico<strong>$200–$2,500/mes</strong></div>
+          <div>Riesgo para nosotros<strong>Medio (presente)</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <span class="insight-label">Implicación estratégica</span>
+      <p>La Capa 2 es donde se gana este mercado. La Capa 1 no nos puede tocar (ticket muy alto), la Capa 3 no se ha consolidado (todos son "uno-más"). Si nos movemos rápido, podemos saltar de Capa 3 a Capa 2 antes que los players regionales (mexicanos, colombianos, españoles) decidan abrir oficina en RD.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ CAPA 1 ═══════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <span class="section-tag">Capa 1 · Plataformas frontera global</span>
+    <h2 class="section-title">Los gigantes que (aún) no nos miran.</h2>
+    <p class="section-lead">
+      Reportados por GPT-5 y Llama. Validan la categoría AaaS a escala global pero no compiten por nuestro ICP. Los listamos para entender el techo del mercado y los benchmarks de pricing enterprise.
+    </p>
+
+    <div class="grid-3">
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>Salesforce Agentforce</h4>
+        <div class="url">salesforce.com/agentforce</div>
+        <p>El benchmark de la categoría. <strong>$2.9B ARR</strong> con crecimiento <strong>+200% YoY</strong>. Pricing enterprise. Necesita Salesforce CRM como pre-requisito.</p>
+        <div class="comp-stats"><span>Llama</span><span>$2.9B ARR</span><span>Enterprise only</span></div>
+        <div class="source">Fuente: Llama (META AI)</div>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>Sierra AI</h4>
+        <div class="url">sierra.ai</div>
+        <p>Modelo <em>pay-per-resolution</em>: el cliente paga solo cuando un caso se resuelve. Pioneros del modelo de "cobrar por resultado". ACV mínimo &gt; $100K/año.</p>
+        <div class="comp-stats"><span>GPT-5</span><span>Pay-per-resolution</span><span>Enterprise</span></div>
+        <div class="source">Fuente: GPT-5 (OpenAI)</div>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>Microsoft Copilot Studio</h4>
+        <div class="url">microsoft.com/copilot</div>
+        <p>Plataforma de creación de agentes. Requiere stack Microsoft 365. Ticket alto, complejidad de implementación elevada para PYMEs sin TI propio.</p>
+        <div class="comp-stats"><span>GPT-5</span><span>Plataforma</span><span>M365 dependent</span></div>
+        <div class="source">Fuente: GPT-5</div>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>ServiceNow Now Assist</h4>
+        <div class="url">servicenow.com</div>
+        <p>Agentes IA dentro del stack ServiceNow. Solo aplica si la empresa ya tiene la plataforma. ACV mínimo &gt; $200K/año.</p>
+        <div class="comp-stats"><span>GPT-5</span><span>Add-on</span><span>Enterprise</span></div>
+        <div class="source">Fuente: GPT-5</div>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>HubSpot Breeze</h4>
+        <div class="url">hubspot.com/breeze</div>
+        <p>Capa de IA sobre HubSpot CRM. El más cercano a PYMEs (HubSpot tiene plan gratis), pero el ROI real solo aparece en cuentas Pro/Enterprise.</p>
+        <div class="comp-stats"><span>GPT-5</span><span>CRM-bound</span><span>Mid-market</span></div>
+        <div class="source">Fuente: GPT-5</div>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>Google Agentspace</h4>
+        <div class="url">cloud.google.com/agentspace</div>
+        <p>Plataforma de agentes empresariales de Google Cloud. <strong>Inmotion</strong> (RD) ya es partner local — ver Capa 3.</p>
+        <div class="comp-stats"><span>Llama</span><span>Enterprise</span><span>Partner: Inmotion RD</span></div>
+        <div class="source">Fuente: Llama</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ CAPA 2 ═══════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <span class="section-tag">Capa 2 · Boutique regional</span>
+    <h2 class="section-title">Las agencias regionales que pueden saltar a RD en 12–24 meses.</h2>
+    <p class="section-lead">
+      Esta es la <strong>amenaza real de mediano plazo</strong>. Son agencias AaaS que ya operan en otros mercados de habla hispana o en LATAM y que pueden abrir oficina en RD apenas detecten masa crítica de demanda. Aquí debemos jugar antes que ellos.
+    </p>
+
+    <div class="grid-3">
+      <div class="comp-profile threat-high">
+        <span class="threat-pill high">Riesgo alto</span>
+        <h4>AgencyX.ai</h4>
+        <div class="url">agencyx.ai</div>
+        <p>Agencia AaaS pura, escala internacional. Modelo de "tu agencia de IA en piloto automático". DeepSeek la cita como referencia del modelo.</p>
+        <div class="comp-stats"><span>DeepSeek</span><span>Internacional</span><span>AaaS-first</span></div>
+        <div class="source">Fuente: DeepSeek</div>
+      </div>
+      <div class="comp-profile threat-high">
+        <span class="threat-pill high">Riesgo alto</span>
+        <h4>Bull Rocket Agency</h4>
+        <div class="url">bullrocketagency.com</div>
+        <p>Agencia con foco en automatización + ads + agentes. Ya opera en mercados latinos.</p>
+        <div class="comp-stats"><span>DeepSeek</span><span>LATAM</span><span>Multi-módulo</span></div>
+        <div class="source">Fuente: DeepSeek</div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>PelAIO</h4>
+        <div class="url">España</div>
+        <p>Agencia AaaS española referenciada por GPT-5. Modelo productizado, fuerte en sector retail. Riesgo que migre a LATAM con caso de éxito.</p>
+        <div class="comp-stats"><span>GPT-5</span><span>España</span><span>Retail</span></div>
+        <div class="source">Fuente: GPT-5</div>
+      </div>
+      <div class="comp-profile threat-high">
+        <span class="threat-pill high">Riesgo alto</span>
+        <h4>Atria (tryatria.ai)</h4>
+        <div class="url">tryatria.ai</div>
+        <p><strong>YA APARECE EN SERP RD</strong> — posición #6 en "agentes inteligencia artificial RD" y "agencia IA dominicana". 2 keywords. Aún no hay oficina local pero está captando búsquedas dominicanas.</p>
+        <div class="comp-stats"><span>DeepSeek</span><span>SERP RD ✓</span><span>Pos #6</span></div>
+        <div class="source">Fuentes: DeepSeek + SERP DataForSEO</div>
+      </div>
+      <div class="comp-profile threat-high">
+        <span class="threat-pill high">Riesgo alto</span>
+        <h4>Vex AI</h4>
+        <div class="url">vex-ai.com</div>
+        <p><strong>EL DOMINIO #1 EN SERP RD.</strong> Aparece en 3 de 8 keywords AaaS dominicanas con posición #1. <strong>10+ años</strong> de operación según DeepSeek. La amenaza más concreta hoy mismo.</p>
+        <div class="comp-stats"><span>DeepSeek</span><span>SERP RD ✓ #1</span><span>10+ años</span></div>
+        <div class="source">Fuentes: DeepSeek + SERP DataForSEO</div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>RDStation</h4>
+        <div class="url">rdstation.com</div>
+        <p>Plataforma brasileña de marketing automation. Aparece <strong>3 veces en SERP RD</strong> (mejor pos. #2). Captando búsquedas dominicanas con contenido en español.</p>
+        <div class="comp-stats"><span>SERP DataForSEO</span><span>Brasil</span><span>3 keywords RD</span></div>
+        <div class="source">Fuente: SERP DataForSEO</div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>Takum.io</h4>
+        <div class="url">takum.io</div>
+        <p>Aparece <strong>2 veces en SERP RD</strong> (mejor pos. #2). Oferta de automatización para PYMEs y agencias de marketing con IA.</p>
+        <div class="comp-stats"><span>SERP DataForSEO</span><span>2 keywords RD</span></div>
+        <div class="source">Fuente: SERP DataForSEO</div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>Whato.app</h4>
+        <div class="url">whato.app</div>
+        <p>Plataforma WhatsApp + IA. Aparece <strong>2 veces en SERP RD</strong>. SaaS, no agencia — pero compite directamente por el módulo "chatbot WhatsApp".</p>
+        <div class="comp-stats"><span>SERP DataForSEO</span><span>SaaS</span><span>WhatsApp specialist</span></div>
+        <div class="source">Fuente: SERP DataForSEO</div>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>Terralogic</h4>
+        <div class="url">terralogic.com</div>
+        <p>Servicios de IA enterprise. Operación internacional, ticket alto. Citado por GPT-5.</p>
+        <div class="comp-stats"><span>GPT-5</span><span>Enterprise</span></div>
+        <div class="source">Fuente: GPT-5</div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <span class="insight-label">Hallazgo crítico</span>
+      <p>Tres dominios de Capa 2 — <strong>Vex AI</strong>, <strong>Atria</strong> y <strong>RDStation</strong> — ya están capturando tráfico SERP en RD <em>sin tener oficina local</em>. Esto significa dos cosas: (1) la demanda dominicana ya existe lo suficiente para que algoritmos las ranqueen, y (2) tenemos que pelear por SEO local <strong>ya</strong>, antes que estos dominios consoliden autoridad.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ CAPA 3A — Established RD ═══════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <span class="section-tag">Capa 3a · Establecidos en RD</span>
+    <h2 class="section-title">Los jugadores grandes que ya están en el país.</h2>
+    <p class="section-lead">
+      Reportados por Gemini, Llama y Qwen. Son empresas con presencia operativa, equipo y facturación reales en República Dominicana. No son AaaS puros, pero pueden pivotar y consolidar el mercado si lo deciden.
+    </p>
+
+    <div class="grid-3">
+      <div class="comp-profile threat-high">
+        <span class="threat-pill high">Riesgo alto</span>
+        <h4>Centria Group</h4>
+        <div class="url">centriasolutions.com</div>
+        <p><strong>70+ expertos en IA</strong> según Gemini. Es el competidor más serio en talento técnico instalado en RD. Históricamente enfocado en consultoría, ahora migrando a productos AaaS.</p>
+        <div class="comp-stats"><span>Gemini</span><span>Qwen</span><span>70+ ingenieros</span></div>
+        <div class="source">Fuentes: Gemini · Qwen</div>
+      </div>
+      <div class="comp-profile threat-high">
+        <span class="threat-pill high">Riesgo alto</span>
+        <h4>IARD Agency</h4>
+        <div class="url">iardagency.com</div>
+        <p><strong>Lanzada marzo 2026</strong>. Llama la describe como "primera agencia generativa de IA marketing en RD". Aún muy joven, pero tiene pole position de marca para reclamar la categoría.</p>
+        <div class="comp-stats"><span>Llama</span><span>Marzo 2026</span><span>Marca posicionada</span></div>
+        <div class="source">Fuente: Llama (META)</div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>Inmotion</h4>
+        <div class="url">inmotion.com.do</div>
+        <p><strong>Partner oficial de Google Agentspace en RD</strong>. Esto les da acceso a tecnología frontera, pero su modelo es de implementación enterprise — no compite por PYMEs medianas.</p>
+        <div class="comp-stats"><span>Llama</span><span>Google Partner</span><span>Enterprise</span></div>
+        <div class="source">Fuente: Llama</div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>CXGenies</h4>
+        <div class="url">cxgenies.ai</div>
+        <p>Específico en automatización de soporte al cliente. Gemini reporta que <strong>resuelve 60% de los casos de soporte</strong>. Vertical único: customer experience.</p>
+        <div class="comp-stats"><span>Gemini</span><span>CX vertical</span><span>60% resolution</span></div>
+        <div class="source">Fuente: Gemini</div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>Nadakki</h4>
+        <div class="url">nadakki.com</div>
+        <p>BI + IA para gobiernos y bancos en RD. Ticket altísimo (sector público + financiero). No compite por nuestro ICP, pero captura presupuestos de transformación digital.</p>
+        <div class="comp-stats"><span>Gemini</span><span>BI vertical</span><span>Gov + Banca</span></div>
+        <div class="source">Fuente: Gemini</div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>FLAI</h4>
+        <div class="url">flai.com.do</div>
+        <p>IA para logística. Vertical específico, sin overlap directo con PYMEs medianas de servicios. Importante mapearlo por si abre módulo retail.</p>
+        <div class="comp-stats"><span>Gemini</span><span>Logística</span></div>
+        <div class="source">Fuente: Gemini</div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>ITGROUP</h4>
+        <div class="url">itgroup.com.do</div>
+        <p>Integrador histórico de RD migrando a IA y automatización. Citado por Qwen como competidor activo.</p>
+        <div class="comp-stats"><span>Qwen</span><span>Integrador IT</span></div>
+        <div class="source">Fuente: Qwen</div>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>Stefanini RD</h4>
+        <div class="url">stefanini.com</div>
+        <p>Multinacional brasileña. Gemini reporta operación en RD. Ticket enterprise, no compite por PYMEs medianas.</p>
+        <div class="comp-stats"><span>Gemini</span><span>Multinacional</span><span>Enterprise</span></div>
+        <div class="source">Fuente: Gemini</div>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>Globant</h4>
+        <div class="url">globant.com</div>
+        <p>Multinacional argentina. Servicios de IA enterprise. Mismo perfil que Stefanini — fuera de nuestra cancha.</p>
+        <div class="comp-stats"><span>Gemini</span><span>Multinacional</span><span>Enterprise</span></div>
+        <div class="source">Fuente: Gemini</div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>SeoImpacto</h4>
+        <div class="url">seoimpacto.com</div>
+        <p>Agencia SEO + marketing digital con expansión a IA. DeepSeek la cita como competidor en el espacio "agencia + IA".</p>
+        <div class="comp-stats"><span>DeepSeek</span><span>SEO + IA</span></div>
+        <div class="source">Fuente: DeepSeek</div>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>Solutek</h4>
+        <div class="url">solutek.com.do</div>
+        <p>B2B IT services. DeepSeek lo menciona pero su foco es sistemas tradicionales, no AaaS.</p>
+        <div class="comp-stats"><span>DeepSeek</span><span>IT B2B</span></div>
+        <div class="source">Fuente: DeepSeek</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ CAPA 3B — RD micro agencies ═══════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <span class="section-tag">Capa 3b · Micro-agencias RD · Investigación de campo</span>
+    <h2 class="section-title">Las 18 cuentas de Instagram que dicen ser AaaS en RD.</h2>
+    <p class="section-lead">
+      Scraping de Apify Instagram Profile Scraper. Cada perfil revisado individualmente: bio, seguidores, engagement, propuesta. La realidad es brutal: 11 de las 18 tienen menos de 200 seguidores. Esta es la "competencia" que los modelos no pueden ver.
+    </p>
+
+    <div class="grid-4" style="margin-bottom:32px;">
+      <div class="datapoint">
+        <div class="datapoint-num">18</div>
+        <div class="datapoint-label">Cuentas analizadas</div>
+        <div class="datapoint-source">Apify · 27 abril 2026</div>
+      </div>
+      <div class="datapoint">
+        <div class="datapoint-num">11 / 18</div>
+        <div class="datapoint-label">Cuentas con &lt; 200 seguidores</div>
+        <div class="datapoint-source">61% sub-escala</div>
+      </div>
+      <div class="datapoint">
+        <div class="datapoint-num">3 / 18</div>
+        <div class="datapoint-label">Cuentas con &gt; 3K seguidores</div>
+        <div class="datapoint-source">holagpt · pedromorales · gcoderd</div>
+      </div>
+      <div class="datapoint">
+        <div class="datapoint-num">2 / 18</div>
+        <div class="datapoint-label">Cuentas con caso AaaS verticalizado claro</div>
+        <div class="datapoint-source">vozy_ia (voz) · gcoderd (restaurantes)</div>
+      </div>
+    </div>
+
+    <div class="chart-wrap" style="margin-bottom:32px;">
+      <h4>Seguidores por competidor (escala logarítmica)</h4>
+      <canvas id="chartFollowers" height="160"></canvas>
+      <p style="margin-top:10px; font-size:12px; color:var(--gray);">
+        Solo @holagpt.ai supera 5K. Después hay un salto enorme. La mediana del sector es ~250.
+      </p>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif; font-size:22px; margin-bottom:16px;">Perfiles individuales agrupados por amenaza</h3>
+
+    <h4 style="font-family:'Space Grotesk',sans-serif; font-size:16px; margin: 24px 0 12px; color: var(--rose);">🔴 Amenaza alta — Operadores con tracción real</h4>
+    <div class="grid-3">
+      <div class="comp-profile threat-high">
+        <span class="threat-pill high">Riesgo alto</span>
+        <h4>@holagpt.ai ✓</h4>
+        <div class="url">holagpt.com</div>
+        <p><strong>31,425 seguidores</strong> · <strong>3.70% engagement</strong> · 222 posts. La cuenta de IA en español más grande de RD/LATAM. Bio: <em>"La IA en español para Latinoamérica · ChatGPT, Claude, Gemini · Agentes + Prompts + IA en WhatsApp"</em>.<br><br>
+        <strong>Caveat:</strong> es más una "media de IA" que una agencia AaaS pura. No vende implementación a empresas, vende contenido y herramientas a usuarios finales. <em>Aliado potencial, no competidor directo.</em></p>
+        <div class="comp-stats"><span>Score 90/100</span><span>31.4K</span><span>3.70%</span></div>
+      </div>
+      <div class="comp-profile threat-high">
+        <span class="threat-pill high">Riesgo alto</span>
+        <h4>@sendiurd + @botpro_rd</h4>
+        <div class="url">SENDIU GROUP</div>
+        <p>🔍 <strong>HALLAZGO IMPORTANTE:</strong> ambas cuentas son la misma empresa (SENDIU GROUP). 1,633 + 1,394 = <strong>3,027 seguidores combinados</strong>. Mismo número WhatsApp (829-390-7777).<br><br>
+        Posicionamiento: "Líderes en soluciones de canales digitales · SMS · WhatsApp Contact Center · Llamadas de voz · Chatbots". <strong>Es probablemente nuestro competidor RD más sofisticado en chatbot omnicanal.</strong></p>
+        <div class="comp-stats"><span>3K combinados</span><span>Omnicanal</span><span>Doble cuenta</span></div>
+      </div>
+      <div class="comp-profile threat-high">
+        <span class="threat-pill high">Riesgo alto</span>
+        <h4>@gcoderd</h4>
+        <div class="url">gcoderd.com</div>
+        <p><strong>3,782 seguidores · vertical específico.</strong> Bio: "Software TODO-EN-UNO para restaurantes RD · POS · Facturación NCF · Inventario · +50 empresas · Apps · Web". <strong>Es nuestro competidor #1 en el vertical "restaurantes"</strong> — exactamente uno de los 6 verticales priorizados por Claude.</p>
+        <div class="comp-stats"><span>Score 45/100</span><span>3.7K</span><span>+50 empresas</span></div>
+      </div>
+    </div>
+
+    <h4 style="font-family:'Space Grotesk',sans-serif; font-size:16px; margin: 32px 0 12px; color: var(--accent);">🟠 Amenaza media — Operadores con propuesta clara</h4>
+    <div class="grid-3">
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>@pedromorales_ia</h4>
+        <div class="url">liderazgodigitalms.com</div>
+        <p>5,565 seguidores · 0.28% engagement · <strong>2,981 posts</strong> (volumen masivo). Personal brand. Director de @lanavedigitalrd. Posicionamiento: educador de IA + agencia de automatización.</p>
+        <div class="comp-stats"><span>Score 60/100</span><span>5.5K</span><span>Personal brand</span></div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>@vozy_ia</h4>
+        <div class="url">linktr.ee/VozyIA</div>
+        <p>184 seguidores pero <strong>vertical único en RD: voz IA</strong>. "Asistente virtual telefónica que gestiona llamadas y mensajes 24/7". Si Eduardo lanza el módulo de "Llamadas IA", esto es competencia directa.</p>
+        <div class="comp-stats"><span>Score 20/100</span><span>184</span><span>Voz IA</span></div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>@netchlab</h4>
+        <div class="url">netchlab.com</div>
+        <p>129 seguidores pero <strong>5.88% engagement</strong> (alto). Posicionamiento: "Ecosistema SaaS &amp; IA para empresas · Ventas · Operaciones · Seguridad · Gestión". Propuesta multi-módulo, exactamente nuestro modelo.</p>
+        <div class="comp-stats"><span>Score 55/100</span><span>129</span><span>5.88% eng</span></div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>@mangusoftrd</h4>
+        <div class="url">linkin.bio/mangusoftrd</div>
+        <p>1,308 seguidores · 2.25% engagement. Personal brand de desarrollador de software. Riesgo medio porque tiene reach pero no propuesta AaaS pura.</p>
+        <div class="comp-stats"><span>Score 60/100</span><span>1.3K</span><span>2.25%</span></div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>@digitbillrd</h4>
+        <div class="url">digitbillrd.com</div>
+        <p>37 seguidores pero <strong>16.76% engagement</strong>. Vertical: facturación electrónica RD. "e-CF · Inventario · Gastos · Reportes". Compite por el módulo "Facturación electrónica".</p>
+        <div class="comp-stats"><span>Score 50/100</span><span>37</span><span>e-CF specialist</span></div>
+      </div>
+      <div class="comp-profile threat-mid">
+        <span class="threat-pill mid">Riesgo medio</span>
+        <h4>@kontab.do</h4>
+        <div class="url">kontab.com.do</div>
+        <p>Solo 15 seguidores pero propuesta clara: "ERP que simplifica contabilidad RD · Facturación electrónica · Reportes DGII". <strong>Competencia directa al módulo "Contabilidad"</strong>.</p>
+        <div class="comp-stats"><span>Score 30/100</span><span>15</span><span>ERP RD</span></div>
+      </div>
+    </div>
+
+    <h4 style="font-family:'Space Grotesk',sans-serif; font-size:16px; margin: 32px 0 12px; color: var(--green);">🟢 Amenaza baja — Sub-escala o sin propuesta diferenciada</h4>
+    <div class="grid-4" style="font-size:13px;">
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>@lanavedigitalrd</h4>
+        <p>1,528 seg · marca de medios digitales, no agencia AaaS. Propiedad de Pedro Morales.</p>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>@sistemashd1</h4>
+        <p>924 seg · 0.02% engagement (muerto). Software para PYMEs genérico.</p>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>@dimapps</h4>
+        <p>126 seg · apps móviles. Operación España + RD. No es AaaS.</p>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>@hugosolutions_</h4>
+        <p>123 seg · personal brand desarrollador. Salcedo. Sin tracción.</p>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>@optiai_</h4>
+        <p>92 seg · "Automatizamos sistemas de negocios". Marca colombiana (.com.co).</p>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>@probiz.soluciones</h4>
+        <p>45 seg · "Probiz convierte tu WhatsApp en vendedor automático". Sub-escala.</p>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>@helixcoding_</h4>
+        <p>22 seg · 72.73% engagement (alto pero base muy chica). Web/apps genéricos.</p>
+      </div>
+      <div class="comp-profile threat-low">
+        <span class="threat-pill low">Riesgo bajo</span>
+        <h4>@chatflowai.rd</h4>
+        <p>0 seguidores · 2 posts. Cuenta inactiva.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ WEBSITES DEEP DIVE ═══════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <span class="section-tag">Auditoría de los 6 sitios web competidores</span>
+    <h2 class="section-title">Lo que muestran los sitios — y lo que esconden.</h2>
+    <p class="section-lead">
+      Auditamos manualmente cada sitio: propuesta de valor, servicios, presencia SERP, autoridad de dominio, transparencia de precios. Solo uno tiene una propuesta verdaderamente productizada.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Sitio</th>
+          <th>Propuesta</th>
+          <th>Servicios</th>
+          <th>SERP</th>
+          <th>Precio público</th>
+          <th>Veredicto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>InteliaRD</strong><br><a href="https://inteliard.com" target="_blank" style="font-size:12px;">inteliard.com</a></td>
+          <td>WhatsApp API + diseño web + automatización IA RD. Mensaje "consulta gratis".</td>
+          <td>5: Chatbot · Automatización · IA · Web · ERP</td>
+          <td>2 keywords (#4, #12)</td>
+          <td><span class="pill pill-warn">Sí pero sin tier</span></td>
+          <td>Multi-servicio sin foco. Un poco de todo.</td>
+        </tr>
+        <tr>
+          <td><strong>Buggin Dev</strong><br><a href="https://buggin.dev" target="_blank" style="font-size:12px;">buggin.dev</a></td>
+          <td>Agencia desarrollo software full-stack. Equipo en Venezuela, opera en LATAM.</td>
+          <td>8: Auto · IA · CRM · Marketing · Web · Ads · Voz · ERP</td>
+          <td>0 keywords RD</td>
+          <td><span class="pill pill-warn">Genérico</span></td>
+          <td>Software-first, no AaaS. Cubre demasiado.</td>
+        </tr>
+        <tr>
+          <td><strong>BotCity RD</strong><br><a href="https://botcity.com.do" target="_blank" style="font-size:12px;">botcity.com.do</a></td>
+          <td>Chatbot conectado a contact center para soporte y ventas.</td>
+          <td>2: Chatbot · Contact Center</td>
+          <td><strong>2 keywords (#1, #3)</strong></td>
+          <td><span class="pill pill-no">No</span></td>
+          <td><strong>Líder SEO RD en chatbot.</strong> Foco claro pero sin precios.</td>
+        </tr>
+        <tr>
+          <td><strong>BotPro</strong><br><a href="https://botpro.ai" target="_blank" style="font-size:12px;">botpro.ai</a></td>
+          <td>Sitio devuelve <strong>HTTP 403</strong> a crawlers. No accesible para auditoría.</td>
+          <td>—</td>
+          <td>1 keyword (#2)</td>
+          <td><span class="pill pill-no">No</span></td>
+          <td>Operación opaca. Mismo grupo SENDIU IG (mismo WhatsApp).</td>
+        </tr>
+        <tr>
+          <td><strong>Novum Solutions</strong><br><a href="https://novumsolutions.com.do" target="_blank" style="font-size:12px;">novumsolutions.com.do</a></td>
+          <td>Agencia marketing digital + automatización + diseño web Santo Domingo.</td>
+          <td>4: Auto · CRM · Marketing · Web</td>
+          <td>0 keywords RD</td>
+          <td><span class="pill pill-warn">Sí pero sin tier</span></td>
+          <td>Híbrido agencia + AaaS. Sin diferenciación.</td>
+        </tr>
+        <tr>
+          <td><strong>Byte Intelligence</strong><br><a href="https://byteintelligence.com" target="_blank" style="font-size:12px;">byteintelligence.com</a></td>
+          <td><strong>"Automation sprints, fixed-scope, fixed-price, 30-day performance guarantee, certified Make."</strong></td>
+          <td>4: Chatbot · Automatización · CRM · ERP</td>
+          <td>1 keyword (#3)</td>
+          <td><span class="pill pill-ok">Productizado</span></td>
+          <td><strong>El único con propuesta verdaderamente productizada.</strong> Garantía explícita.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight">
+      <span class="insight-label">Veredicto del análisis web</span>
+      <p>De los 6 sitios solo <strong>Byte Intelligence</strong> entendió el playbook AaaS moderno: propuesta productizada, sprints fijos, precio fijo, garantía explícita. Es la barra contra la cual debemos compararnos. <strong>BotCity RD</strong> es el rival SEO. Los demás tienen sitios genéricos que confunden "agencia + AaaS + web + marketing" en una propuesta sin foco.</p>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif; font-size:22px; margin-top:48px; margin-bottom:20px;">Quién domina el SEO AaaS en RD</h3>
+    <div class="chart-wrap">
+      <h4>Apariciones en top-10 de Google RD (de 8 keywords AaaS analizadas)</h4>
+      <canvas id="chartSERP" height="180"></canvas>
+      <p style="margin-top:10px; font-size:12px; color:var(--gray);">
+        🎯 = competidor en nuestra lista. Vex AI y RDStation (ambas extranjeras) lideran. BotCity RD es el único dominicano consistente.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ MATRIX ═══════════════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <span class="section-tag">Matriz competitiva</span>
+    <h2 class="section-title">Quién es quién — y dónde está el espacio vacío.</h2>
+    <p class="section-lead">
+      Cruzamos cada competidor con dos ejes: amplitud de oferta (pocos servicios = focus, muchos = generalistas) y profundidad de presencia (DA + seguidores IG + apariciones SERP). El cuadrante "focus + alta presencia" está casi vacío.
+    </p>
+
+    <div class="chart-wrap">
+      <h4>Mapa de posicionamiento competitivo</h4>
+      <canvas id="chartMatrix" height="200"></canvas>
+      <p style="margin-top:10px; font-size:12px; color:var(--gray);">
+        Eje X: Presencia digital (DA + seguidores IG normalizados) · Eje Y: Foco (10 - amplitud de servicios)
+      </p>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif; font-size:22px; margin-top:48px; margin-bottom:16px;">Gaps que detectamos en el mercado</h3>
+    <p style="color:var(--gray); margin-bottom:20px;">Cruzando lo que las 6 IAs identificaron como verticales prioritarios contra lo que realmente existe operando en RD.</p>
+
+    <div class="gap-grid">
+      <div class="gap-cell empty">
+        <span class="gap-label">Gap · Vacío</span>
+        <h5>Clínicas y centros de salud</h5>
+        <p>Vertical priorizado por Claude (~800 unidades en RD). <strong>Cero competidores</strong> con propuesta específica para sector salud.</p>
+      </div>
+      <div class="gap-cell empty">
+        <span class="gap-label">Gap · Vacío</span>
+        <h5>Cooperativas financieras</h5>
+        <p>~100 unidades · ticket alto, LTV altísimo. <strong>Ningún competidor RD</strong> mapeado se posiciona aquí. Nadakki cubre bancos pero no coops.</p>
+      </div>
+      <div class="gap-cell empty">
+        <span class="gap-label">Gap · Vacío</span>
+        <h5>Hoteles boutique &amp; rentas vacacionales</h5>
+        <p>~250 unidades · necesidad multilingüe 24/7. <strong>Ningún competidor</strong> con propuesta turismo. Sector en explosión.</p>
+      </div>
+      <div class="gap-cell">
+        <span class="gap-label">Ocupado parcial</span>
+        <h5>Distribuidoras B2B</h5>
+        <p>~1,500 unidades · vertical más grande. <strong>Buggin Dev</strong> y <strong>InteliaRD</strong> lo tocan, pero sin caso de estudio sectorial. <em>Aquí está Fomi.</em></p>
+      </div>
+      <div class="gap-cell">
+        <span class="gap-label">Ocupado</span>
+        <h5>Restaurantes</h5>
+        <p>~400 unidades. <strong>@gcoderd</strong> (3.7K seg, +50 empresas) ya domina con propuesta TODO-EN-UNO. Difícil entrar sin diferencial fuerte.</p>
+      </div>
+      <div class="gap-cell empty">
+        <span class="gap-label">Gap · Vacío</span>
+        <h5>Inmobiliarias</h5>
+        <p>~300 unidades · pre-calificación de leads + tours virtuales. <strong>Ningún competidor RD</strong> con propuesta sectorial.</p>
+      </div>
+    </div>
+
+    <div class="insight">
+      <span class="insight-label">Conclusión del gap analysis</span>
+      <p>De los 6 verticales priorizados por las IAs, <strong>4 están completamente vacíos</strong> de competencia local: clínicas, cooperativas, hoteles e inmobiliarias. <strong>1 está ocupado parcial</strong> (distribuidoras B2B — donde Fomi nos da ventaja). Solo <strong>1 está ya tomado</strong> (restaurantes por gcoderd). La estrategia obvia: entrar primero por clínicas + cooperativas + distribuidoras B2B.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ STRATEGIC IMPLICATIONS ═══════════════════════════════════════════════ -->
+<section class="alt">
+  <div class="container">
+    <span class="section-tag">Implicaciones estratégicas</span>
+    <h2 class="section-title">Lo que aprendimos — y cómo lo usamos.</h2>
+    <p class="section-lead">
+      Cinco hallazgos cruzados entre la inteligencia de las 6 IAs y nuestros datos de campo, cada uno con la acción concreta que se desprende.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>1 · Los gigantes globales NO compiten con nosotros</h3>
+        <p>Sierra AI, Salesforce Agentforce, Microsoft Copilot — sus pisos de ACV ($60K+) los ponen fuera de PYMEs RD. Esto se confirma con el SERP: <em>ninguno aparece en las búsquedas locales</em>.</p>
+        <p style="margin-top:10px;"><strong>Acción:</strong> No replicar su discurso enterprise. Hablar PYME directo.</p>
+      </div>
+      <div class="card">
+        <h3>2 · La amenaza real son los regionales</h3>
+        <p>Vex AI (#1 SERP), Atria (#6 SERP), RDStation (3 keywords). Ya están capturando tráfico dominicano sin oficina local. Es cuestión de tiempo que abran o lleguen via partners.</p>
+        <p style="margin-top:10px;"><strong>Acción:</strong> Construir SEO local agresivo en próximos 6 meses + casos de estudio en español dominicano.</p>
+      </div>
+      <div class="card">
+        <h3>3 · La competencia local es débil pero confunde</h3>
+        <p>Las 18 cuentas IG y 6 sitios web saturan el espacio sin liderar. Generan ruido y dudan al cliente. Mediana de 250 seguidores, sin precios, propuestas genéricas.</p>
+        <p style="margin-top:10px;"><strong>Acción:</strong> Salir con marca limpia, pricing público, caso Fomi en producción. Nos diferenciamos por contraste inmediato.</p>
+      </div>
+      <div class="card">
+        <h3>4 · SENDIU GROUP es el competidor RD más serio</h3>
+        <p>Maneja dos cuentas (@sendiurd + @botpro_rd), un sitio bloqueado a crawlers (botpro.ai), y propuesta omnicanal (SMS + WhatsApp + voz + chatbot). Es el único con stack comparable al nuestro.</p>
+        <p style="margin-top:10px;"><strong>Acción:</strong> Estudiar caso Sendiu en profundidad. Definir cómo nos diferenciamos: probablemente por <em>foco vertical</em> + <em>módulos modernos</em> (Claude Opus vs sus stacks anteriores).</p>
+      </div>
+      <div class="card">
+        <h3>5 · El verticalizado con tracción es @gcoderd</h3>
+        <p>3,782 seguidores, +50 empresas, propuesta clara TODO-EN-UNO para restaurantes. Demuestra que el modelo vertical funciona en RD. <em>Restaurantes ya está tomado.</em></p>
+        <p style="margin-top:10px;"><strong>Acción:</strong> No pelear restaurantes. Replicar su playbook en otros 2 verticales: clínicas + distribuidoras.</p>
+      </div>
+      <div class="card">
+        <h3>6 · Solo Byte Intelligence productizó bien</h3>
+        <p>Su propuesta — sprint fijo, precio fijo, garantía 30 días — es el benchmark de cómo se vende AaaS en 2026. Deberíamos asumirlo como nivel mínimo de profesionalismo.</p>
+        <p style="margin-top:10px;"><strong>Acción:</strong> Lanzar con propuesta productizada similar (sprints, precios públicos, garantía). Subir un escalón con caso Fomi en vivo.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;">
+      <h3 style="font-family:'Space Grotesk',sans-serif; font-size:22px; margin-bottom:16px;">Top 7 competidores que importan — y cómo los venceremos</h3>
+      <div class="vs-grid">
+        <div class="vs-side left">
+          <h4>Los 7 que sí pueden hacernos daño</h4>
+          <ul>
+            <li><strong>1. Vex AI</strong> — Líder SERP. Necesitamos SEO agresivo en RD.</li>
+            <li><strong>2. SENDIU GROUP</strong> — Stack omnicanal. Diferenciamos por verticalización.</li>
+            <li><strong>3. BotCity RD</strong> — #1 SEO en chatbot. Pelearemos en posicionamiento de marca.</li>
+            <li><strong>4. Centria Group</strong> — 70+ ingenieros. Diferenciamos por agilidad y pricing.</li>
+            <li><strong>5. IARD Agency</strong> — "Primera AaaS RD". Robaremos ese título con caso real (Fomi).</li>
+            <li><strong>6. Byte Intelligence</strong> — Único productizado. Igualamos y subimos un nivel.</li>
+            <li><strong>7. Atria + RDStation</strong> — Capturando SERP RD desde fuera. Ataque local.</li>
+          </ul>
+        </div>
+        <div class="vs-divider">vs</div>
+        <div class="vs-side right">
+          <h4>Nuestras 5 ventajas estructurales</h4>
+          <ul>
+            <li>✅ <strong>Caso Fomi en producción</strong> — ningún competidor tiene equivalente.</li>
+            <li>✅ <strong>Stack 2026:</strong> Claude Opus 4.6 + FastAPI + Supabase. Más rápido y barato.</li>
+            <li>✅ <strong>Foco vertical</strong> — clínicas + cooperativas + distribuidoras B2B (4 de 6 gaps están vacíos).</li>
+            <li>✅ <strong>Pricing público + propuesta productizada</strong> — supera a 5 de los 6 sitios auditados.</li>
+            <li>✅ <strong>Modelo modular</strong> — el cliente entra por 1 módulo y crece. NRR 130-150%.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ FINAL ═══════════════════════════════════════════════ -->
+<section style="background: linear-gradient(135deg, #0A0E27 0%, #1A1F3A 100%); color:#fff;">
+  <div class="container-narrow" style="text-align:center;">
+    <span class="badge" style="margin-bottom:24px;"><span class="dot"></span>Cierre</span>
+    <h2 class="section-title" style="color:#fff;">El veredicto en una frase.</h2>
+    <p class="section-lead" style="color:#C5CAE5; margin: 16px auto 32px; font-size: 21px;">
+      No hay líder consolidado de AaaS en RD. La competencia local está fragmentada, sub-escala y sin propuesta productizada. La amenaza real son agencias regionales que entrarán en 12–24 meses. <strong style="color:var(--gold);">La ventana para liderar la categoría se cierra entre 2026 y 2028.</strong>
+    </p>
+    <blockquote style="background:rgba(255,255,255,0.04); border-left-color: var(--gold); color: #fff;">
+      "El primer jugador con propuesta productizada, pricing transparente, caso de estudio público y foco vertical claro se quedará con la categoría AaaS dominicana. La pregunta no es <em>si</em>, sino <em>quién</em>. Hoy ese asiento está vacío."
+      <cite style="color: #C5CAE5;">— Síntesis del análisis cruzado · 6 IAs frontera + investigación de campo</cite>
+    </blockquote>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <h3>Estudio profundo de competencia · AaaS RD 2026</h3>
+    <p>Eduardo Acevedo · Foam Creativo · República Dominicana</p>
+    <p style="margin-top:8px; font-size:12px; color:#6B7280;">
+      27 de abril de 2026 · 50+ competidores mapeados · Confidencial
+    </p>
+  </div>
+</footer>
+
+<script>
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.color = '#4B5563';
+Chart.defaults.borderColor = 'rgba(0,0,0,0.06)';
+
+// IG Followers
+new Chart(document.getElementById('chartFollowers'), {
+  type: 'bar',
+  data: {
+    labels: ['holagpt.ai', 'pedromorales_ia', 'gcoderd', 'sendiurd', 'lanavedigitalrd', 'botpro_rd', 'mangusoftrd', 'sistemashd1', 'vozy_ia', 'netchlab', 'dimapps', 'hugosolutions_', 'optiai_', 'probiz.soluciones', 'digitbillrd', 'helixcoding_', 'kontab.do', 'chatflowai.rd'],
+    datasets: [{
+      label: 'Seguidores',
+      data: [31425, 5565, 3782, 1633, 1528, 1394, 1308, 924, 184, 129, 126, 123, 92, 45, 37, 22, 15, 1],
+      backgroundColor: ctx => {
+        const v = ctx.raw;
+        return v > 3000 ? '#E11D48' : v > 500 ? '#FF4B2B' : v > 100 ? '#F59E0B' : '#10B981';
+      },
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('es') + ' seguidores' } }
+    },
+    scales: {
+      y: { type: 'logarithmic', ticks: { callback: v => v.toLocaleString('es') }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 45 } }
+    }
+  }
+});
+
+// SERP
+new Chart(document.getElementById('chartSERP'), {
+  type: 'bar',
+  data: {
+    labels: ['vex-ai.com', 'rdstation.com', 'botcity.com.do 🎯', 'takum.io', 'whato.app', 'tryatria.ai', 'botpro.ai 🎯', 'inteliard.com 🎯', 'byteintelligence.com 🎯', 'panda-soft.com', 'teorema-rd.com', 'lfgmarketing.com.do'],
+    datasets: [{
+      label: 'Apariciones en top-10 (de 8 keywords)',
+      data: [3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1],
+      backgroundColor: ctx => {
+        const lbl = ctx.chart.data.labels[ctx.dataIndex];
+        return lbl.includes('🎯') ? '#FF4B2B' : '#1A1F3A';
+      },
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { max: 4, ticks: { stepSize: 1 }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 45 } }
+    }
+  }
+});
+
+// Matrix scatter
+new Chart(document.getElementById('chartMatrix'), {
+  type: 'scatter',
+  data: {
+    datasets: [
+      {
+        label: 'RD micro-agencias (Capa 3b)',
+        data: [
+          {x: 31.4, y: 9, label: 'holagpt.ai'},
+          {x: 5.6, y: 7, label: 'pedromorales_ia'},
+          {x: 3.8, y: 8, label: 'gcoderd'},
+          {x: 1.6, y: 6, label: 'sendiurd'},
+          {x: 1.4, y: 6, label: 'botpro_rd'},
+          {x: 0.18, y: 9, label: 'vozy_ia'},
+          {x: 0.13, y: 5, label: 'netchlab'},
+        ],
+        backgroundColor: '#F59E0B',
+        pointRadius: 8,
+      },
+      {
+        label: 'RD sitios web (Capa 3b)',
+        data: [
+          {x: 1.0, y: 5, label: 'InteliaRD'},
+          {x: 0.5, y: 8, label: 'BotCity RD'},
+          {x: 0.5, y: 6, label: 'Novum'},
+          {x: 0.7, y: 7, label: 'Byte Intelligence'},
+          {x: 0.3, y: 2, label: 'Buggin Dev'},
+        ],
+        backgroundColor: '#FF4B2B',
+        pointRadius: 8,
+      },
+      {
+        label: 'RD establecidos (Capa 3a)',
+        data: [
+          {x: 8, y: 5, label: 'Centria Group'},
+          {x: 6, y: 6, label: 'IARD Agency'},
+          {x: 5, y: 6, label: 'Inmotion'},
+          {x: 4, y: 9, label: 'CXGenies'},
+        ],
+        backgroundColor: '#0F766E',
+        pointRadius: 10,
+      },
+      {
+        label: 'Regionales (Capa 2)',
+        data: [
+          {x: 12, y: 7, label: 'Vex AI'},
+          {x: 10, y: 7, label: 'Atria'},
+          {x: 15, y: 5, label: 'RDStation'},
+        ],
+        backgroundColor: '#5B21B6',
+        pointRadius: 11,
+      },
+      {
+        label: 'NUESTRA POSICIÓN OBJETIVO',
+        data: [{x: 8, y: 8, label: 'Nosotros (objetivo)'}],
+        backgroundColor: '#D4AF37',
+        pointRadius: 16,
+        pointStyle: 'star',
+      }
+    ]
+  },
+  options: {
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: { callbacks: { label: ctx => ctx.raw.label + ' (presencia ' + ctx.parsed.x + ', foco ' + ctx.parsed.y + ')' } }
+    },
+    scales: {
+      x: { title: { display: true, text: 'Presencia digital (DA + seguidores normalizado)' }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      y: { min: 0, max: 10, title: { display: true, text: 'Foco vertical (10 = especializado)' }, grid: { color: 'rgba(0,0,0,0.04)' } }
+    }
+  }
+});
+</script>
+
+
+<a href="index_aaas.html" title="Volver al índice" style="position:fixed;bottom:24px;right:24px;background:#FF4B2B;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:11px 20px;border-radius:99px;text-decoration:none;z-index:9999;box-shadow:0 4px 24px rgba(255,75,43,.45);letter-spacing:.04em">&#8592; Índice</a>
+</body>
+</html>
